@@ -19,7 +19,7 @@ const type = ref<string>()
 const url = ref<string>()
 const title = ref<string>()
 
-function randomNumber(max, min = 1) {
+function randomNumber(max:number, min = 1) {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 function fetchResults() {
