@@ -12,15 +12,17 @@ interface Item {
   url: string
 }
 const baseURL = 'https://hacker-news.firebaseio.com/v0/item/'
-const news = ref('Fetching Hacker News')
-const itemUrl = ref('')
+const text = ref('Fetching Hacker News...')
+const time = ref<number>()
+const type = ref<string>()
+const url = ref<string>()
 // Grab references to all the DOM elements you'll need to manipulate
 // Hide the "Previous"/"Next" navigation to begin with, as we don't need it immediately
 // Event listeners to control the functionality
 function fetchResults() {
   // To stop the form submitting
   // Assemble the full URL
-  let url: string
+  let fullUrl: string
   fetch('https://hacker-news.firebaseio.com/v0/maxitem.json?print=pretty')
     .then((response) => {
       if (!response.ok) {
@@ -31,10 +33,10 @@ function fetchResults() {
     .then((data: number) => {
       const maxitem: number = data
       const id: number = maxitem - 5
-      url = `${baseURL}${id}.json?print=pretty`
+      fullUrl = `${baseURL}${id}.json?print=pretty`
     })
     .then(() => {
-      fetch(url)
+      fetch(fullUrl)
         .then((response) => response.json())
         .then((item: Item) => displayResults(item))
         .catch((error) => console.error(`Error fetching data: ${error.message}`))
@@ -44,16 +46,21 @@ function fetchResults() {
 
 function displayResults(item: Item) {
   console.log(item)
-  itemUrl.value = item.url
-  news.value = item.text
+  text.value = item.text
+  time.value=item.time
+  type.value=item.type
+  url.value = item.url
 }
 fetchResults()
 </script>
 
 <template>
   <main>
-  <h1>Hacker News</h1>
-  <a :href="itemUrl">{{ news }}</a>
+    <article v-html="text">
+    </article>
+    <a :href="url"></a>
+    <div>(Unix) time: {{time}}</div>
+    <div>type: {{type}}</div>
   </main>
 </template>
 <style scoped></style>
