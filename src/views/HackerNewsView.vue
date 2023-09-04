@@ -18,6 +18,9 @@ const time = ref<number>()
 const type = ref<string>()
 const url = ref<string>()
 const title = ref<string>()
+const options=ref<String[]>(["maxitem","topstories","newstories","beststories"])
+const selected = ref('maxitem')
+
 
 function randomNumber(max: number, min = 1) {
   return Math.floor(Math.random() * (max - min + 1)) + min
@@ -25,6 +28,7 @@ function randomNumber(max: number, min = 1) {
 function fetchResults() {
   text.value = 'fetching news randomly...'
   let fullUrl: string
+  // Get current largest item id
   fetch('https://hacker-news.firebaseio.com/v0/maxitem.json?print=pretty')
     .then((response) => {
       if (!response.ok) {
@@ -33,8 +37,8 @@ function fetchResults() {
       return response.json()
     })
     .then((data: number) => {
-      const maxitem: number = data
-      id.value = randomNumber(maxitem)
+      const maxItemId: number = data
+      id.value = randomNumber(maxItemId)
       const baseURL = 'https://hacker-news.firebaseio.com/v0/item/'
       fullUrl = `${baseURL}${id.value}.json?print=pretty`
     })
@@ -60,6 +64,13 @@ fetchResults()
 
 <template>
   <main>
+    <div>Selected: {{ selected }}</div>
+    <select v-model="selected" multiple>
+      <option v-for="option in options" :key="option" :value="option">
+      {{ option }}
+      </option>
+    </select>
+
     <button @click="fetchResults" class="refresh">refresh</button>
     <article>
       <h2 v-html="title"></h2>
