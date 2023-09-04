@@ -16,15 +16,10 @@ const text = ref<string>()
 const time = ref<number>()
 const type = ref<string>()
 const url = ref<string>()
-// Grab references to all the DOM elements you'll need to manipulate
-// Hide the "Previous"/"Next" navigation to begin with, as we don't need it immediately
-// Event listeners to control the functionality
 function randomNumber(max,min=1) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
             }
 function fetchResults() {
-  // To stop the form submitting
-  // Assemble the full URL
   text.value="fetching news randomly..."
   let fullUrl: string
   fetch('https://hacker-news.firebaseio.com/v0/maxitem.json?print=pretty')
