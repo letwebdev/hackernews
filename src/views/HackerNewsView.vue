@@ -60,16 +60,27 @@ fetchResults()
 
 <template>
   <main>
-    <button @click="fetchResults">refresh</button>
+    <button @click="fetchResults" class="refresh">refresh</button>
     <article>
       <h2 v-html="title"></h2>
       <p v-html="text"></p>
-      <a :href="url"></a>
       <ul>
       <li>(Unix) time: {{ time }}</li>
+      <li>      <a :href="url" class="itemUrl">{{ url }}</a> </li>
       <li>type: {{ type }}</li>
       </ul>
     </article>
   </main>
 </template>
-<style scoped></style>
+<style scoped>
+.refresh{
+  position: absolute;
+}
+li:has( .itemUrl:empty){
+  display: none;
+}
+/* .itemUrl:empty{ */
+/*   display: none; */
+/* } */
+</style>
+
