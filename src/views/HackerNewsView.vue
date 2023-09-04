@@ -10,17 +10,20 @@ interface Item {
   time: number
   type: string
   url: string
+  title: string
 }
-const baseURL = 'https://hacker-news.firebaseio.com/v0/item/'
+const id = ref<number>()
 const text = ref<string>()
 const time = ref<number>()
 const type = ref<string>()
 const url = ref<string>()
-function randomNumber(max,min=1) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-            }
+const title = ref<string>()
+
+function randomNumber(max, min = 1) {
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
 function fetchResults() {
-  text.value="fetching news randomly..."
+  text.value = 'fetching news randomly...'
   let fullUrl: string
   fetch('https://hacker-news.firebaseio.com/v0/maxitem.json?print=pretty')
     .then((response) => {
@@ -31,8 +34,9 @@ function fetchResults() {
     })
     .then((data: number) => {
       const maxitem: number = data
-      const id: number = randomNumber(maxitem)
-      fullUrl = `${baseURL}${id}.json?print=pretty`
+      id.value = randomNumber(maxitem)
+      const baseURL = 'https://hacker-news.firebaseio.com/v0/item/'
+      fullUrl = `${baseURL}${id.value}.json?print=pretty`
     })
     .then(() => {
       fetch(fullUrl)
@@ -46,9 +50,10 @@ function fetchResults() {
 function displayResults(item: Item) {
   console.log(item)
   text.value = item.text
-  time.value=item.time
-  type.value=item.type
+  time.value = item.time
+  type.value = item.type
   url.value = item.url
+  title.value = item.title
 }
 fetchResults()
 </script>
@@ -56,11 +61,13 @@ fetchResults()
 <template>
   <main>
     <button @click="fetchResults">refresh</button>
-    <article v-html="text">
+    <article>
+      <h2 v-html="title"></h2>
+      <p v-html="text"></p>
+      <a :href="url"></a>
+      <div>(Unix) time: {{ time }}</div>
+      <div>type: {{ type }}</div>
     </article>
-    <a :href="url"></a>
-    <div>(Unix) time: {{time}}</div>
-    <div>type: {{type}}</div>
   </main>
 </template>
 <style scoped></style>
