@@ -65,8 +65,10 @@ fetchResults()
       <h2 v-html="title"></h2>
       <p v-html="text"></p>
       <a :href="url"></a>
-      <div>(Unix) time: {{ time }}</div>
-      <div>type: {{ type }}</div>
+      <ul>
+      <li>(Unix) time: {{ time }}</li>
+      <li>type: {{ type }}</li>
+      </ul>
     </article>
   </main>
 </template>
