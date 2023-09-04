@@ -19,7 +19,7 @@ const type = ref<string>()
 const url = ref<string>()
 const title = ref<string>()
 
-function randomNumber(max:number, min = 1) {
+function randomNumber(max: number, min = 1) {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 function fetchResults() {
@@ -65,9 +65,11 @@ fetchResults()
       <h2 v-html="title"></h2>
       <p v-html="text" class="itemText"></p>
       <ul>
-      <li>(Unix) time: {{ time }}</li>
-      <li class="ofUrl">      <a :href="url" class="itemUrl">{{ url }}</a> </li>
-      <li>type: {{ type }}</li>
+        <li>(Unix) time: {{ time }}</li>
+        <li class="ofUrl">
+          <a :href="url" class="itemUrl">{{ url }}</a>
+        </li>
+        <li>type: {{ type }}</li>
       </ul>
     </article>
   </main>
@@ -86,22 +88,21 @@ fetchResults()
   margin: 5% 40% 0 32%;
 }
 .refresh:active {
-  box-shadow: 2px 2px 5px #00ff00;}
-  @media (min-width: 1024px) {
-.refresh {
-  position:absolute;
-  top:10%;
-  left:48%;
-  margin: 0%;
-
+  box-shadow: 2px 2px 5px #00ff00;
 }
+@media (min-width: 1024px) {
+  .refresh {
+    position: absolute;
+    top: 10%;
+    left: 48%;
+    margin: 0%;
   }
-li:has( .itemUrl:empty){
+}
+li:has(.itemUrl:empty) {
   display: none;
 }
-.itemText{
+.itemText {
   position: relative;
-  margin-top:10%
+  margin-top: 10%;
 }
-
 </style>
