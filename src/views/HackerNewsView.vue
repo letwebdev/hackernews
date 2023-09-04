@@ -63,24 +63,45 @@ fetchResults()
     <button @click="fetchResults" class="refresh">refresh</button>
     <article>
       <h2 v-html="title"></h2>
-      <p v-html="text"></p>
+      <p v-html="text" class="itemText"></p>
       <ul>
       <li>(Unix) time: {{ time }}</li>
-      <li>      <a :href="url" class="itemUrl">{{ url }}</a> </li>
+      <li class="ofUrl">      <a :href="url" class="itemUrl">{{ url }}</a> </li>
       <li>type: {{ type }}</li>
       </ul>
     </article>
   </main>
 </template>
 <style scoped>
-.refresh{
-  position: absolute;
+.refresh {
+  width: 5em;
+  height: 4ex;
+  background-image: linear-gradient(135deg, #00f059 40%, #62f0f5);
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  z-index: 2;
+  margin: 5% 40% 0 32%;
 }
+.refresh:active {
+  box-shadow: 2px 2px 5px #00ff00;}
+  @media (min-width: 1024px) {
+.refresh {
+  position:absolute;
+  top:10%;
+  left:48%;
+  margin: 0%;
+
+}
+  }
 li:has( .itemUrl:empty){
   display: none;
 }
-/* .itemUrl:empty{ */
-/*   display: none; */
-/* } */
-</style>
+.itemText{
+  position: relative;
+  margin-top:10%
+}
 
+</style>
