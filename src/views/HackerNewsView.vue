@@ -19,6 +19,7 @@ const type = ref<string>()
 const url = ref<string>()
 const title = ref<string>()
 const options = ref<String[]>([
+  // Current largest item id
   'maxitem',
   'topstories',
   'newstories',
@@ -26,6 +27,7 @@ const options = ref<String[]>([
   'asktories',
   'showstories',
   'jobstories',
+  // Changed Items and Profiles
   'updates'
 ])
 const selected = ref('maxitem')
@@ -33,11 +35,12 @@ const selected = ref('maxitem')
 function randomNumber(max: number, min = 1) {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
-function fetchResults() {
-  text.value = 'fetching randomly...'
-  let fullUrl: string
-  // Get current largest item id
-  fetch('https://hacker-news.firebaseio.com/v0/maxitem.json?print=pretty')
+// TODO Set default argument
+function fetchStories(option: string) {
+  text.value = 'Fetching item(s) randomly...'
+  const baseURL = 'https://hacker-news.firebaseio.com/v0/'
+  let fullURL: string
+  fetch(`https://hacker-news.firebaseio.com/v0/${option}.json?print=pretty`)
     .then((response) => {
       if (!response.ok) {
         throw new Error(`HTTP error: ${response.status}`)
@@ -45,13 +48,15 @@ function fetchResults() {
       return response.json()
     })
     .then((data: number) => {
-      const maxItemId: number = data
-      id.value = randomNumber(maxItemId)
-      const baseURL = 'https://hacker-news.firebaseio.com/v0/item/'
-      fullUrl = `${baseURL}${id.value}.json?print=pretty`
+      /* console.log(`data is ${data}`) */
+      if (option === 'maxitem') {
+        const maxItemId: number = data
+        id.value = randomNumber(maxItemId)
+      }
+      fullURL = `${baseURL}item/${id.value}.json?print=pretty`
     })
     .then(() => {
-      fetch(fullUrl)
+      fetch(fullURL)
         .then((response) => response.json())
         .then((item: Item) => displayResults(item))
         .catch((error) => console.error(`Error fetching data: ${error.message}`))
@@ -60,14 +65,14 @@ function fetchResults() {
 }
 
 function displayResults(item: Item) {
-  console.log(item)
+  console.log('item:  ', item)
   text.value = item.text
   time.value = item.time
   type.value = item.type
   url.value = item.url
   title.value = item.title
 }
-fetchResults()
+fetchStories('maxitem')
 function fetchList() {}
 </script>
 
@@ -80,7 +85,7 @@ function fetchList() {}
       </option>
     </select>
 
-    <button @click="fetchResults" class="refresh">refresh</button>
+    <button @click="fetchStories('maxitem')" class="refresh">refresh</button>
     <article>
       <h2 v-html="title"></h2>
       <p v-html="text" class="itemText"></p>
