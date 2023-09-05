@@ -1,6 +1,6 @@
 <script setup lang="ts">
 'use strict'
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 interface Item {
   readonly by: string
   readonly id: number
@@ -18,18 +18,17 @@ const time = ref<number>()
 const type = ref<string>()
 const url = ref<string>()
 const title = ref<string>()
-const options = ref<String[]>([
+const options = reactive({
   // Current largest item id
-  'maxitem',
-  'topstories',
-  'newstories',
-  'beststories',
-  'asktories',
-  'showstories',
-  'jobstories',
-  // Changed Items and Profiles
-  'updates'
-])
+  maxitem: 'test',
+  topstories: 'Top stories',
+  newstories: 'New stories',
+  beststories: 'Best stories',
+  asktories: 'Ask stories',
+  showstories: 'Show stories',
+  jobstories: 'Job stories',
+  updates: 'Changed Items and Profiles'
+})
 const selected = ref('maxitem')
 
 function randomNumber(max: number, min = 1) {
@@ -80,8 +79,8 @@ function fetchList() {}
   <main>
     <div>Selected: {{ selected }}</div>
     <select v-model="selected" multiple v-on:change="fetchList">
-      <option v-for="option in options" :key="options.indexOf(option)" :value="option">
-        {{ option }}
+      <option v-for="(description, key) in options" :key="key" :value="description">
+        {{ description }}
       </option>
     </select>
 
