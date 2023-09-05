@@ -11,6 +11,7 @@ interface Item {
   readonly type: string
   readonly url: string
   readonly title: string
+  // TODO Solve dead item
 }
 const id = ref<number>()
 const text = ref<string>()
@@ -24,22 +25,26 @@ const lists = reactive({
   topstories: 'Top stories',
   newstories: 'New stories',
   beststories: 'Best stories',
-  asktories: 'Ask stories',
+  askstories: 'Ask stories',
   showstories: 'Show stories',
   jobstories: 'Job stories',
   updates: 'Changed Items and Profiles'
 })
-const selected = ref('maxitem')
-
+const selected = reactive({
+  topstories: 'Top stories'
+})
+const listNameOfSelected = ref(Object.keys(selected)[0])
 function generateRandomNumber(max: number, min = 1) {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 // TODO Set default argument
-function fetchStories(list: string) {
+function fetchItems(list: string) {
   text.value = 'Fetching item(s) randomly...'
-  const baseURL: string = 'https://hacker-news.firebaseio.com/v0'
-  const listURL: string = `${baseURL}/${list}.json?print=pretty`
-  let itemURL: string
+  const baseURL: URL = new URL('https://hacker-news.firebaseio.com/v0')
+  const listURL: URL = new URL(`${baseURL}/${list}.json?print=pretty`)
+  console.log('List URL is ' + listURL)
+  let itemURL: URL
+  let ids: number[] = []
   fetch(`${listURL}`)
     .then((response) => {
       if (!response.ok) {
@@ -48,23 +53,42 @@ function fetchStories(list: string) {
       return response.json()
     })
     .then((liveData: number | number[] | object) => {
-      console.log(`liveData is ${liveData}`)
-      console.log(`type of liveData is ${typeof liveData}`)
-      if (list === 'maxitem' && typeof liveData === 'number') {
+      console.log('type of liveData is ' + typeof liveData)
+      if (typeof liveData === 'number') {
+        console.log('liveData is ' + liveData)
         const maxItemId: number = liveData
         id.value = generateRandomNumber(maxItemId)
+        itemURL = new URL(`${baseURL}/item/${id.value}.json?print=pretty`)
+        return itemURL
+      } else if (Array.isArray(liveData)) {
+        ids = [...liveData]
+        itemURL = new URL(
+          `${baseURL}/item/${ids[generateRandomNumber(ids.length - 1)]}.json?print=pretty`
+        )
+        return itemURL
+        // TODO Extend to show multiple items
+        /* ids.forEach((id) => { */
+        /*   itemURL = new URL(`${baseURL}/item/${id}.json?print=pretty`) */
+        /*   fetchSingleItem(itemURL) */
+        /* }) */
       }
-      itemURL = `${baseURL}/item/${id.value}.json?print=pretty`
     })
-    .then(() => {
-      fetch(itemURL)
-        .then((response) => response.json())
-        .then((item: Item) => displayResults(item))
-        .catch((error) => console.error(`Error fetching data: ${error.message}`))
+    .then((itemURL) => {
+      if (itemURL) {
+        // TODO Show itemURL in comment div
+        console.log(`Item URL is ${itemURL}`)
+        return fetchSingleItem(itemURL)
+      }
     })
     .catch((error) => console.error(`Error fetching data: ${error.message}`))
 }
 
+async function fetchSingleItem(itemURL: URL) {
+  await fetch(itemURL)
+    .then((response) => response.json())
+    .then((item: Item) => displayResults(item))
+    .catch((error) => console.error(`Error fetching data: ${error.message}`))
+}
 function displayResults(item: Item) {
   console.log('item:  ', item)
   text.value = item.text
@@ -73,26 +97,26 @@ function displayResults(item: Item) {
   url.value = item.url
   title.value = item.title
 }
-fetchStories('maxitem')
+fetchItems(listNameOfSelected.value)
 function fetchList() {}
 </script>
 
 <template>
   <main>
-    <div>Selected: {{ selected }}</div>
+    <div>Selected: {{ selected.topstories }}</div>
     <select v-model="selected" multiple v-on:change="fetchList">
-      <option v-for="(description, key) in lists" :key="key" :value="description">
+      <option v-for="(description, listName) in lists" :key="listName" :value="description">
         {{ description }}
       </option>
     </select>
-
-    <button @click="fetchStories('maxitem')" class="refresh">refresh</button>
+    <button @click="fetchItems(listNameOfSelected)" class="refresh">refresh</button>
     <article>
       <h2 v-html="title"></h2>
       <p v-html="text" class="itemText"></p>
       <ul>
         <li>(Unix) time: {{ time }}</li>
         <li class="ofUrl">
+          <!-- TODO Integrate href and title-->
           <a :href="url" class="itemUrl">{{ url }}</a>
         </li>
         <li>type: {{ type }}</li>
