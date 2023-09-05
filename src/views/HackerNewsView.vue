@@ -1,6 +1,7 @@
 <script setup lang="ts">
 'use strict'
 import { reactive, ref } from 'vue'
+// TODO Add histtory feature
 interface Item {
   readonly by: string
   readonly id: number
@@ -19,21 +20,18 @@ const time = ref<number>()
 const type = ref<string>()
 const url = ref<string>()
 const title = ref<string>()
-const lists = reactive({
+const lists = ref([
   // Current largest item id
-  maxitem: 'test',
-  topstories: 'Top stories',
-  newstories: 'New stories',
-  beststories: 'Best stories',
-  askstories: 'Ask stories',
-  showstories: 'Show stories',
-  jobstories: 'Job stories',
-  updates: 'Changed Items and Profiles'
-})
-const selected = reactive({
-  topstories: 'Top stories'
-})
-const listNameOfSelected = ref(Object.keys(selected)[0])
+  { name: 'maxitem', description: 'test' },
+  { name: 'topstories', description: '"Top" stories' },
+  { name: 'newstories', description: 'New stories' },
+  { name: 'beststories', description: 'Best stories' },
+  { name: 'askstories', description: 'Ask stories' },
+  { name: 'showstories', description: 'Show stories' },
+  { name: 'jobstories', description: 'Job stories' },
+  { name: 'updates', description: 'Changed Items and Profiles' }
+])
+const selected = ref([{ name: 'topstories', description: 'Top stories' }])
 function generateRandomNumber(max: number, min = 1) {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
@@ -97,19 +95,20 @@ function displayResults(item: Item) {
   url.value = item.url
   title.value = item.title
 }
-fetchItems(listNameOfSelected.value)
+fetchItems(selected.value[0].name)
 function fetchList() {}
 </script>
 
 <template>
   <main>
-    <div>Selected: {{ selected.topstories }}</div>
+    <div>Selected: {{ selected[0].description }}</div>
+    <!-- FIXME selection invalid-->
     <select v-model="selected" multiple v-on:change="fetchList">
-      <option v-for="(description, listName) in lists" :key="listName" :value="description">
-        {{ description }}
+      <option v-for="list in lists" :key="list.name" :value="list.description">
+        {{ list.description }}
       </option>
     </select>
-    <button @click="fetchItems(listNameOfSelected)" class="refresh">refresh</button>
+    <button @click="fetchItems(selected[0].name)" class="refresh">refresh</button>
     <article>
       <h2 v-html="title"></h2>
       <p v-html="text" class="itemText"></p>
