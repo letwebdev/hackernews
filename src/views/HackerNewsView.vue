@@ -75,7 +75,7 @@ function fetchList() {}
   <main>
     <div>Selected: {{ selected }}</div>
     <select v-model="selected" multiple v-on:change="fetchList">
-      <option v-for="option in options" :key="option" :value="option">
+      <option v-for="option in options" :key="options.indexOf(option)" :value="option">
         {{ option }}
       </option>
     </select>
