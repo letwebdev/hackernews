@@ -34,7 +34,7 @@ function randomNumber(max: number, min = 1) {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 function fetchResults() {
-  text.value = 'fetching news randomly...'
+  text.value = 'fetching randomly...'
   let fullUrl: string
   // Get current largest item id
   fetch('https://hacker-news.firebaseio.com/v0/maxitem.json?print=pretty')
