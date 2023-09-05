@@ -18,7 +18,7 @@ const time = ref<number>()
 const type = ref<string>()
 const url = ref<string>()
 const title = ref<string>()
-const options = reactive({
+const lists = reactive({
   // Current largest item id
   maxitem: 'test',
   topstories: 'Top stories',
@@ -31,31 +31,33 @@ const options = reactive({
 })
 const selected = ref('maxitem')
 
-function randomNumber(max: number, min = 1) {
+function generateRandomNumber(max: number, min = 1) {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 // TODO Set default argument
-function fetchStories(option: string) {
+function fetchStories(list: string) {
   text.value = 'Fetching item(s) randomly...'
-  const baseURL = 'https://hacker-news.firebaseio.com/v0/'
-  let fullURL: string
-  fetch(`https://hacker-news.firebaseio.com/v0/${option}.json?print=pretty`)
+  const baseURL: string = 'https://hacker-news.firebaseio.com/v0'
+  const listURL: string = `${baseURL}/${list}.json?print=pretty`
+  let itemURL: string
+  fetch(`${listURL}`)
     .then((response) => {
       if (!response.ok) {
         throw new Error(`HTTP error: ${response.status}`)
       }
       return response.json()
     })
-    .then((data: number) => {
-      /* console.log(`data is ${data}`) */
-      if (option === 'maxitem') {
-        const maxItemId: number = data
-        id.value = randomNumber(maxItemId)
+    .then((liveData: number | number[] | object) => {
+      console.log(`liveData is ${liveData}`)
+      console.log(`type of liveData is ${typeof liveData}`)
+      if (list === 'maxitem' && typeof liveData === 'number') {
+        const maxItemId: number = liveData
+        id.value = generateRandomNumber(maxItemId)
       }
-      fullURL = `${baseURL}item/${id.value}.json?print=pretty`
+      itemURL = `${baseURL}/item/${id.value}.json?print=pretty`
     })
     .then(() => {
-      fetch(fullURL)
+      fetch(itemURL)
         .then((response) => response.json())
         .then((item: Item) => displayResults(item))
         .catch((error) => console.error(`Error fetching data: ${error.message}`))
@@ -79,7 +81,7 @@ function fetchList() {}
   <main>
     <div>Selected: {{ selected }}</div>
     <select v-model="selected" multiple v-on:change="fetchList">
-      <option v-for="(description, key) in options" :key="key" :value="description">
+      <option v-for="(description, key) in lists" :key="key" :value="description">
         {{ description }}
       </option>
     </select>
