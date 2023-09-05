@@ -2,15 +2,15 @@
 'use strict'
 import { ref } from 'vue'
 interface Item {
-  by: string
-  id: number
-  poll: number
-  score: number
-  text: string
-  time: number
-  type: string
-  url: string
-  title: string
+  readonly by: string
+  readonly id: number
+  readonly poll: number
+  readonly score: number
+  readonly text: string
+  readonly time: number
+  readonly type: string
+  readonly url: string
+  readonly title: string
 }
 const id = ref<number>()
 const text = ref<string>()
@@ -18,9 +18,17 @@ const time = ref<number>()
 const type = ref<string>()
 const url = ref<string>()
 const title = ref<string>()
-const options=ref<String[]>(["maxitem","topstories","newstories","beststories"])
+const options = ref<String[]>([
+  'maxitem',
+  'topstories',
+  'newstories',
+  'beststories',
+  'asktories',
+  'showstories',
+  'jobstories',
+  'updates'
+])
 const selected = ref('maxitem')
-
 
 function randomNumber(max: number, min = 1) {
   return Math.floor(Math.random() * (max - min + 1)) + min
@@ -60,14 +68,15 @@ function displayResults(item: Item) {
   title.value = item.title
 }
 fetchResults()
+function fetchList() {}
 </script>
 
 <template>
   <main>
     <div>Selected: {{ selected }}</div>
-    <select v-model="selected" multiple>
+    <select v-model="selected" multiple v-on:change="fetchList">
       <option v-for="option in options" :key="option" :value="option">
-      {{ option }}
+        {{ option }}
       </option>
     </select>
 
@@ -109,6 +118,7 @@ fetchResults()
     margin: 0%;
   }
 }
+/* Firefox doesn't support :has() */
 li:has(.itemUrl:empty) {
   display: none;
 }
