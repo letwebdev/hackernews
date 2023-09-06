@@ -22,16 +22,16 @@ const url = ref<string>()
 const title = ref<string>()
 const lists = ref([
   // Current largest item id
-  { name: 'maxitem', description: 'test' },
-  { name: 'topstories', description: '"Top" stories' },
+  { name: 'topstories', description: 'Top stories' },
   { name: 'newstories', description: 'New stories' },
   { name: 'beststories', description: 'Best stories' },
   { name: 'askstories', description: 'Ask stories' },
   { name: 'showstories', description: 'Show stories' },
   { name: 'jobstories', description: 'Job stories' },
+  { name: 'maxitem', description: 'any' },
   { name: 'updates', description: 'Changed Items and Profiles' }
 ])
-const selected = ref([{ name: 'topstories', description: 'Top stories' }])
+const selected = ref(['Top stories'])
 function generateRandomNumber(max: number, min = 1) {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
@@ -95,20 +95,22 @@ function displayResults(item: Item) {
   url.value = item.url
   title.value = item.title
 }
-fetchItems(selected.value[0].name)
-function fetchList() {}
+fetchItems(lists.value[0].name)
+function fetchList() {
+  // TODO Add a toggle to refresh automatically after selecting
+}
 </script>
 
 <template>
   <main>
-    <div>Selected: {{ selected[0].description }}</div>
+    <div>Selected: {{ selected }}</div>
     <!-- FIXME selection invalid-->
     <select v-model="selected" multiple v-on:change="fetchList">
       <option v-for="list in lists" :key="list.name" :value="list.description">
         {{ list.description }}
       </option>
     </select>
-    <button @click="fetchItems(selected[0].name)" class="refresh">refresh</button>
+    <button @click="fetchItems(lists[0].name)" class="refresh">refresh</button>
     <article>
       <h2 v-html="title"></h2>
       <p v-html="text" class="itemText"></p>
