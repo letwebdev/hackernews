@@ -109,8 +109,7 @@ function fetchList() {
 
 <template>
   <main>
-    <div>Selected: {{ selected[0].text }}</div>
-    <!-- FIXME selection invalid-->
+    <div>Selected: {{ selected.map((option) => option.text) }}</div>
     <select v-model="selected" multiple v-on:change="fetchList()">
       <option
         v-for="list in lists"
