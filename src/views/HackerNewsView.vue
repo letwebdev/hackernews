@@ -1,6 +1,6 @@
 <script setup lang="ts">
-'use strict'
-import { reactive, ref } from 'vue'
+"use strict"
+import { reactive, ref } from "vue"
 // TODO Add histtory feature
 interface Item {
   readonly by: string
@@ -22,25 +22,25 @@ const url = ref<string>()
 const title = ref<string>()
 const lists = ref([
   // Current largest item id
-  { name: 'topstories', description: 'Top stories' },
-  { name: 'newstories', description: 'New stories' },
-  { name: 'beststories', description: 'Best stories' },
-  { name: 'askstories', description: 'Ask stories' },
-  { name: 'showstories', description: 'Show stories' },
-  { name: 'jobstories', description: 'Job stories' },
-  { name: 'maxitem', description: 'any' },
-  { name: 'updates', description: 'Changed Items and Profiles' }
+  { name: "topstories", description: "Top stories" },
+  { name: "newstories", description: "New stories" },
+  { name: "beststories", description: "Best stories" },
+  { name: "askstories", description: "Ask stories" },
+  { name: "showstories", description: "Show stories" },
+  { name: "jobstories", description: "Job stories" },
+  { name: "maxitem", description: "any" },
+  { name: "updates", description: "Changed Items and Profiles" },
 ])
-const selected = ref(['Top stories'])
+const selected = ref([{ text: "Top stories", class: "topstories" }])
 function generateRandomNumber(max: number, min = 1) {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 // TODO Set default argument
 function fetchItems(list: string) {
-  text.value = 'Fetching item(s) randomly...'
-  const baseURL: URL = new URL('https://hacker-news.firebaseio.com/v0')
+  text.value = "Fetching item(s) randomly..."
+  const baseURL: URL = new URL("https://hacker-news.firebaseio.com/v0")
   const listURL: URL = new URL(`${baseURL}/${list}.json?print=pretty`)
-  console.log('List URL is ' + listURL)
+  console.log("List URL is " + listURL)
   let itemURL: URL
   let ids: number[] = []
   fetch(`${listURL}`)
@@ -51,9 +51,9 @@ function fetchItems(list: string) {
       return response.json()
     })
     .then((liveData: number | number[] | object) => {
-      console.log('type of liveData is ' + typeof liveData)
-      if (typeof liveData === 'number') {
-        console.log('liveData is ' + liveData)
+      console.log("type of liveData is " + typeof liveData)
+      if (typeof liveData === "number") {
+        console.log("liveData is " + liveData)
         const maxItemId: number = liveData
         id.value = generateRandomNumber(maxItemId)
         itemURL = new URL(`${baseURL}/item/${id.value}.json?print=pretty`)
@@ -88,7 +88,7 @@ async function fetchSingleItem(itemURL: URL) {
     .catch((error) => console.error(`Error fetching data: ${error.message}`))
 }
 function displayResults(item: Item) {
-  console.log('item:  ', item)
+  console.log("item:  ", item)
   text.value = item.text
   time.value = item.time
   type.value = item.type
@@ -96,6 +96,12 @@ function displayResults(item: Item) {
   title.value = item.title
 }
 fetchItems(lists.value[0].name)
+/* function fetchSelected() { */
+/*   selected.value.forEach((option) => { */
+/*     fetchItems(option.key) */
+/*   }) */
+/* } */
+/* fetchSelected() */
 function fetchList() {
   // TODO Add a toggle to refresh automatically after selecting
 }
@@ -103,10 +109,14 @@ function fetchList() {
 
 <template>
   <main>
-    <div>Selected: {{ selected }}</div>
+    <div>Selected: {{ selected[0].text }}</div>
     <!-- FIXME selection invalid-->
-    <select v-model="selected" multiple v-on:change="fetchList">
-      <option v-for="list in lists" :key="list.name" :value="list.description">
+    <select v-model="selected" multiple v-on:change="fetchList()">
+      <option
+        v-for="list in lists"
+        :key="list.name"
+        :value="{ text: list.description, class: list.name }"
+      >
         {{ list.description }}
       </option>
     </select>
