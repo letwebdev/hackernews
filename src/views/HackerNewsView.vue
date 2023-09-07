@@ -33,12 +33,7 @@ interface Item {
   readonly title: string
   // TODO Solve dead item
 }
-const itemId = ref<number>()
 const itemText = ref<string>()
-const itemTime = ref<number>()
-const itemType = ref<string>()
-const itemUrl = ref<string>()
-const itemTitle = ref<string>()
 const lists = ref<Lists>([
   // Current largest item id
   { name: "topstories", description: "Top stories" },
@@ -111,21 +106,10 @@ function fetchItem(id: number) {
   const itemURL: URL = new URL(`${baseURL}/item/${id}.json?print=pretty`)
   fetch(itemURL)
     .then((response) => response.json())
-    /* .then((item: Item) => displayResult(item)) */
     .then((item: Item) => {
       items.value.push(item)
     })
     .catch((error) => console.error(`Error fetching data: ${error.message}`))
-}
-function displayResult(item: Item) {
-  // TODO Allow display multipe items
-  console.log("item:  ", item)
-  itemText.value = item.text
-  itemTime.value = item.time
-  itemType.value = item.type
-  itemUrl.value = item.url
-  itemTitle.value = item.title
-  console.log("itemText.value is " + itemText.value)
 }
 function fetchSelectedLists() {
   /* const listToFetch = generateRandomInteger(selected.value.length) - 1 */
@@ -138,9 +122,6 @@ function fetchSelectedLists() {
   // TODO Add a toggle to refresh automatically after selecting
 }
 fetchItems("maxitem")
-function openTitleURL() {
-  window.open(itemUrl.value)
-}
 function refresh() {
   itemsInQueue = 0
   fetechedItems.value = fetechedItems.value.concat(items.value)
@@ -175,7 +156,6 @@ function refresh() {
         <!-- TODO convert to readable time-->
         <li>(Unix) time: {{ item.time }}</li>
         <li>type: {{ item.type }}</li>
-        <!-- TODO hide very very long link -->
         <li v-if="settings.hidingVeryVeryLongLinkOn && !settings.isVeryVeryLongLink(item.url)">
           link: <a href="item.url">{{ item.url }}</a>
         </li>
