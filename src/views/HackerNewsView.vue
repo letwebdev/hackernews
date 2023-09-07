@@ -1,23 +1,7 @@
 <script setup lang="ts">
 "use strict"
+import settings from "./SettingsView.vue"
 import { reactive, ref } from "vue"
-// TODO Add histtory feature
-// TODO add a settings page to config the settings
-const defaultSettings = {
-  maximumDisplayedItemsPerPage: 10,
-  hidingVeryVeryLongLinkOn: true,
-  limitOfLinkLength: 200,
-  fetchingListsAfterSelectionOn: false,
-  randomFetchingOn: false,
-  isVeryVeryLongLink(link: string) {
-    if (link) {
-      return link.length > this.limitOfLinkLength
-    } else {
-      return true
-    }
-  },
-}
-const settings = defaultSettings
 let itemsInQueue: number = 0
 interface List {
   readonly name: string
