@@ -9,7 +9,11 @@ const defaultSettings = {
   limitOfLinkLength: 200,
   fetchingListsAfterSelectionOn: false,
   isVeryVeryLongLink(link: string) {
-    return link.length > this.limitOfLinkLength
+    if (link) {
+      return link.length > this.limitOfLinkLength
+    } else {
+      return true
+    }
   },
 }
 const settings = defaultSettings
@@ -122,13 +126,13 @@ function fetchSelectedLists() {
   fetchLists(names)
   // TODO Add a toggle to refresh automatically after selecting
 }
-fetchItems("maxitem")
 function refresh() {
   itemsInQueue = 0
   fetechedItems.value = fetechedItems.value.concat(items.value)
   items.value = []
   fetchSelectedLists()
 }
+fetchItems("maxitem")
 </script>
 
 <template>
