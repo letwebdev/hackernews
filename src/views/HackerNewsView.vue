@@ -3,19 +3,16 @@
 import { reactive, ref } from "vue"
 // TODO Add histtory feature
 // TODO add a settings page to config the settings
-const settings = {
+const defaultSettings = {
   maximumDisplayedItemsPerPage: 10,
   hidingVeryVeryLongLinkOn: true,
   limitOfLinkLength: 200,
   fetchingListsAfterSelectionOn: false,
   isVeryVeryLongLink(link: string) {
-    if (link.length > this.limitOfLinkLength) {
-      return true
-    } else {
-      return false
-    }
+    return link.length > this.limitOfLinkLength
   },
 }
+const settings = defaultSettings
 let itemsInQueue: number = 0
 interface List {
   readonly name: string
@@ -34,6 +31,7 @@ interface Item {
   readonly title: string
   // TODO Solve dead item
 }
+type Items = Item[]
 const promptForFetching = ref<string>()
 const lists = ref<Lists>([
   // Current largest item id
@@ -44,10 +42,11 @@ const lists = ref<Lists>([
   { name: "showstories", description: "Show stories" },
   { name: "jobstories", description: "Job stories" },
   { name: "maxitem", description: "any" },
+  // TODO Add function snippets to fetch following list
   { name: "updates", description: "Changed Items and Profiles" },
 ])
-const items = ref<Item[]>([])
-const fetechedItems = ref<Item[]>([])
+const items = ref<Items>([])
+const fetechedItems = ref<Items>([])
 const selected = ref([{ name: "topstories", description: "Top stories" }])
 function generateRandomInteger(max: number, min = 1): number {
   return Math.floor(Math.random() * (max - min + 1)) + min
@@ -157,9 +156,7 @@ function refresh() {
         <h2 v-html="item.title"></h2>
       </a>
       <ul>
-        <p>
-          {{ item.text }}
-        </p>
+        <p v-html="item.text"></p>
         <!-- TODO convert to readable time-->
         <li>(Unix) time: {{ item.time }}</li>
         <li>type: {{ item.type }}</li>
