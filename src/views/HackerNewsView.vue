@@ -14,12 +14,12 @@ interface Item {
   readonly title: string
   // TODO Solve dead item
 }
-const id = ref<number>()
-const text = ref<string>()
-const time = ref<number>()
-const type = ref<string>()
-const url = ref<string>()
-const title = ref<string>()
+const itemId = ref<number>()
+const itemText = ref<string>()
+const itemTime = ref<number>()
+const itemType = ref<string>()
+const itemUrl = ref<string>()
+const itemTitle = ref<string>()
 const lists = ref([
   // Current largest item id
   { name: "topstories", description: "Top stories" },
@@ -36,13 +36,13 @@ function generateRandomInteger(max: number, min = 1) {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 // TODO Set default argument
-function fetchItems(list: string) {
-  text.value = "Fetching item(s) randomly..."
+function fetchItems(list: string = "topstories") {
+  itemText.value = "Fetching item(s) randomly..."
   const baseURL: URL = new URL("https://hacker-news.firebaseio.com/v0")
   const listURL: URL = new URL(`${baseURL}/${list}.json?print=pretty`)
   console.log("List URL is " + listURL)
   let itemURL: URL
-  let ids: number[] = []
+  let itemIds: number[] = []
   fetch(`${listURL}`)
     .then((response) => {
       if (!response.ok) {
@@ -55,18 +55,18 @@ function fetchItems(list: string) {
       if (typeof liveData === "number") {
         console.log("liveData is " + liveData)
         const maxItemId: number = liveData
-        id.value = generateRandomInteger(maxItemId)
-        itemURL = new URL(`${baseURL}/item/${id.value}.json?print=pretty`)
+        itemId.value = generateRandomInteger(maxItemId)
+        itemURL = new URL(`${baseURL}/item/${itemId.value}.json?print=pretty`)
         return itemURL
       } else if (Array.isArray(liveData)) {
-        ids = [...liveData]
+        itemIds = [...liveData]
         itemURL = new URL(
-          `${baseURL}/item/${ids[generateRandomInteger(ids.length)]}.json?print=pretty`
+          `${baseURL}/item/${itemIds[generateRandomInteger(itemIds.length)]}.json?print=pretty`
         )
         return itemURL
         // TODO Extend to show multiple items
-        /* ids.forEach((id) => { */
-        /*   itemURL = new URL(`${baseURL}/item/${id}.json?print=pretty`) */
+        /* itemIds.forEach((itemId) => { */
+        /*   itemURL = new URL(`${baseURL}/item/${itemId}.json?print=pretty`) */
         /*   fetchSingleItem(itemURL) */
         /* }) */
       }
@@ -88,19 +88,27 @@ async function fetchSingleItem(itemURL: URL) {
     .catch((error) => console.error(`Error fetching data: ${error.message}`))
 }
 function displayResults(item: Item) {
+  // TODO Allow display multipe items
   console.log("item:  ", item)
-  text.value = item.text
-  time.value = item.time
-  type.value = item.type
-  url.value = item.url
-  title.value = item.title
+  itemText.value = item.text
+  itemTime.value = item.time
+  itemType.value = item.type
+  itemUrl.value = item.url
+  itemTitle.value = item.title
+  console.log("itemText.value is " + itemText.value)
 }
 function fetchSelectedLists() {
   const listToFetch = generateRandomInteger(selected.value.length) - 1
   fetchItems(selected.value[listToFetch].name)
+  /* selected.value.forEach((list) => { */
+  /*   fetchItems(list.name) */
+  /* }) */
   // TODO Add a toggle to refresh automatically after selecting
 }
-fetchSelectedLists()
+fetchItems()
+function openTitleURL() {
+  window.open(itemUrl.value)
+}
 </script>
 
 <template>
@@ -117,20 +125,29 @@ fetchSelectedLists()
     </select>
     <button @click="fetchSelectedLists" class="refresh">refresh</button>
     <article>
-      <h2 v-html="title"></h2>
-      <p v-html="text" class="itemText"></p>
+      <h2 v-html="itemTitle" @click="openTitleURL"></h2>
+      <p v-html="itemText" class="itemText"></p>
       <ul>
-        <li>(Unix) time: {{ time }}</li>
+        <li>(Unix) time: {{ itemTime }}</li>
         <li class="ofUrl">
-          <!-- TODO Integrate href and title-->
-          <a :href="url" class="itemUrl">{{ url }}</a>
+          <a :href="itemUrl" class="itemUrl">{{ itemUrl }}</a>
         </li>
-        <li>type: {{ type }}</li>
+        <li>type: {{ itemType }}</li>
       </ul>
     </article>
   </main>
 </template>
 <style scoped>
+h2 {
+  text-decoration: none;
+  color: hsla(160, 100%, 37%, 1);
+  transition: 0.4s;
+}
+h2:hover {
+  background-color: hsla(160, 100%, 37%, 0.2);
+  cursor: pointer;
+}
+
 .refresh {
   width: 5em;
   height: 4ex;
