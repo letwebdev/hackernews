@@ -101,10 +101,6 @@ function fetchItems(listName: string = "topstories") {
         } else {
           itemIds = [...liveData]
         }
-        /* itemURL = new URL( */
-        /* `${baseURL}/item/${itemIds[generateRandomInteger(itemIds.length)]}.json?print=pretty` */
-        /* ) */
-        /* return itemURL */
         itemIds.forEach((itemId) => {
           fetchItem(itemId)
         })
