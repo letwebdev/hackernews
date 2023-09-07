@@ -2,7 +2,18 @@
 "use strict"
 import { reactive, ref } from "vue"
 // TODO Add histtory feature
-const settings = { maximumDisplayedItemsPerPage: 10 }
+const settings = {
+  maximumDisplayedItemsPerPage: 10,
+  hidingVeryVeryLongLinkOn: true,
+  limitOfLinkLength: 200,
+  isVeryVeryLongLink(link: string) {
+    if (link.length > this.limitOfLinkLength) {
+      return true
+    } else {
+      return false
+    }
+  },
+}
 let itemsInQueue: number = 0
 interface List {
   readonly name: string
@@ -154,15 +165,19 @@ function refresh() {
     </select>
     <button @click="refresh" class="refresh">refresh</button>
     <article v-for="item in items" :key="item.id">
-      <h2 v-html="item.title" @click="openTitleURL"></h2>
+      <a href="item.url">
+        <h2 v-html="item.title"></h2>
+      </a>
       <ul>
         <p>
           {{ item.text }}
         </p>
-        <li>time: {{ item.time }}</li>
-        <li>Type: {{ item.type }}</li>
-        <li>
-          Link: <a href="item.url">{{ item.url }}</a>
+        <!-- TODO convert to readable time-->
+        <li>(Unix) time: {{ item.time }}</li>
+        <li>type: {{ item.type }}</li>
+        <!-- TODO hide very very long link -->
+        <li v-if="settings.hidingVeryVeryLongLinkOn && !settings.isVeryVeryLongLink(item.url)">
+          link: <a href="item.url">{{ item.url }}</a>
         </li>
       </ul>
     </article>
