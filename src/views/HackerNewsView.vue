@@ -8,7 +8,7 @@ const defaultSettings = {
   hidingVeryVeryLongLinkOn: true,
   limitOfLinkLength: 200,
   fetchingListsAfterSelectionOn: false,
-  randomFetchingOn:false,
+  randomFetchingOn: false,
   isVeryVeryLongLink(link: string) {
     if (link) {
       return link.length > this.limitOfLinkLength
@@ -84,8 +84,23 @@ function fetchItems(listName: string = "topstories") {
         const randomItemId = generateRandomInteger(maxItemId)
         fetchItem(randomItemId)
       } else if (Array.isArray(liveData)) {
-        console.log("live data is array(s) ")
-        const itemIds = [...liveData]
+        console.log("live data is an array ")
+        let itemIds: number[]
+        if (settings.randomFetchingOn) {
+          const idsGenerantedRandomly: number[] = []
+          // TODO array.length may be less than maximumDisplayedItemsPerPage
+          for (let i = 0; i < settings.maximumDisplayedItemsPerPage; i++) {
+            const idToPush = liveData[generateRandomInteger(liveData.length - 1)]
+            if (idToPush === idsGenerantedRandomly[-1]) {
+              i--
+              continue
+            }
+            idsGenerantedRandomly.push(idToPush)
+          }
+          itemIds = [...idsGenerantedRandomly]
+        } else {
+          itemIds = [...liveData]
+        }
         /* itemURL = new URL( */
         /* `${baseURL}/item/${itemIds[generateRandomInteger(itemIds.length)]}.json?print=pretty` */
         /* ) */
