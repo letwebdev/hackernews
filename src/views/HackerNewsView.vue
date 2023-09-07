@@ -8,6 +8,7 @@ const defaultSettings = {
   hidingVeryVeryLongLinkOn: true,
   limitOfLinkLength: 200,
   fetchingListsAfterSelectionOn: false,
+  randomFetchingOn:false,
   isVeryVeryLongLink(link: string) {
     if (link) {
       return link.length > this.limitOfLinkLength
@@ -97,9 +98,6 @@ function fetchItems(listName: string = "topstories") {
       }
     })
     .catch((error) => console.error(`Error fetching data: ${error.message}`))
-  /* list.itemIds.forEach((itemId) => { */
-  /*   fetchItem(itemId) */
-  /* }) */
 }
 function fetchItem(id: number) {
   itemsInQueue += 1
