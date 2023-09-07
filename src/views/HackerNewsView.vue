@@ -31,8 +31,8 @@ const lists = ref([
   { name: "maxitem", description: "any" },
   { name: "updates", description: "Changed Items and Profiles" },
 ])
-const selected = ref([{ text: "Top stories", class: "topstories" }])
-function generateRandomNumber(max: number, min = 1) {
+const selected = ref([{ name: "topstories", description: "Top stories" }])
+function generateRandomInteger(max: number, min = 1) {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 // TODO Set default argument
@@ -55,13 +55,13 @@ function fetchItems(list: string) {
       if (typeof liveData === "number") {
         console.log("liveData is " + liveData)
         const maxItemId: number = liveData
-        id.value = generateRandomNumber(maxItemId)
+        id.value = generateRandomInteger(maxItemId)
         itemURL = new URL(`${baseURL}/item/${id.value}.json?print=pretty`)
         return itemURL
       } else if (Array.isArray(liveData)) {
         ids = [...liveData]
         itemURL = new URL(
-          `${baseURL}/item/${ids[generateRandomNumber(ids.length - 1)]}.json?print=pretty`
+          `${baseURL}/item/${ids[generateRandomInteger(ids.length)]}.json?print=pretty`
         )
         return itemURL
         // TODO Extend to show multiple items
@@ -95,31 +95,27 @@ function displayResults(item: Item) {
   url.value = item.url
   title.value = item.title
 }
-fetchItems(lists.value[0].name)
-/* function fetchSelected() { */
-/*   selected.value.forEach((option) => { */
-/*     fetchItems(option.key) */
-/*   }) */
-/* } */
-/* fetchSelected() */
-function fetchList() {
+function fetchSelectedLists() {
+  const listToFetch = generateRandomInteger(selected.value.length) - 1
+  fetchItems(selected.value[listToFetch].name)
   // TODO Add a toggle to refresh automatically after selecting
 }
+fetchSelectedLists()
 </script>
 
 <template>
   <main>
-    <div>Selected: {{ selected.map((option) => option.text) }}</div>
-    <select v-model="selected" multiple v-on:change="fetchList()">
+    <div>Selected: {{ selected.map((option) => option.description) }}</div>
+    <select v-model="selected" multiple v-on:change="fetchSelectedLists">
       <option
         v-for="list in lists"
         :key="list.name"
-        :value="{ text: list.description, class: list.name }"
+        :value="{ description: list.description, name: list.name }"
       >
         {{ list.description }}
       </option>
     </select>
-    <button @click="fetchItems(lists[0].name)" class="refresh">refresh</button>
+    <button @click="fetchSelectedLists" class="refresh">refresh</button>
     <article>
       <h2 v-html="title"></h2>
       <p v-html="text" class="itemText"></p>
