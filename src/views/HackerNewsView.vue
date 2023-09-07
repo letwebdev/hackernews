@@ -2,10 +2,12 @@
 "use strict"
 import { reactive, ref } from "vue"
 // TODO Add histtory feature
+// TODO add a settings page to config the settings
 const settings = {
   maximumDisplayedItemsPerPage: 10,
   hidingVeryVeryLongLinkOn: true,
   limitOfLinkLength: 200,
+  fetchingListsAfterSelectionOn: false,
   isVeryVeryLongLink(link: string) {
     if (link.length > this.limitOfLinkLength) {
       return true
@@ -18,7 +20,6 @@ let itemsInQueue: number = 0
 interface List {
   readonly name: string
   readonly description: string
-  /* readonly itemIds: number[] */
 }
 type Lists = List[]
 interface Item {
@@ -33,7 +34,7 @@ interface Item {
   readonly title: string
   // TODO Solve dead item
 }
-const itemText = ref<string>()
+const promptForFetching = ref<string>()
 const lists = ref<Lists>([
   // Current largest item id
   { name: "topstories", description: "Top stories" },
@@ -102,12 +103,13 @@ function fetchItem(id: number) {
   if (itemsInQueue > settings.maximumDisplayedItemsPerPage) {
     return
   }
-  itemText.value = "Fetching item randomly..."
+  promptForFetching.value = "Fetching item..."
   const itemURL: URL = new URL(`${baseURL}/item/${id}.json?print=pretty`)
   fetch(itemURL)
     .then((response) => response.json())
     .then((item: Item) => {
       items.value.push(item)
+      promptForFetching.value = ""
     })
     .catch((error) => console.error(`Error fetching data: ${error.message}`))
 }
@@ -133,9 +135,11 @@ function refresh() {
 <template>
   <main>
     <div>Selected: {{ selected.map((option) => option.description) }}</div>
-    <select v-model="selected" multiple>
-      <!--<select v-model="selected" multiple v-on:change="fetchSelectedLists">
-    -->
+    <select
+      v-model="selected"
+      multiple
+      v-on:change="settings.fetchingListsAfterSelectionOn && fetchSelectedLists"
+    >
       <option
         v-for="list in lists"
         :key="list.name"
@@ -145,6 +149,9 @@ function refresh() {
       </option>
     </select>
     <button @click="refresh" class="refresh">refresh</button>
+    <div>
+      {{ promptForFetching }}
+    </div>
     <article v-for="item in items" :key="item.id">
       <a href="item.url">
         <h2 v-html="item.title"></h2>
