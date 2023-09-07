@@ -138,27 +138,31 @@ fetchItems("maxitem")
 
 <template>
   <main>
-    <div>Selected: {{ selected.map((option) => option.description) }}</div>
-    <select
-      v-model="selected"
-      multiple
-      v-on:change="settings.fetchingListsAfterSelectionOn && fetchSelectedLists"
-    >
-      <option
-        v-for="list in lists"
-        :key="list.name"
-        :value="{ description: list.description, name: list.name }"
+    <section class="controlPanel">
+      <h2>Control Panel</h2>
+      <div>Selected: {{ selected.map((option) => option.description) }}</div>
+      <select
+        v-model="selected"
+        multiple
+        v-on:change="settings.fetchingListsAfterSelectionOn && fetchSelectedLists"
+        class="selectedLists"
       >
-        {{ list.description }}
-      </option>
-    </select>
-    <button @click="refresh" class="refresh">refresh</button>
+        <option
+          v-for="list in lists"
+          :key="list.name"
+          :value="{ description: list.description, name: list.name }"
+        >
+          {{ list.description }}
+        </option>
+      </select>
+      <button @click="refresh" class="refresh">refresh</button>
+    </section>
     <div>
       {{ promptForFetching }}
     </div>
     <article v-for="item in items" :key="item.id">
       <a :href="item.url">
-        <h2 v-html="item.title"></h2>
+        <h2 v-html="item.title" class="itemTitle"></h2>
       </a>
       <ul>
         <p v-html="item.text"></p>
@@ -173,12 +177,19 @@ fetchItems("maxitem")
   </main>
 </template>
 <style scoped>
+main {
+  margin-bottom: 11%;
+}
+.controlPanel {
+  display: block;
+  margin: 0 0 10% 20%;
+}
 h2 {
   text-decoration: none;
   color: hsla(160, 100%, 37%, 1);
   transition: 0.4s;
 }
-h2:hover {
+.itemTitle:hover {
   background-color: hsla(160, 100%, 37%, 0.2);
   cursor: pointer;
 }
@@ -193,16 +204,21 @@ h2:hover {
   color: white;
   cursor: pointer;
   z-index: 2;
-  margin: 5% 40% 0 32%;
 }
 .refresh:active {
   box-shadow: 2px 2px 5px #00ff00;
 }
-@media (min-width: 1024px) {
+@media (min-width: 624px) {
+  .selectedLists {
+    max-width: 35%;
+    float: left;
+  }
   .refresh {
-    position: absolute;
-    top: 10%;
-    left: 48%;
+    margin: 5% 0 0 11%;
+  }
+}
+@media (max-width: 624px) {
+  .refresh {
     margin: 0%;
   }
 }
