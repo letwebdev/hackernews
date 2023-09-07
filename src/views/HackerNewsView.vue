@@ -111,6 +111,7 @@ function fetchItem(id: number) {
   fetch(itemURL)
     .then((response) => response.json())
     .then((item: Item) => {
+      console.log(item)
       items.value.push(item)
       promptForFetching.value = ""
     })
@@ -156,7 +157,7 @@ fetchItems("maxitem")
       {{ promptForFetching }}
     </div>
     <article v-for="item in items" :key="item.id">
-      <a href="item.url">
+      <a :href="item.url">
         <h2 v-html="item.title"></h2>
       </a>
       <ul>
@@ -165,7 +166,7 @@ fetchItems("maxitem")
         <li>(Unix) time: {{ item.time }}</li>
         <li>type: {{ item.type }}</li>
         <li v-if="settings.hidingVeryVeryLongLinkOn && !settings.isVeryVeryLongLink(item.url)">
-          link: <a href="item.url">{{ item.url }}</a>
+          link: <a :href="item.url">{{ item.url }}</a>
         </li>
       </ul>
     </article>
