@@ -70,7 +70,7 @@ function fetchItems(listName: string = "topstories") {
       } else if (Array.isArray(liveData)) {
         console.log("live data is an array ")
         let itemIds: number[]
-        if (settings.randomFetchingOn) {
+        if (settings.randomFetchingEnabled) {
           const idsGenerantedRandomly: number[] = []
           // TODO array.length may be less than maximumDisplayedItemsPerPage
           for (let i = 0; i < settings.maximumDisplayedItemsPerPage; i++) {
@@ -137,7 +137,7 @@ fetchItems("maxitem")
       <select
         v-model="selected"
         multiple
-        v-on:change="settings.fetchingListsAfterSelectionOn && fetchSelectedLists"
+        v-on:change="settings.fetchingListsAfterSelectionEnabled && fetchSelectedLists"
         class="selectedLists"
       >
         <option
@@ -162,7 +162,7 @@ fetchItems("maxitem")
         <!-- TODO convert to readable time-->
         <li>(Unix) time: {{ item.time }}</li>
         <li>type: {{ item.type }}</li>
-        <li v-if="settings.hidingVeryVeryLongLinkOn && !settings.isVeryVeryLongLink(item.url)">
+        <li v-if="settings.hidingVeryVeryLongLinkEnabled && !settings.isVeryVeryLongLink(item.url)">
           link: <a :href="item.url">{{ item.url }}</a>
         </li>
       </ul>
