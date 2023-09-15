@@ -7,7 +7,7 @@ const defaultSettings = {
     value: 10,
   },
   maximumLinkLengthToDisplay: {
-    description: "Maximum lenth to display",
+    description: "Maximum link length to display",
     value: 200,
   },
   fetchingListsAfterSelectionEnabled: {
@@ -23,11 +23,11 @@ const defaultSettings = {
     value: true,
   },
   disPlayItemTextEnabled: {
-    description: "Displaying text part of an item(if any)",
+    description: "Displaying the text part of an item(if any)",
     value: true,
   },
   historyEnabled: {
-    description: "Recording histtory",
+    description: "Recording history",
     value: false,
   },
 }
@@ -39,13 +39,25 @@ function isExtremelyLongLink(link: string) {
   }
 }
 const settings = reactive(Object.assign({}, defaultSettings))
+/* settings.maximumDisplayedItemsPerPage.value = 5 */
+const inputNumber = ref<number>()
 </script>
 <template>
   <main class="settings">
     <ul>
-      <li v-for="(value, item) in settings" :key="item">
-        {{ value.description }}: {{ value.value }}
-      </li>
+      <template v-for="(properties, item) in settings" :key="item">
+        <li>
+          {{ properties.description }}:
+          <button
+            v-if="typeof properties.value === 'boolean'"
+            @click="properties.value = !properties.value"
+          >
+            {{ properties.value }}
+          </button>
+          <input v-model="properties.value" type="number" v-else />
+          {{ inputNumber }}
+        </li>
+      </template>
     </ul>
   </main>
 </template>
