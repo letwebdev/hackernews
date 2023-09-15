@@ -30,12 +30,12 @@ class Settings {
     description: "Recording history",
     value: false,
   }
-}
-function isExtremelyLongLink(link: string) {
-  if (link) {
-    return link.length > settings.value.maximumLinkLengthToDisplay.value
-  } else {
-    return true
+  private isExtremelyLongLink(link: string) {
+    if (link) {
+      return link.length > this.maximumLinkLengthToDisplay.value
+    } else {
+      return true
+    }
   }
 }
 const settings = ref(new Settings())

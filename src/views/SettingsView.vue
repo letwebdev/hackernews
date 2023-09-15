@@ -1,6 +1,6 @@
 <script setup lang="ts">
 "use strict"
-import SettingItems from "../components/SettingItems.vue"
+import SettingItems from "@/components/SettingItems.vue"
 // TODO Add histtory feature
 // TODO Add a toggle to hide item text
 </script>
