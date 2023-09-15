@@ -1,46 +1,47 @@
 <script setup lang="ts">
 "use strict"
 import { ref, reactive } from "vue"
-const defaultSettings = {
-  maximumDisplayedItemsPerPage: {
+class Settings {
+  maximumDisplayedItemsPerPage = {
     description: "Maximum displayed items per page",
-    value: 10,
-  },
-  maximumLinkLengthToDisplay: {
+    value: 20,
+  }
+  maximumLinkLengthToDisplay = {
     description: "Maximum link length to display",
     value: 200,
-  },
-  fetchingListsAfterSelectionEnabled: {
+  }
+  fetchingListsAfterSelectionEnabled = {
     description: "Fetching lists after selection",
     value: false,
-  },
-  randomFetchingEnabled: {
+  }
+  randomFetchingEnabled = {
     description: "Fetching randomly",
     value: false,
-  },
-  hidingVeryVeryLongLinkEnabled: {
+  }
+  hidingVeryVeryLongLinkEnabled = {
     description: "Hiding extemely long link",
     value: true,
-  },
-  disPlayItemTextEnabled: {
+  }
+  disPlayItemTextEnabled = {
     description: "Displaying the text part of an item(if any)",
     value: true,
-  },
-  historyEnabled: {
+  }
+  historyEnabled = {
     description: "Recording history",
     value: false,
-  },
+  }
 }
 function isExtremelyLongLink(link: string) {
   if (link) {
-    return link.length > settings.maximumLinkLengthToDisplay.value
+    return link.length > settings.value.maximumLinkLengthToDisplay.value
   } else {
     return true
   }
 }
-const settings = reactive(Object.assign({}, defaultSettings))
-/* settings.maximumDisplayedItemsPerPage.value = 5 */
-const inputNumber = ref<number>()
+const settings = ref(new Settings())
+function reset() {
+  Object.assign(settings.value, new Settings())
+}
 </script>
 <template>
   <main class="settings">
@@ -55,9 +56,9 @@ const inputNumber = ref<number>()
             {{ properties.value }}
           </button>
           <input v-model="properties.value" type="number" v-else />
-          {{ inputNumber }}
         </li>
       </template>
+      <button @click="reset">reset</button>
     </ul>
   </main>
 </template>
