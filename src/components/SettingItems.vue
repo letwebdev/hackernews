@@ -1,8 +1,6 @@
 <script setup lang="ts">
 "use strict"
 import { ref, reactive } from "vue"
-// TODO Add histtory feature
-// TODO Add a toggle to hide item text
 const defaultSettings = {
   maximumDisplayedItemsPerPage: {
     description: "Maximum displayed items per page",
@@ -23,6 +21,14 @@ const defaultSettings = {
   hidingVeryVeryLongLinkEnabled: {
     description: "Hiding extemely long link",
     value: true,
+  },
+  disPlayItemTextEnabled: {
+    description: "Displaying text part of an item(if any)",
+    value: true,
+  },
+  historyEnabled: {
+    description: "Recording histtory",
+    value: false,
   },
 }
 function isExtremelyLongLink(link: string) {
