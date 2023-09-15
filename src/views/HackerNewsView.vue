@@ -40,6 +40,17 @@ const selected = ref([{ name: "topstories", description: "Top stories" }])
 function generateRandomInteger(max: number, min = 1): number {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
+
+function fetchSelectedLists() {
+  /* const listToFetch = generateRandomInteger(selected.value.length) - 1 */
+  /* fetchLists(selected.value[listToFetch].name) */
+  const names: string[] = []
+  selected.value.forEach((list) => {
+    names.push(list.name)
+  })
+  fetchLists(names)
+  // TODO Add a toggle to refresh automatically after selecting
+}
 function fetchLists(names: string[]) {
   names.forEach((name: string) => {
     fetchList(name)
@@ -48,7 +59,6 @@ function fetchLists(names: string[]) {
 function fetchList(name: string) {
   fetchItems(name)
 }
-
 const baseURL: URL = new URL("https://hacker-news.firebaseio.com/v0")
 function fetchItems(listName: string = "topstories") {
   const listURL: URL = new URL(`${baseURL}/${listName}.json?print=pretty`)
@@ -109,16 +119,6 @@ function fetchItem(id: number) {
       promptForFetching.value = ""
     })
     .catch((error) => console.error(`Error fetching data: ${error.message}`))
-}
-function fetchSelectedLists() {
-  /* const listToFetch = generateRandomInteger(selected.value.length) - 1 */
-  /* fetchLists(selected.value[listToFetch].name) */
-  const names: string[] = []
-  selected.value.forEach((list) => {
-    names.push(list.name)
-  })
-  fetchLists(names)
-  // TODO Add a toggle to refresh automatically after selecting
 }
 function refresh() {
   itemsInQueue = 0
