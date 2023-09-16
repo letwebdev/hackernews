@@ -84,10 +84,10 @@ function fetchItems(listName: string = "topstories") {
         let itemIds: number[]
         if (settings.fetchingRandomly.enabled) {
           const idsGenerantedRandomly: number[] = []
-          // liveData.length may be less than maximumDisplayedItemsPerPage
+          // liveData.length may be less than numberOfItemsFetchedEachTime
           const maxmiumFetchedItems = Math.min(
             liveData.length,
-            settings.maximumDisplayedItemsPerPage.value
+            settings.numberOfItemsFetchedEachTime.value
           )
           for (let i = 0; i < maxmiumFetchedItems; i++) {
             const randomArrayIndex = generateRandomInteger(liveData.length - 1)
@@ -116,7 +116,7 @@ function fetchItems(listName: string = "topstories") {
 let itemsInQueue: number = 0
 function fetchItem(id: number) {
   itemsInQueue += 1
-  if (itemsInQueue > settings.maximumDisplayedItemsPerPage.value) {
+  if (itemsInQueue > settings.numberOfItemsFetchedEachTime.value) {
     return
   }
   const itemURL: URL = new URL(`${baseURL}/item/${id}.json?print=pretty`)
