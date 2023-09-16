@@ -126,12 +126,15 @@ function fetchItem(id: number) {
     })
     .catch((error) => console.error(`Error fetching data: ${error.message}`))
 }
-function refresh() {
+function fetchMore() {
   // Clear count
   itemsInQueue = 0
+  fetchSelectedLists()
+}
+function refresh() {
   // Clear displayed items
   items.value = []
-  fetchSelectedLists()
+  fetchMore()
 }
 // TODO Multi-pages
 fetchItems("maxitem")
@@ -145,7 +148,7 @@ fetchItems("maxitem")
       <select
         v-model="selected"
         multiple
-        v-on:change="settings.fetchingListsAfterSelection.value && refresh()"
+        v-on:change="settings.fetchingListsAfterSelection.value && fetchMore()"
         class="selectedLists"
       >
         <option
@@ -170,7 +173,7 @@ fetchItems("maxitem")
         <!-- TODO convert to readable time-->
         <li>(Unix) time: {{ item.time }}</li>
         <li>type: {{ item.type }}</li>
-        <li v-if="settings.maximumLinkLengthToDisplay.value > item.url.length">
+        <li v-if="item.url && settings.maximumLinkLengthToDisplay.value > item.url.length">
           link: <a :href="item.url">{{ item.url }}</a>
         </li>
       </ul>
