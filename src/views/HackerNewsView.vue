@@ -3,7 +3,11 @@
 import { ref } from "vue"
 import { useSettingsStore } from "@/stores/settings"
 const settings = useSettingsStore().settings
-let itemsInQueue: number = 0
+
+function generateRandomInteger(max: number, min = 1): number {
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
 interface List {
   readonly name: string
   readonly description: string
@@ -22,15 +26,16 @@ interface Item {
   // TODO Solve dead item
 }
 type Items = Item[]
+
 const promptForFetching = ref<string>()
 const lists = ref<Lists>([
-  // Current largest item id
   { name: "topstories", description: "Top stories" },
   { name: "newstories", description: "New stories" },
   { name: "beststories", description: "Best stories" },
   { name: "askstories", description: "Ask stories" },
   { name: "showstories", description: "Show stories" },
   { name: "jobstories", description: "Job stories" },
+  // Current largest item id
   { name: "maxitem", description: "any" },
   // TODO Add function snippets to fetch following list
   { name: "updates", description: "Changed Items and Profiles" },
@@ -38,19 +43,13 @@ const lists = ref<Lists>([
 const items = ref<Items>([])
 const fetechedItems = ref<Items>([])
 const selected = ref([{ name: "topstories", description: "Top stories" }])
-function generateRandomInteger(max: number, min = 1): number {
-  return Math.floor(Math.random() * (max - min + 1)) + min
-}
-
 function fetchSelectedLists() {
-  /* const listToFetch = generateRandomInteger(selected.value.length) - 1 */
-  /* fetchLists(selected.value[listToFetch].name) */
+  promptForFetching.value = "Fetching selected lists..."
   const names: string[] = []
   selected.value.forEach((list) => {
     names.push(list.name)
   })
   fetchLists(names)
-  // TODO Add a toggle to refresh automatically after selecting
 }
 function fetchLists(names: string[]) {
   names.forEach((name: string) => {
@@ -66,31 +65,35 @@ function fetchItems(listName: string = "topstories") {
   console.log("List URL is " + listURL)
   fetch(`${listURL}`)
     .then((response) => {
-      if (!response.ok) {
+      if (response.ok) {
+        return response.json()
+      } else {
         throw new Error(`HTTP error: ${response.status}`)
       }
-      return response.json()
     })
     .then((liveData: number | number[] | object) => {
-      console.log("type of liveData is " + typeof liveData)
+      console.log("Type of liveData is " + typeof liveData)
       if (typeof liveData === "number") {
-        console.log("live data is current largest item id: " + liveData)
+        console.log("Live data is currently largest item id: " + liveData)
         const maxItemId: number = liveData
         const randomItemId = generateRandomInteger(maxItemId)
         fetchItem(randomItemId)
       } else if (Array.isArray(liveData)) {
-        console.log("live data is an array ")
+        console.log("Live data is an array ")
         let itemIds: number[]
         if (settings.fetchingRandomly.enabled) {
           const idsGenerantedRandomly: number[] = []
           // TODO array.length may be less than maximumDisplayedItemsPerPage
           for (let i = 0; i < settings.maximumDisplayedItemsPerPage.value; i++) {
-            const idToPush = liveData[generateRandomInteger(liveData.length - 1)]
+            const randomArrayIndex = generateRandomInteger(liveData.length - 1)
+            const idToPush = liveData[randomArrayIndex]
+            // Prevent duplicate id
             if (idToPush === idsGenerantedRandomly[-1]) {
               i--
               continue
+            } else {
+              idsGenerantedRandomly.push(idToPush)
             }
-            idsGenerantedRandomly.push(idToPush)
           }
           itemIds = [...idsGenerantedRandomly]
         } else {
@@ -99,25 +102,25 @@ function fetchItems(listName: string = "topstories") {
         itemIds.forEach((itemId) => {
           fetchItem(itemId)
         })
+        promptForFetching.value = ""
       } else {
         console.log("Unknwon live data type")
       }
     })
     .catch((error) => console.error(`Error fetching data: ${error.message}`))
 }
+let itemsInQueue: number = 0
 function fetchItem(id: number) {
   itemsInQueue += 1
   if (itemsInQueue > settings.maximumDisplayedItemsPerPage.value) {
     return
   }
-  promptForFetching.value = "Fetching item..."
   const itemURL: URL = new URL(`${baseURL}/item/${id}.json?print=pretty`)
   fetch(itemURL)
     .then((response) => response.json())
     .then((item: Item) => {
       console.log(item)
       items.value.push(item)
-      promptForFetching.value = ""
     })
     .catch((error) => console.error(`Error fetching data: ${error.message}`))
 }
