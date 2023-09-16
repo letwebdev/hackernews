@@ -41,7 +41,7 @@ const lists = ref<Lists>([
   { name: "updates", description: "Changed Items and Profiles" },
 ])
 const items = ref<Items>([])
-const fetechedItems = ref<Items>([])
+const fetchedItems = ref<Items>([])
 const selected = ref([{ name: "topstories", description: "Top stories" }])
 function fetchSelectedLists() {
   promptForFetching.value = "Fetching selected lists..."
@@ -83,17 +83,20 @@ function fetchItems(listName: string = "topstories") {
         let itemIds: number[]
         if (settings.fetchingRandomly.enabled) {
           const idsGenerantedRandomly: number[] = []
-          // TODO array.length may be less than maximumDisplayedItemsPerPage
-          for (let i = 0; i < settings.maximumDisplayedItemsPerPage.value; i++) {
+          // liveData.length may be less than maximumDisplayedItemsPerPage
+          const maxmiumFetchedItems = Math.min(
+            liveData.length,
+            settings.maximumDisplayedItemsPerPage.value
+          )
+          for (let i = 0; i < maxmiumFetchedItems; i++) {
             const randomArrayIndex = generateRandomInteger(liveData.length - 1)
             const idToPush = liveData[randomArrayIndex]
             // Prevent duplicate id
             if (idToPush === idsGenerantedRandomly[-1]) {
               i--
               continue
-            } else {
-              idsGenerantedRandomly.push(idToPush)
             }
+            idsGenerantedRandomly.push(idToPush)
           }
           itemIds = [...idsGenerantedRandomly]
         } else {
@@ -126,7 +129,7 @@ function fetchItem(id: number) {
 }
 function refresh() {
   itemsInQueue = 0
-  fetechedItems.value = fetechedItems.value.concat(items.value)
+  fetchedItems.value = fetchedItems.value.concat(items.value)
   items.value = []
   fetchSelectedLists()
 }
@@ -141,7 +144,7 @@ fetchItems("maxitem")
       <select
         v-model="selected"
         multiple
-        v-on:change="settings.fetchingListsAfterSelection && fetchSelectedLists"
+        v-on:change="settings.fetchingListsAfterSelection.enabled && fetchSelectedLists()"
         class="selectedLists"
       >
         <option
