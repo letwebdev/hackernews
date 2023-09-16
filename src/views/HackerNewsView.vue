@@ -1,7 +1,8 @@
 <script setup lang="ts">
 "use strict"
-import settings from "./SettingsView.vue"
 import { reactive, ref } from "vue"
+import { useSettingsStore } from "@/stores/settings"
+const settings = useSettingsStore().settings
 let itemsInQueue: number = 0
 interface List {
   readonly name: string
@@ -83,7 +84,7 @@ function fetchItems(listName: string = "topstories") {
         if (settings.randomFetchingEnabled) {
           const idsGenerantedRandomly: number[] = []
           // TODO array.length may be less than maximumDisplayedItemsPerPage
-          for (let i = 0; i < settings.maximumDisplayedItemsPerPage; i++) {
+          for (let i = 0; i < settings.maximumDisplayedItemsPerPage.value; i++) {
             const idToPush = liveData[generateRandomInteger(liveData.length - 1)]
             if (idToPush === idsGenerantedRandomly[-1]) {
               i--
@@ -106,7 +107,7 @@ function fetchItems(listName: string = "topstories") {
 }
 function fetchItem(id: number) {
   itemsInQueue += 1
-  if (itemsInQueue > settings.maximumDisplayedItemsPerPage) {
+  if (itemsInQueue > settings.maximumDisplayedItemsPerPage.value) {
     return
   }
   promptForFetching.value = "Fetching item..."
@@ -162,7 +163,9 @@ fetchItems("maxitem")
         <!-- TODO convert to readable time-->
         <li>(Unix) time: {{ item.time }}</li>
         <li>type: {{ item.type }}</li>
-        <li v-if="settings.hidingVeryVeryLongLinkEnabled && !settings.isVeryVeryLongLink(item.url)">
+        <li
+          v-if="settings.hidingVeryVeryLongLinkEnabled && !settings.isExtremelyLongLink(item.url)"
+        >
           link: <a :href="item.url">{{ item.url }}</a>
         </li>
       </ul>
