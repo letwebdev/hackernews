@@ -41,7 +41,6 @@ const lists = ref<Lists>([
   { name: "updates", description: "Changed Items and Profiles" },
 ])
 const items = ref<Items>([])
-const fetchedItems = ref<Items>([])
 const selected = ref([{ name: "topstories", description: "Top stories" }])
 function fetchSelectedLists() {
   promptForFetching.value = "Fetching selected lists..."
@@ -128,8 +127,9 @@ function fetchItem(id: number) {
     .catch((error) => console.error(`Error fetching data: ${error.message}`))
 }
 function refresh() {
+  // Clear count
   itemsInQueue = 0
-  fetchedItems.value = fetchedItems.value.concat(items.value)
+  // Clear displayed items
   items.value = []
   fetchSelectedLists()
 }
@@ -144,7 +144,7 @@ fetchItems("maxitem")
       <select
         v-model="selected"
         multiple
-        v-on:change="settings.fetchingListsAfterSelection.enabled && fetchSelectedLists()"
+        v-on:change="settings.fetchingListsAfterSelection.value && refresh()"
         class="selectedLists"
       >
         <option
