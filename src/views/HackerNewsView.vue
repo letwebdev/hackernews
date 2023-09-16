@@ -161,7 +161,8 @@ fetchItems("maxitem")
           {{ list.description }}
         </option>
       </select>
-      <button @click="refresh" class="refresh">refresh</button>
+      <button @click="fetchMore" class="fetchMore">Fetch more</button>
+      <button @click="refresh" class="refresh">Refresh</button>
     </section>
     <div>
       {{ promptForFetching }}
