@@ -7,7 +7,7 @@ export const useSettingsStore = defineStore("settings", () => {
       description: "Number of items fetched each time",
       value: 20,
     }
-    // TODO
+    // TODO multi-pages
     maximumDisplayedItemsPerPage = {
       description: "Maximum displayed items per page",
       value: 20,

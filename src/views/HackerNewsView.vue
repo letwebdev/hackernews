@@ -74,6 +74,7 @@ function fetchItems(listName: string = "topstories") {
     })
     .then((liveData: number | number[] | object) => {
       console.log("Type of liveData is " + typeof liveData)
+      // TODO split to function extract id of item to fetch from live data
       if (typeof liveData === "number") {
         console.log("Live data is currently largest item id: " + liveData)
         const maxItemId: number = liveData
@@ -106,6 +107,7 @@ function fetchItems(listName: string = "topstories") {
         itemIds.forEach((itemId) => {
           fetchItem(itemId)
         })
+        // TODO After all promises finished
         promptForFetching.value = ""
       } else {
         console.log("Unknwon live data type")
@@ -139,7 +141,6 @@ function refresh() {
   items.value = []
   fetchMore()
 }
-// TODO Multi-pages
 fetchItems("maxitem")
 </script>
 
