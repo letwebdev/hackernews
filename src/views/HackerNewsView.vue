@@ -13,7 +13,6 @@ interface List {
   readonly description: string
 }
 type Lists = List[]
-type LiveData = number | number[] | object
 interface Item {
   readonly by: string
   readonly id: number
@@ -72,46 +71,40 @@ function fetchItems(listName: string = "topstories") {
         throw new Error(`HTTP error: ${response.status}`)
       }
     })
-    .then((liveData: LiveData) => {
+    .then((liveData: number | number[] | object) => {
       console.log("Type of liveData is " + typeof liveData)
-      switch (true) {
-        case typeof liveData === "number": {
-          console.log("Live data is currently largest item id: " + liveData)
-          const maxItemId: number = liveData
-          const randomItemId = generateRandomInteger(maxItemId)
-          fetchItem(randomItemId)
-          break
-        }
-        case Array.isArray(liveData): {
-          console.log("Live data is an array ")
-          let itemIds: number[]
-          if (settings.fetchingRandomly.enabled) {
-            const idsGenerantedRandomly: number[] = []
-            // TODO array.length may be less than maximumDisplayedItemsPerPage
-            for (let i = 0; i < settings.maximumDisplayedItemsPerPage.value; i++) {
-              const randomArrayIndex = generateRandomInteger(liveData.length - 1)
-              const idToPush = liveData[randomArrayIndex]
-              // Prevent duplicate id
-              if (idToPush === idsGenerantedRandomly[-1]) {
-                i--
-                continue
-              } else {
-                idsGenerantedRandomly.push(idToPush)
-              }
+      if (typeof liveData === "number") {
+        console.log("Live data is currently largest item id: " + liveData)
+        const maxItemId: number = liveData
+        const randomItemId = generateRandomInteger(maxItemId)
+        fetchItem(randomItemId)
+      } else if (Array.isArray(liveData)) {
+        console.log("Live data is an array ")
+        let itemIds: number[]
+        if (settings.fetchingRandomly.enabled) {
+          const idsGenerantedRandomly: number[] = []
+          // TODO array.length may be less than maximumDisplayedItemsPerPage
+          for (let i = 0; i < settings.maximumDisplayedItemsPerPage.value; i++) {
+            const randomArrayIndex = generateRandomInteger(liveData.length - 1)
+            const idToPush = liveData[randomArrayIndex]
+            // Prevent duplicate id
+            if (idToPush === idsGenerantedRandomly[-1]) {
+              i--
+              continue
+            } else {
+              idsGenerantedRandomly.push(idToPush)
             }
-            itemIds = [...idsGenerantedRandomly]
-          } else {
-            itemIds = [...liveData]
           }
-          itemIds.forEach((itemId) => {
-            fetchItem(itemId)
-          })
-          promptForFetching.value = ""
-          break
+          itemIds = [...idsGenerantedRandomly]
+        } else {
+          itemIds = [...liveData]
         }
-        default: {
-          console.log("Unknwon live data type")
-        }
+        itemIds.forEach((itemId) => {
+          fetchItem(itemId)
+        })
+        promptForFetching.value = ""
+      } else {
+        console.log("Unknwon live data type")
       }
     })
     .catch((error) => console.error(`Error fetching data: ${error.message}`))
