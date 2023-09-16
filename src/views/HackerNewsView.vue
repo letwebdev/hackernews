@@ -1,8 +1,13 @@
 <script setup lang="ts">
 "use strict"
-import settings from "./SettingsView.vue"
-import { reactive, ref } from "vue"
-let itemsInQueue: number = 0
+import { ref } from "vue"
+import { useSettingsStore } from "@/stores/settings"
+const settings = useSettingsStore().settings
+
+function generateRandomInteger(max: number, min = 1): number {
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
 interface List {
   readonly name: string
   readonly description: string
@@ -15,30 +20,36 @@ interface Item {
   readonly score: number
   readonly text: string
   readonly time: number
+  readableTime: string
   readonly type: string
   readonly url: string
   readonly title: string
   // TODO Solve dead item
 }
 type Items = Item[]
+
 const promptForFetching = ref<string>()
 const lists = ref<Lists>([
-  // Current largest item id
   { name: "topstories", description: "Top stories" },
   { name: "newstories", description: "New stories" },
   { name: "beststories", description: "Best stories" },
   { name: "askstories", description: "Ask stories" },
   { name: "showstories", description: "Show stories" },
   { name: "jobstories", description: "Job stories" },
+  // Current largest item id
   { name: "maxitem", description: "any" },
   // TODO Add function snippets to fetch following list
   { name: "updates", description: "Changed Items and Profiles" },
 ])
 const items = ref<Items>([])
-const fetechedItems = ref<Items>([])
 const selected = ref([{ name: "topstories", description: "Top stories" }])
-function generateRandomInteger(max: number, min = 1): number {
-  return Math.floor(Math.random() * (max - min + 1)) + min
+function fetchSelectedLists() {
+  promptForFetching.value = "Fetching selected lists..."
+  const names: string[] = []
+  selected.value.forEach((list) => {
+    names.push(list.name)
+  })
+  fetchLists(names)
 }
 function fetchLists(names: string[]) {
   names.forEach((name: string) => {
@@ -48,33 +59,39 @@ function fetchLists(names: string[]) {
 function fetchList(name: string) {
   fetchItems(name)
 }
-
 const baseURL: URL = new URL("https://hacker-news.firebaseio.com/v0")
 function fetchItems(listName: string = "topstories") {
   const listURL: URL = new URL(`${baseURL}/${listName}.json?print=pretty`)
   console.log("List URL is " + listURL)
   fetch(`${listURL}`)
     .then((response) => {
-      if (!response.ok) {
+      if (response.ok) {
+        return response.json()
+      } else {
         throw new Error(`HTTP error: ${response.status}`)
       }
-      return response.json()
     })
     .then((liveData: number | number[] | object) => {
-      console.log("type of liveData is " + typeof liveData)
+      console.log("Type of liveData is " + typeof liveData)
       if (typeof liveData === "number") {
-        console.log("live data is current largest item id: " + liveData)
+        console.log("Live data is currently largest item id: " + liveData)
         const maxItemId: number = liveData
         const randomItemId = generateRandomInteger(maxItemId)
         fetchItem(randomItemId)
       } else if (Array.isArray(liveData)) {
-        console.log("live data is an array ")
+        console.log("Live data is an array ")
         let itemIds: number[]
-        if (settings.randomFetchingEnabled) {
+        if (settings.fetchingRandomly.enabled) {
           const idsGenerantedRandomly: number[] = []
-          // TODO array.length may be less than maximumDisplayedItemsPerPage
-          for (let i = 0; i < settings.maximumDisplayedItemsPerPage; i++) {
-            const idToPush = liveData[generateRandomInteger(liveData.length - 1)]
+          // liveData.length may be less than maximumDisplayedItemsPerPage
+          const maxmiumFetchedItems = Math.min(
+            liveData.length,
+            settings.maximumDisplayedItemsPerPage.value
+          )
+          for (let i = 0; i < maxmiumFetchedItems; i++) {
+            const randomArrayIndex = generateRandomInteger(liveData.length - 1)
+            const idToPush = liveData[randomArrayIndex]
+            // Prevent duplicate id
             if (idToPush === idsGenerantedRandomly[-1]) {
               i--
               continue
@@ -88,44 +105,40 @@ function fetchItems(listName: string = "topstories") {
         itemIds.forEach((itemId) => {
           fetchItem(itemId)
         })
+        promptForFetching.value = ""
       } else {
         console.log("Unknwon live data type")
       }
     })
     .catch((error) => console.error(`Error fetching data: ${error.message}`))
 }
+let itemsInQueue: number = 0
 function fetchItem(id: number) {
   itemsInQueue += 1
-  if (itemsInQueue > settings.maximumDisplayedItemsPerPage) {
+  if (itemsInQueue > settings.maximumDisplayedItemsPerPage.value) {
     return
   }
-  promptForFetching.value = "Fetching item..."
   const itemURL: URL = new URL(`${baseURL}/item/${id}.json?print=pretty`)
   fetch(itemURL)
     .then((response) => response.json())
     .then((item: Item) => {
-      console.log(item)
+      const readableTime = new Date(item.time * 1000)
+      item.readableTime = `${readableTime.getFullYear()}-${readableTime.getMonth()}-${readableTime.getDate()} ${readableTime.getHours()}:${readableTime.getMinutes()}`
       items.value.push(item)
-      promptForFetching.value = ""
     })
     .catch((error) => console.error(`Error fetching data: ${error.message}`))
 }
-function fetchSelectedLists() {
-  /* const listToFetch = generateRandomInteger(selected.value.length) - 1 */
-  /* fetchLists(selected.value[listToFetch].name) */
-  const names: string[] = []
-  selected.value.forEach((list) => {
-    names.push(list.name)
-  })
-  fetchLists(names)
-  // TODO Add a toggle to refresh automatically after selecting
-}
-function refresh() {
+function fetchMore() {
+  // Clear count
   itemsInQueue = 0
-  fetechedItems.value = fetechedItems.value.concat(items.value)
-  items.value = []
   fetchSelectedLists()
 }
+function refresh() {
+  // Clear displayed items
+  items.value = []
+  fetchMore()
+}
+// TODO Multi-pages
 fetchItems("maxitem")
 </script>
 
@@ -137,7 +150,7 @@ fetchItems("maxitem")
       <select
         v-model="selected"
         multiple
-        v-on:change="settings.fetchingListsAfterSelectionEnabled && fetchSelectedLists"
+        v-on:change="settings.fetchingListsAfterSelection.value && fetchMore()"
         class="selectedLists"
       >
         <option
@@ -148,7 +161,8 @@ fetchItems("maxitem")
           {{ list.description }}
         </option>
       </select>
-      <button @click="refresh" class="refresh">refresh</button>
+      <button @click="fetchMore" class="fetchMore">Fetch more</button>
+      <button @click="refresh" class="refresh">Refresh</button>
     </section>
     <div>
       {{ promptForFetching }}
@@ -160,9 +174,9 @@ fetchItems("maxitem")
       <ul>
         <p v-html="item.text"></p>
         <!-- TODO convert to readable time-->
-        <li>(Unix) time: {{ item.time }}</li>
+        <li>time: {{ item.readableTime }}</li>
         <li>type: {{ item.type }}</li>
-        <li v-if="settings.hidingVeryVeryLongLinkEnabled && !settings.isVeryVeryLongLink(item.url)">
+        <li v-if="item.url && settings.maximumLinkLengthToDisplay.value > item.url.length">
           link: <a :href="item.url">{{ item.url }}</a>
         </li>
       </ul>
