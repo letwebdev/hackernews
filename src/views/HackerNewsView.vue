@@ -1,6 +1,7 @@
 <script setup lang="ts">
 "use strict"
 import { ref } from "vue"
+import SettingItems from "@/components/SettingItems.vue"
 import { useSettingsStore } from "@/stores/settings"
 const settings = useSettingsStore().settings
 
@@ -164,6 +165,7 @@ fetchItems("maxitem")
       <button @click="fetchMore" class="fetchMore">Fetch more</button>
       <button @click="refresh" class="refresh">Refresh</button>
     </section>
+    <SettingItems />
     <div>
       {{ promptForFetching }}
     </div>

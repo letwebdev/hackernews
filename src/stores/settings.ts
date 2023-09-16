@@ -3,6 +3,7 @@ import { ref } from "vue"
 export const useSettingsStore = defineStore("settings", () => {
   // TODO Local storage
   class Settings {
+    // This is in effect number of items fetched per clicking now
     maximumDisplayedItemsPerPage = {
       description: "Maximum displayed items per page",
       value: 20,
@@ -41,6 +42,7 @@ export const useSettingsStore = defineStore("settings", () => {
         this.value = !this.value
       },
     }
+    // TODO
     history = {
       description: "Recording history",
       value: false,
