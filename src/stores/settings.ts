@@ -1,6 +1,7 @@
 import { defineStore } from "pinia"
-import { reactive, ref } from "vue"
+import { ref } from "vue"
 export const useSettingsStore = defineStore("settings", () => {
+  // TODO Local storage
   class Settings {
     maximumDisplayedItemsPerPage = {
       description: "Maximum displayed items per page",
@@ -10,32 +11,56 @@ export const useSettingsStore = defineStore("settings", () => {
       description: "Maximum link length to display",
       value: 200,
     }
-    fetchingListsAfterSelectionEnabled = {
+    fetchingListsAfterSelection = {
       description: "Fetching lists after selection",
       value: false,
+      get enabled() {
+        return this.value
+      },
+      toggle() {
+        this.value = !this.value
+      },
     }
-    randomFetchingEnabled = {
+    fetchingRandomly = {
       description: "Fetching randomly",
       value: false,
+      get enabled() {
+        return this.value
+      },
+      toggle() {
+        this.value = !this.value
+      },
     }
-    hidingVeryVeryLongLinkEnabled = {
+    hidingExtremelyLongLink = {
       description: "Hiding extemely long link",
       value: true,
+      get enabled() {
+        return this.value
+      },
+      toggle() {
+        this.value = !this.value
+      },
+      limit: 200,
     }
-    disPlayItemTextEnabled = {
+    displayingItemText = {
       description: "Displaying the text part of an item(if any)",
       value: true,
+      get enabled() {
+        return this.value
+      },
+      toggle() {
+        this.value = !this.value
+      },
     }
-    historyEnabled = {
+    history = {
       description: "Recording history",
       value: false,
-    }
-    private isExtremelyLongLink(link: string) {
-      if (link) {
-        return link.length > this.maximumLinkLengthToDisplay.value
-      } else {
-        return true
-      }
+      get enabled() {
+        return this.value
+      },
+      toggle() {
+        this.value = !this.value
+      },
     }
   }
 

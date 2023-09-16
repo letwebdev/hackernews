@@ -1,6 +1,6 @@
 <script setup lang="ts">
 "use strict"
-import { reactive, ref } from "vue"
+import { ref } from "vue"
 import { useSettingsStore } from "@/stores/settings"
 const settings = useSettingsStore().settings
 let itemsInQueue: number = 0
@@ -81,7 +81,7 @@ function fetchItems(listName: string = "topstories") {
       } else if (Array.isArray(liveData)) {
         console.log("live data is an array ")
         let itemIds: number[]
-        if (settings.randomFetchingEnabled) {
+        if (settings.fetchingRandomly.enabled) {
           const idsGenerantedRandomly: number[] = []
           // TODO array.length may be less than maximumDisplayedItemsPerPage
           for (let i = 0; i < settings.maximumDisplayedItemsPerPage.value; i++) {
@@ -138,7 +138,7 @@ fetchItems("maxitem")
       <select
         v-model="selected"
         multiple
-        v-on:change="settings.fetchingListsAfterSelectionEnabled && fetchSelectedLists"
+        v-on:change="settings.fetchingListsAfterSelection && fetchSelectedLists"
         class="selectedLists"
       >
         <option
@@ -164,7 +164,10 @@ fetchItems("maxitem")
         <li>(Unix) time: {{ item.time }}</li>
         <li>type: {{ item.type }}</li>
         <li
-          v-if="settings.hidingVeryVeryLongLinkEnabled && !settings.isExtremelyLongLink(item.url)"
+          v-if="
+            settings.hidingExtremelyLongLink.enabled &&
+            settings.hidingExtremelyLongLink.limit > item.url.length
+          "
         >
           link: <a :href="item.url">{{ item.url }}</a>
         </li>

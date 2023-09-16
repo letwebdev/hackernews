@@ -1,6 +1,5 @@
 <script setup lang="ts">
 "use strict"
-import { ref, reactive } from "vue"
 import { useSettingsStore } from "@/stores/settings"
 const settings = useSettingsStore().settings
 const reset = useSettingsStore().reset
