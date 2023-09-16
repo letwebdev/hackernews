@@ -133,6 +133,7 @@ function refresh() {
   items.value = []
   fetchSelectedLists()
 }
+// TODO Multi-pages
 fetchItems("maxitem")
 </script>
 
@@ -169,12 +170,7 @@ fetchItems("maxitem")
         <!-- TODO convert to readable time-->
         <li>(Unix) time: {{ item.time }}</li>
         <li>type: {{ item.type }}</li>
-        <li
-          v-if="
-            settings.hidingExtremelyLongLink.enabled &&
-            settings.hidingExtremelyLongLink.limit > item.url.length
-          "
-        >
+        <li v-if="settings.maximumLinkLengthToDisplay.value > item.url.length">
           link: <a :href="item.url">{{ item.url }}</a>
         </li>
       </ul>

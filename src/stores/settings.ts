@@ -31,17 +31,6 @@ export const useSettingsStore = defineStore("settings", () => {
         this.value = !this.value
       },
     }
-    hidingExtremelyLongLink = {
-      description: "Hiding extemely long link",
-      value: true,
-      get enabled() {
-        return this.value
-      },
-      toggle() {
-        this.value = !this.value
-      },
-      limit: 200,
-    }
     displayingItemText = {
       description: "Displaying the text part of an item(if any)",
       value: true,

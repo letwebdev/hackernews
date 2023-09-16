@@ -16,7 +16,7 @@ const reset = useSettingsStore().reset
           >
             {{ properties.value }}
           </button>
-          <input v-model="properties.value" type="number" v-else />
+          <input v-else v-model="properties.value" type="number" />
         </li>
       </template>
       <button @click="reset">reset</button>
