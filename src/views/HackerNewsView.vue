@@ -20,6 +20,7 @@ interface Item {
   readonly score: number
   readonly text: string
   readonly time: number
+  readableTime: string
   readonly type: string
   readonly url: string
   readonly title: string
@@ -121,7 +122,8 @@ function fetchItem(id: number) {
   fetch(itemURL)
     .then((response) => response.json())
     .then((item: Item) => {
-      console.log(item)
+      const readableTime = new Date(item.time * 1000)
+      item.readableTime = `${readableTime.getFullYear()}-${readableTime.getMonth()}-${readableTime.getDate()} ${readableTime.getHours()}:${readableTime.getMinutes()}`
       items.value.push(item)
     })
     .catch((error) => console.error(`Error fetching data: ${error.message}`))
@@ -171,7 +173,7 @@ fetchItems("maxitem")
       <ul>
         <p v-html="item.text"></p>
         <!-- TODO convert to readable time-->
-        <li>(Unix) time: {{ item.time }}</li>
+        <li>time: {{ item.readableTime }}</li>
         <li>type: {{ item.type }}</li>
         <li v-if="item.url && settings.maximumLinkLengthToDisplay.value > item.url.length">
           link: <a :href="item.url">{{ item.url }}</a>
