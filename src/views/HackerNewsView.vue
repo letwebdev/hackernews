@@ -78,8 +78,8 @@ function fetchList(name: string) {
   fetchItems(name)
 }
 async function fetchItems(listName: string = "topstories") {
-  const liveData = await fetchLiveData(listName)
-  const itemIds = getItemIds(liveData)
+  const liveDataToFetch = await fetchLiveData(listName)
+  const itemIds = getItemIds(liveDataToFetch)
   itemIds.forEach((itemId: number) => {
     fetchItem(itemId)
     // TODO After all promises finished
@@ -148,7 +148,7 @@ function refresh() {
   fetchMore()
 }
 // Prefetch live data
-lists.value.map((list) => {
+lists.value.forEach((list) => {
   const liveData = fetchLiveData(list.name)
   liveDataSet.push(liveData)
 })
