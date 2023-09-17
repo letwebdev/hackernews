@@ -183,8 +183,7 @@ fetchItems("maxitem")
         <h2 v-html="item.title" class="itemTitle"></h2>
       </a>
       <ul>
-        <p v-html="item.text"></p>
-        <!-- TODO convert to readable time-->
+        <p v-show="settings.displayingItemText.enabled" v-html="item.text"></p>
         <li>time: {{ item.readableTime }}</li>
         <li>type: {{ item.type }}</li>
         <li v-if="item.url && settings.maximumLinkLengthToDisplay.value > item.url.length">
