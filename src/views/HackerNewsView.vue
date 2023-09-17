@@ -181,11 +181,11 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
       liveDataSet.push(elementOfLiveDataSet)
     })
   ).then(() => {
+    /* console.log(liveDataSet) */
+    // Fetch once
     fetchList("maxitem").then(async () => {
       await fetchList("topstories")
     })
-    /* console.log(liveDataSet) */
-    // Fetch once
   })
 })()
 </script>
