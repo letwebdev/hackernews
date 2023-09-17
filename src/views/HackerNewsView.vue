@@ -77,25 +77,13 @@ function fetchList(name: string) {
 }
 const baseURL: URL = new URL("https://hacker-news.firebaseio.com/v0")
 function fetchItems(listName: string = "topstories") {
-  const listURL: URL = new URL(`${baseURL}/${listName}.json?print=pretty`)
-  console.log("List URL is " + listURL)
-  fetch(`${listURL}`)
-    .then((response) => {
-      if (response.ok) {
-        return response.json()
-      } else {
-        throw new Error(`HTTP error: ${response.status}`)
-      }
-    })
-    .then((items: LiveData) => {
-      const itemIds = getItemIds(items)
-      itemIds.forEach((itemId: number) => {
-        fetchItem(itemId)
-        // TODO After all promises finished
-        promptForFetching.value = ""
-      })
-    })
-    .catch((error) => console.error(`Error fetching data: ${error.message}`))
+  const items = fetchLiveData(listName)
+  const itemIds = getItemIds(items)
+  itemIds.forEach((itemId: number) => {
+    fetchItem(itemId)
+    // TODO After all promises finished
+    promptForFetching.value = ""
+  })
 }
 function getItemIds(liveData: LiveData): number[] {
   /* console.log(liveData) */
