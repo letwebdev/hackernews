@@ -73,17 +73,18 @@ function fetchSelectedLists() {
   })
   fetchLists(names)
 }
-function fetchLists(names: string[]) {
-  names.forEach((name: string) => {
-    fetchList(name)
+function fetchLists(listNames: string[]) {
+  listNames.forEach((listName: string) => {
+    fetchList(listName)
   })
 }
-function fetchList(name: string) {
-  fetchItems(name)
-}
-async function fetchItems(listName: string = "topstories") {
-  // TODO
-  const liveDataToFetch = await fetchLiveData(listName)
+async function fetchList(listName: string = "topstories") {
+  let liveDataToFetch
+  for (const element of liveDataSet) {
+    if (element.listName === listName) {
+      liveDataToFetch = element.liveData
+      break
+  }
   const itemIds = getItemIds(liveDataToFetch)
   itemIds.forEach((itemId: number) => {
     fetchItem(itemId)
@@ -159,11 +160,10 @@ lists.value.forEach(async (list) => {
     listName: list.name,
     liveData: liveData,
   }
-  /* console.log(elementOfLiveDataSet) */
   liveDataSet.push(elementOfLiveDataSet)
 })
 
-fetchItems("maxitem")
+fetchList("maxitem")
 </script>
 
 <template>
