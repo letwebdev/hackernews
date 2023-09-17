@@ -8,6 +8,20 @@ const settings = useSettingsStore().settings
 function generateRandomInteger(max: number, min = 1): number {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
+function shuffle(array: any[]) {
+  /* Fisher–Yates shuffle */
+  let currentIndex = array.length
+  let randomIndex: number
+  // While there remain elements to shuffle.
+  while (currentIndex > 0) {
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex)
+    currentIndex--
+    // And swap it with the current element.
+    ;[array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]]
+  }
+  return array
+}
 
 interface List {
   readonly name: string
@@ -86,33 +100,17 @@ function fetchItems(listName: string = "topstories") {
     .catch((error) => console.error(`Error fetching data: ${error.message}`))
 }
 function getItemIds(liveData: LiveData): number[] {
+  /* console.log(liveData) */
   if (typeof liveData === "number") {
     console.log("Live data is currently largest item id: " + liveData)
     const maxItemId: number = liveData
     const randomItemId = [generateRandomInteger(maxItemId)]
-    /* fetchItem(randomItemId) */
     return randomItemId
   } else if (Array.isArray(liveData)) {
     console.log("Live data is an array ")
     let itemIds: number[]
     if (settings.fetchingRandomly.enabled) {
-      const idsGenerantedRandomly: number[] = []
-      // liveData.length may be less than numberOfItemsFetchedEachTime
-      const maxmiumFetchedItems = Math.min(
-        liveData.length,
-        settings.numberOfItemsFetchedEachTime.value
-      )
-      for (let i = 0; i < maxmiumFetchedItems; i++) {
-        const randomArrayIndex = generateRandomInteger(liveData.length - 1)
-        const idToPush = liveData[randomArrayIndex]
-        // Prevent duplicate id
-        if (idToPush === idsGenerantedRandomly[-1]) {
-          i--
-          continue
-        }
-        idsGenerantedRandomly.push(idToPush)
-      }
-      itemIds = [...idsGenerantedRandomly]
+      itemIds = shuffle(liveData)
     } else {
       itemIds = [...liveData]
     }
