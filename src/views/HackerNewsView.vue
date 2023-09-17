@@ -181,6 +181,7 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
   /* console.log(liveDataSet) */
   // Fetch once
   fetchList("maxitem")
+  fetchList("topstories")
 })()
 </script>
 

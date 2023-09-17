@@ -1,5 +1,9 @@
 # Hacker News 
 
+## known bugs
+
+- fetchList() called imme after "prefetching live data" failed
+
 ## Customize configuration
 
 See [Vite Configuration Reference](https://vitejs.dev/config/).
