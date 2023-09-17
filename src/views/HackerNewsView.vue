@@ -1,11 +1,26 @@
 <script setup lang="ts">
 "use strict"
 import { ref } from "vue"
+import SettingItems from "@/components/SettingItems.vue"
 import { useSettingsStore } from "@/stores/settings"
 const settings = useSettingsStore().settings
 
 function generateRandomInteger(max: number, min = 1): number {
   return Math.floor(Math.random() * (max - min + 1)) + min
+}
+function shuffle(array: any[]) {
+  /* Fisher–Yates shuffle */
+  let currentIndex = array.length
+  let randomIndex: number
+  // While there remain elements to shuffle.
+  while (currentIndex > 0) {
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex)
+    currentIndex--
+    // And swap it with the current element.
+    ;[array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]]
+  }
+  return array
 }
 
 interface List {
@@ -27,6 +42,7 @@ interface Item {
   // TODO Solve dead item
 }
 type Items = Item[]
+type LiveData = number | number[] | object
 
 const promptForFetching = ref<string>()
 const lists = ref<Lists>([
@@ -71,51 +87,44 @@ function fetchItems(listName: string = "topstories") {
         throw new Error(`HTTP error: ${response.status}`)
       }
     })
-    .then((liveData: number | number[] | object) => {
-      console.log("Type of liveData is " + typeof liveData)
-      if (typeof liveData === "number") {
-        console.log("Live data is currently largest item id: " + liveData)
-        const maxItemId: number = liveData
-        const randomItemId = generateRandomInteger(maxItemId)
-        fetchItem(randomItemId)
-      } else if (Array.isArray(liveData)) {
-        console.log("Live data is an array ")
-        let itemIds: number[]
-        if (settings.fetchingRandomly.enabled) {
-          const idsGenerantedRandomly: number[] = []
-          // liveData.length may be less than maximumDisplayedItemsPerPage
-          const maxmiumFetchedItems = Math.min(
-            liveData.length,
-            settings.maximumDisplayedItemsPerPage.value
-          )
-          for (let i = 0; i < maxmiumFetchedItems; i++) {
-            const randomArrayIndex = generateRandomInteger(liveData.length - 1)
-            const idToPush = liveData[randomArrayIndex]
-            // Prevent duplicate id
-            if (idToPush === idsGenerantedRandomly[-1]) {
-              i--
-              continue
-            }
-            idsGenerantedRandomly.push(idToPush)
-          }
-          itemIds = [...idsGenerantedRandomly]
-        } else {
-          itemIds = [...liveData]
-        }
-        itemIds.forEach((itemId) => {
-          fetchItem(itemId)
-        })
-        promptForFetching.value = ""
-      } else {
-        console.log("Unknwon live data type")
-      }
+    .then((liveData: LiveData) => {
+      return getItemIds(liveData)
+    })
+    .then((itemIds: number[]) => {
+      itemIds.forEach((itemId: number) => {
+        fetchItem(itemId)
+      })
+      // TODO After all promises finished
+      promptForFetching.value = ""
     })
     .catch((error) => console.error(`Error fetching data: ${error.message}`))
+}
+function getItemIds(liveData: LiveData): number[] {
+  /* console.log(liveData) */
+  if (typeof liveData === "number") {
+    console.log("Live data is currently largest item id: " + liveData)
+    const maxItemId: number = liveData
+    const randomItemId = [generateRandomInteger(maxItemId)]
+    return randomItemId
+  } else if (Array.isArray(liveData)) {
+    console.log("Live data is an array ")
+    let itemIds: number[]
+    if (settings.fetchingRandomly.enabled) {
+      itemIds = shuffle(liveData)
+    } else {
+      itemIds = [...liveData]
+    }
+    return itemIds
+  } else {
+    console.log("Unknwon live data type")
+    // TODO see :43
+    return [1]
+  }
 }
 let itemsInQueue: number = 0
 function fetchItem(id: number) {
   itemsInQueue += 1
-  if (itemsInQueue > settings.maximumDisplayedItemsPerPage.value) {
+  if (itemsInQueue > settings.numberOfItemsFetchedEachTime.value) {
     return
   }
   const itemURL: URL = new URL(`${baseURL}/item/${id}.json?print=pretty`)
@@ -123,7 +132,9 @@ function fetchItem(id: number) {
     .then((response) => response.json())
     .then((item: Item) => {
       const readableTime = new Date(item.time * 1000)
-      item.readableTime = `${readableTime.getFullYear()}-${readableTime.getMonth()}-${readableTime.getDate()} ${readableTime.getHours()}:${readableTime.getMinutes()}`
+      item.readableTime = `${readableTime.getFullYear()}-${
+        readableTime.getMonth() + 1
+      }-${readableTime.getDate()} ${readableTime.getHours()}:${readableTime.getMinutes()}`
       items.value.push(item)
     })
     .catch((error) => console.error(`Error fetching data: ${error.message}`))
@@ -138,7 +149,6 @@ function refresh() {
   items.value = []
   fetchMore()
 }
-// TODO Multi-pages
 fetchItems("maxitem")
 </script>
 
@@ -164,6 +174,7 @@ fetchItems("maxitem")
       <button @click="fetchMore" class="fetchMore">Fetch more</button>
       <button @click="refresh" class="refresh">Refresh</button>
     </section>
+    <SettingItems />
     <div>
       {{ promptForFetching }}
     </div>
@@ -172,8 +183,7 @@ fetchItems("maxitem")
         <h2 v-html="item.title" class="itemTitle"></h2>
       </a>
       <ul>
-        <p v-html="item.text"></p>
-        <!-- TODO convert to readable time-->
+        <p v-show="settings.displayingItemText.enabled" v-html="item.text"></p>
         <li>time: {{ item.readableTime }}</li>
         <li>type: {{ item.type }}</li>
         <li v-if="item.url && settings.maximumLinkLengthToDisplay.value > item.url.length">
