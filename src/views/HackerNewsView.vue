@@ -43,7 +43,11 @@ interface Item {
 }
 type Items = Item[]
 type LiveData = number | number[] | object | undefined
-type LiveDataSet = LiveData[]
+interface ElementOfLiveDataSet {
+  listName: string
+  liveData: LiveData
+}
+type LiveDataSet = ElementOfLiveDataSet[]
 
 const promptForFetching = ref<string>()
 const lists = ref<Lists>([
@@ -150,7 +154,11 @@ function refresh() {
 // Prefetch live data
 lists.value.forEach((list) => {
   const liveData = fetchLiveData(list.name)
-  liveDataSet.push(liveData)
+  const elementOfLiveDataSet = {
+    listName: list.name,
+    liveData: liveData,
+  }
+  liveDataSet.push(elementOfLiveDataSet)
 })
 /* console.log(liveDataSet) */
 
