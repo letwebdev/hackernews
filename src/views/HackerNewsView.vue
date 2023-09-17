@@ -75,15 +75,25 @@ function fetchLists(names: string[]) {
 function fetchList(name: string) {
   fetchItems(name)
 }
-const baseURL: URL = new URL("https://hacker-news.firebaseio.com/v0")
 async function fetchItems(listName: string = "topstories") {
-  const items = await fetchLiveData(listName)
-  const itemIds = getItemIds(items)
+  const liveData = await fetchLiveData(listName)
+  const itemIds = getItemIds(liveData)
   itemIds.forEach((itemId: number) => {
     fetchItem(itemId)
     // TODO After all promises finished
     promptForFetching.value = ""
   })
+}
+const baseURL: URL = new URL("https://hacker-news.firebaseio.com/v0")
+async function fetchLiveData(listName: string = "topstories"): Promise<LiveData> {
+  try {
+    const listURL: URL = new URL(`${baseURL}/${listName}.json?print=pretty`)
+    const response = await fetch(listURL)
+    const liveData: LiveData = await response.json()
+    return liveData
+  } catch (error: any) {
+    console.log(`Error: ${error.message}`)
+  }
 }
 function getItemIds(liveData: LiveData): number[] {
   console.log(liveData)
@@ -137,16 +147,6 @@ function refresh() {
 }
 fetchItems("maxitem")
 
-async function fetchLiveData(listName: string = "topstories"): Promise<LiveData> {
-  try {
-    const listURL: URL = new URL(`${baseURL}/${listName}.json?print=pretty`)
-    const response = await fetch(listURL)
-    const liveData: LiveData = await response.json()
-    return liveData
-  } catch (error: any) {
-    console.log(`Error: ${error.message}`)
-  }
-}
 // Prefetch live data
 const liveDataSet: LiveData[] = []
 lists.value.map((list) => {
