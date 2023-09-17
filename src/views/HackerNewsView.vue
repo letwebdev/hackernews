@@ -84,6 +84,7 @@ async function fetchList(listName: string = "topstories") {
     if (element.listName === listName) {
       liveDataToFetch = element.liveData
       break
+    }
   }
   const itemIds = getItemIds(liveDataToFetch)
   itemIds.forEach((itemId: number) => {
@@ -162,7 +163,6 @@ lists.value.forEach(async (list) => {
   }
   liveDataSet.push(elementOfLiveDataSet)
 })
-
 fetchList("maxitem")
 </script>
 
