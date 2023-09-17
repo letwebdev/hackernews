@@ -148,13 +148,17 @@ function refresh() {
   fetchMore()
 }
 fetchItems("maxitem")
-async function fetchLiveData(listName: string = "topstories"): Promise<LiveData> {
-  const listURL: URL = new URL(`${baseURL}/${listName}.json?print=pretty`)
-  const response = await fetch(listURL)
-  const liveData: LiveData = await response.json()
-  return liveData
-}
 
+async function fetchLiveData(listName: string = "topstories"): Promise<LiveData | undefined> {
+  try {
+    const listURL: URL = new URL(`${baseURL}/${listName}.json?print=pretty`)
+    const response = await fetch(listURL)
+    const liveData: LiveData = await response.json()
+    return liveData
+  } catch (error: any) {
+    console.log(`Error: ${error.message}`)
+  }
+}
 // Prefetch live data
 const liveDataSet: LiveData[] = []
 lists.value.map((list) => {
