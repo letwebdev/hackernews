@@ -102,6 +102,7 @@ function getItemIds(liveData: LiveData): number[] {
     console.log("Live data is currently largest item id: " + liveData)
     const maxItemId: number = liveData
     const randomItemId = [generateRandomInteger(maxItemId)]
+    console.log("Fetch the random id: " + randomItemId)
     return randomItemId
   } else if (Array.isArray(liveData)) {
     console.log("Live data is an array ")
@@ -170,18 +171,22 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
 }
 ;(async () => {
   // Prefetch live data
-  lists.value.forEach(async (list) => {
-    const liveData = await fetchLiveData(list.name)
-    const elementOfLiveDataSet = {
-      listName: list.name,
-      liveData: liveData,
-    }
-    liveDataSet.push(elementOfLiveDataSet)
+  await Promise.all(
+    lists.value.map(async (list) => {
+      const liveData = await fetchLiveData(list.name)
+      const elementOfLiveDataSet = {
+        listName: list.name,
+        liveData: liveData,
+      }
+      liveDataSet.push(elementOfLiveDataSet)
+    })
+  ).then(() => {
+    fetchList("maxitem").then(async () => {
+      await fetchList("topstories")
+    })
+    /* console.log(liveDataSet) */
+    // Fetch once
   })
-  /* console.log(liveDataSet) */
-  // Fetch once
-  fetchList("maxitem")
-  fetchList("topstories")
 })()
 </script>
 
@@ -222,6 +227,7 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
         <li v-if="item.url && settings.maximumLinkLengthToDisplay.value > item.url.length">
           link: <a :href="item.url">{{ item.url }}</a>
         </li>
+        <li>id: {{ item.id }}</li>
       </ul>
     </article>
   </main>
