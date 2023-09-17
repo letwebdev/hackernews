@@ -32,6 +32,7 @@ type Lists = List[]
 interface Item {
   readonly by: string
   readonly id: number
+  discuss: URL
   readonly poll: number
   readonly score: number
   readonly text: string
@@ -137,6 +138,7 @@ function fetchItem(id: number) {
     return
   }
   const itemURL: URL = new URL(`${baseURL}/item/${id}.json?print=pretty`)
+  const discussURL: URL = new URL(`https://news.ycombinator.com/item?id=${id}`)
   fetch(itemURL)
     .then((response) => response.json())
     .then((item: Item) => {
@@ -144,6 +146,8 @@ function fetchItem(id: number) {
       item.readableTime = `${readableTime.getFullYear()}-${
         readableTime.getMonth() + 1
       }-${readableTime.getDate()} ${readableTime.getHours()}:${readableTime.getMinutes()}`
+      item.discuss = discussURL
+
       items.value.push(item)
     })
     .catch((error) => console.error(`Error fetching data: ${error.message}`))
@@ -228,6 +232,9 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
           link: <a :href="item.url">{{ item.url }}</a>
         </li>
         <li>id: {{ item.id }}</li>
+        <li>
+          discuss: <a :href="item.discuss.toString()">{{ item.discuss }}</a>
+        </li>
       </ul>
     </article>
   </main>
