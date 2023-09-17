@@ -184,11 +184,12 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
       }
       liveDataSet.push(elementOfLiveDataSet)
     })
-  ).then(() => {
+  ).then(async () => {
     /* console.log(liveDataSet) */
     // Fetch once
-    fetchList("maxitem").then(async () => {
-      await fetchList("topstories")
+    await fetchList("maxitem").then(() => {
+      // FIXME Doesn't wait until previous displayed
+      fetchList("topstories")
     })
   })
 })()
