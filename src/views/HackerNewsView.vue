@@ -79,13 +79,16 @@ function fetchLists(listNames: string[]) {
   })
 }
 async function fetchList(listName: string = "topstories") {
+  /* console.log(listName) */
   let liveDataToFetch
   for (const element of liveDataSet) {
+    /* console.log(element) */
     if (element.listName === listName) {
       liveDataToFetch = element.liveData
       break
     }
   }
+  /* console.log(liveDataToFetch) */
   const itemIds = getItemIds(liveDataToFetch)
   itemIds.forEach((itemId: number) => {
     fetchItem(itemId)
@@ -105,7 +108,7 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
   }
 }
 function getItemIds(liveData: LiveData): number[] {
-  console.log(liveData)
+  /* console.log(liveData) */
   if (typeof liveData === "number") {
     console.log("Live data is currently largest item id: " + liveData)
     const maxItemId: number = liveData
@@ -154,16 +157,20 @@ function refresh() {
   items.value = []
   fetchMore()
 }
-// Prefetch live data
-lists.value.forEach(async (list) => {
-  const liveData = await fetchLiveData(list.name)
-  const elementOfLiveDataSet = {
-    listName: list.name,
-    liveData: liveData,
-  }
-  liveDataSet.push(elementOfLiveDataSet)
-})
-fetchList("maxitem")
+;(async () => {
+  // Prefetch live data
+  lists.value.forEach(async (list) => {
+    const liveData = await fetchLiveData(list.name)
+    const elementOfLiveDataSet = {
+      listName: list.name,
+      liveData: liveData,
+    }
+    liveDataSet.push(elementOfLiveDataSet)
+  })
+  /* console.log(liveDataSet) */
+  // Fetch once
+  fetchList("maxitem")
+})()
 </script>
 
 <template>
