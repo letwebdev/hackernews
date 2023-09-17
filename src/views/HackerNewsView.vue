@@ -8,8 +8,9 @@ const settings = useSettingsStore().settings
 function generateRandomInteger(max: number, min = 1): number {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
-function shuffle(array: any[]) {
+function shuffle(arrayToShuffle: any[]): any[] {
   /* Fisher–Yates shuffle */
+  const array = arrayToShuffle
   let currentIndex = array.length
   let randomIndex: number
   // While there remain elements to shuffle.
@@ -96,17 +97,6 @@ async function fetchList(listName: string = "topstories") {
     promptForFetching.value = ""
   })
 }
-const baseURL: URL = new URL("https://hacker-news.firebaseio.com/v0")
-async function fetchLiveData(listName: string = "topstories"): Promise<LiveData> {
-  try {
-    const listURL: URL = new URL(`${baseURL}/${listName}.json?print=pretty`)
-    const response = await fetch(listURL)
-    const liveData: LiveData = await response.json()
-    return liveData
-  } catch (error: any) {
-    console.log(`Error: ${error.message}`)
-  }
-}
 function getItemIds(liveData: LiveData): number[] {
   /* console.log(liveData) */
   if (typeof liveData === "number") {
@@ -156,6 +146,17 @@ function refresh() {
   // Clear displayed items
   items.value = []
   fetchMore()
+}
+const baseURL: URL = new URL("https://hacker-news.firebaseio.com/v0")
+async function fetchLiveData(listName: string = "topstories"): Promise<LiveData> {
+  try {
+    const listURL: URL = new URL(`${baseURL}/${listName}.json?print=pretty`)
+    const response = await fetch(listURL)
+    const liveData: LiveData = await response.json()
+    return liveData
+  } catch (error: any) {
+    console.log(`Error: ${error.message}`)
+  }
 }
 ;(async () => {
   // Prefetch live data
