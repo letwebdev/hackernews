@@ -42,7 +42,7 @@ interface Item {
   // TODO Solve dead item
 }
 type Items = Item[]
-type LiveData = number | number[] | object
+type LiveData = number | number[] | object | undefined
 
 const promptForFetching = ref<string>()
 const lists = ref<Lists>([
@@ -76,8 +76,8 @@ function fetchList(name: string) {
   fetchItems(name)
 }
 const baseURL: URL = new URL("https://hacker-news.firebaseio.com/v0")
-function fetchItems(listName: string = "topstories") {
-  const items = fetchLiveData(listName)
+async function fetchItems(listName: string = "topstories") {
+  const items = await fetchLiveData(listName)
   const itemIds = getItemIds(items)
   itemIds.forEach((itemId: number) => {
     fetchItem(itemId)
@@ -86,7 +86,7 @@ function fetchItems(listName: string = "topstories") {
   })
 }
 function getItemIds(liveData: LiveData): number[] {
-  /* console.log(liveData) */
+  console.log(liveData)
   if (typeof liveData === "number") {
     console.log("Live data is currently largest item id: " + liveData)
     const maxItemId: number = liveData
@@ -137,7 +137,7 @@ function refresh() {
 }
 fetchItems("maxitem")
 
-async function fetchLiveData(listName: string = "topstories"): Promise<LiveData | undefined> {
+async function fetchLiveData(listName: string = "topstories"): Promise<LiveData> {
   try {
     const listURL: URL = new URL(`${baseURL}/${listName}.json?print=pretty`)
     const response = await fetch(listURL)
