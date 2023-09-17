@@ -43,7 +43,7 @@ interface Item {
   // TODO Solve dead item
 }
 type Items = Item[]
-type LiveData = number | number[] | object | undefined
+type LiveData = number | number[] | { items: number[]; profiles: string[] } | undefined
 interface ElementOfLiveDataSet {
   listName: string
   liveData: LiveData
@@ -60,8 +60,7 @@ const lists = ref<Lists>([
   { name: "jobstories", description: "Job stories" },
   // Current largest item id
   { name: "maxitem", description: "any" },
-  // TODO Add function snippets to fetch following list
-  { name: "updates", description: "Changed Items and Profiles" },
+  { name: "updates", description: "Changed items" },
 ])
 const items = ref<Items>([])
 const liveDataSet: LiveDataSet = []
@@ -98,7 +97,7 @@ async function fetchList(listName: string = "topstories") {
   })
 }
 function getItemIds(liveData: LiveData): number[] {
-  /* console.log(liveData) */
+  console.log(liveData)
   if (typeof liveData === "number") {
     console.log("Live data is currently largest item id: " + liveData)
     const maxItemId: number = liveData
@@ -113,8 +112,19 @@ function getItemIds(liveData: LiveData): number[] {
       itemIds = [...liveData]
     }
     return itemIds
+  } else if (typeof liveData === "object") {
+    console.log("Live data is an non-array object ")
+    console.log(liveData)
+    let itemIds: number[]
+    if (settings.fetchingRandomly.enabled) {
+      itemIds = shuffle(liveData.items)
+    } else {
+      itemIds = [...liveData.items]
+    }
+    return itemIds
   } else {
-    console.log("Unknwon live data type")
+    console.log("Unknwon live data type:")
+    console.log(liveData)
     // TODO see :43
     return [1]
   }
