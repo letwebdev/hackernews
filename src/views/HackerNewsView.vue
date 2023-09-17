@@ -82,6 +82,7 @@ function fetchList(name: string) {
   fetchItems(name)
 }
 async function fetchItems(listName: string = "topstories") {
+  // TODO
   const liveDataToFetch = await fetchLiveData(listName)
   const itemIds = getItemIds(liveDataToFetch)
   itemIds.forEach((itemId: number) => {
@@ -152,15 +153,15 @@ function refresh() {
   fetchMore()
 }
 // Prefetch live data
-lists.value.forEach((list) => {
-  const liveData = fetchLiveData(list.name)
+lists.value.forEach(async (list) => {
+  const liveData = await fetchLiveData(list.name)
   const elementOfLiveDataSet = {
     listName: list.name,
     liveData: liveData,
   }
+  /* console.log(elementOfLiveDataSet) */
   liveDataSet.push(elementOfLiveDataSet)
 })
-/* console.log(liveDataSet) */
 
 fetchItems("maxitem")
 </script>
