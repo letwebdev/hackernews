@@ -126,7 +126,9 @@ function fetchItem(id: number) {
     .then((response) => response.json())
     .then((item: Item) => {
       const readableTime = new Date(item.time * 1000)
-      item.readableTime = `${readableTime.getFullYear()}-${readableTime.getMonth()}-${readableTime.getDate()} ${readableTime.getHours()}:${readableTime.getMinutes()}`
+      item.readableTime = `${readableTime.getFullYear()}-${
+        readableTime.getMonth() + 1
+      }-${readableTime.getDate()} ${readableTime.getHours()}:${readableTime.getMinutes()}`
       items.value.push(item)
     })
     .catch((error) => console.error(`Error fetching data: ${error.message}`))
