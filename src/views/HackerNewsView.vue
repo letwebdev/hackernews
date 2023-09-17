@@ -43,6 +43,7 @@ interface Item {
 }
 type Items = Item[]
 type LiveData = number | number[] | object | undefined
+type LiveDataSet = LiveData[]
 
 const promptForFetching = ref<string>()
 const lists = ref<Lists>([
@@ -58,6 +59,7 @@ const lists = ref<Lists>([
   { name: "updates", description: "Changed Items and Profiles" },
 ])
 const items = ref<Items>([])
+const liveDataSet: LiveDataSet = []
 const selected = ref([{ name: "topstories", description: "Top stories" }])
 function fetchSelectedLists() {
   promptForFetching.value = "Fetching selected lists..."
@@ -145,15 +147,14 @@ function refresh() {
   items.value = []
   fetchMore()
 }
-fetchItems("maxitem")
-
 // Prefetch live data
-const liveDataSet: LiveData[] = []
 lists.value.map((list) => {
   const liveData = fetchLiveData(list.name)
   liveDataSet.push(liveData)
 })
 /* console.log(liveDataSet) */
+
+fetchItems("maxitem")
 </script>
 
 <template>
