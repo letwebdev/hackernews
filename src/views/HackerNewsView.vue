@@ -28,6 +28,7 @@ interface Item {
   // TODO Solve dead item
 }
 type Items = Item[]
+type LiveData = number | number[] | object
 
 const promptForFetching = ref<string>()
 const lists = ref<Lists>([
@@ -72,48 +73,55 @@ function fetchItems(listName: string = "topstories") {
         throw new Error(`HTTP error: ${response.status}`)
       }
     })
-    .then((liveData: number | number[] | object) => {
-      console.log("Type of liveData is " + typeof liveData)
-      // TODO split to function extract id of item to fetch from live data
-      if (typeof liveData === "number") {
-        console.log("Live data is currently largest item id: " + liveData)
-        const maxItemId: number = liveData
-        const randomItemId = generateRandomInteger(maxItemId)
-        fetchItem(randomItemId)
-      } else if (Array.isArray(liveData)) {
-        console.log("Live data is an array ")
-        let itemIds: number[]
-        if (settings.fetchingRandomly.enabled) {
-          const idsGenerantedRandomly: number[] = []
-          // liveData.length may be less than numberOfItemsFetchedEachTime
-          const maxmiumFetchedItems = Math.min(
-            liveData.length,
-            settings.numberOfItemsFetchedEachTime.value
-          )
-          for (let i = 0; i < maxmiumFetchedItems; i++) {
-            const randomArrayIndex = generateRandomInteger(liveData.length - 1)
-            const idToPush = liveData[randomArrayIndex]
-            // Prevent duplicate id
-            if (idToPush === idsGenerantedRandomly[-1]) {
-              i--
-              continue
-            }
-            idsGenerantedRandomly.push(idToPush)
-          }
-          itemIds = [...idsGenerantedRandomly]
-        } else {
-          itemIds = [...liveData]
-        }
-        itemIds.forEach((itemId) => {
-          fetchItem(itemId)
-        })
-        // TODO After all promises finished
-        promptForFetching.value = ""
-      } else {
-        console.log("Unknwon live data type")
-      }
+    .then((liveData: LiveData) => {
+      return getItemIds(liveData)
+    })
+    .then((itemIds: number[]) => {
+      itemIds.forEach((itemId: number) => {
+        fetchItem(itemId)
+      })
+      // TODO After all promises finished
+      promptForFetching.value = ""
     })
     .catch((error) => console.error(`Error fetching data: ${error.message}`))
+}
+function getItemIds(liveData: LiveData): number[] {
+  if (typeof liveData === "number") {
+    console.log("Live data is currently largest item id: " + liveData)
+    const maxItemId: number = liveData
+    const randomItemId = [generateRandomInteger(maxItemId)]
+    /* fetchItem(randomItemId) */
+    return randomItemId
+  } else if (Array.isArray(liveData)) {
+    console.log("Live data is an array ")
+    let itemIds: number[]
+    if (settings.fetchingRandomly.enabled) {
+      const idsGenerantedRandomly: number[] = []
+      // liveData.length may be less than numberOfItemsFetchedEachTime
+      const maxmiumFetchedItems = Math.min(
+        liveData.length,
+        settings.numberOfItemsFetchedEachTime.value
+      )
+      for (let i = 0; i < maxmiumFetchedItems; i++) {
+        const randomArrayIndex = generateRandomInteger(liveData.length - 1)
+        const idToPush = liveData[randomArrayIndex]
+        // Prevent duplicate id
+        if (idToPush === idsGenerantedRandomly[-1]) {
+          i--
+          continue
+        }
+        idsGenerantedRandomly.push(idToPush)
+      }
+      itemIds = [...idsGenerantedRandomly]
+    } else {
+      itemIds = [...liveData]
+    }
+    return itemIds
+  } else {
+    console.log("Unknwon live data type")
+    // TODO see :43
+    return [1]
+  }
 }
 let itemsInQueue: number = 0
 function fetchItem(id: number) {
