@@ -87,15 +87,13 @@ function fetchItems(listName: string = "topstories") {
         throw new Error(`HTTP error: ${response.status}`)
       }
     })
-    .then((liveData: LiveData) => {
-      return getItemIds(liveData)
-    })
-    .then((itemIds: number[]) => {
+    .then((items: LiveData) => {
+      const itemIds = getItemIds(items)
       itemIds.forEach((itemId: number) => {
         fetchItem(itemId)
+        // TODO After all promises finished
+        promptForFetching.value = ""
       })
-      // TODO After all promises finished
-      promptForFetching.value = ""
     })
     .catch((error) => console.error(`Error fetching data: ${error.message}`))
 }
@@ -150,6 +148,20 @@ function refresh() {
   fetchMore()
 }
 fetchItems("maxitem")
+async function fetchLiveData(listName: string = "topstories"): Promise<LiveData> {
+  const listURL: URL = new URL(`${baseURL}/${listName}.json?print=pretty`)
+  const response = await fetch(listURL)
+  const liveData: LiveData = await response.json()
+  return liveData
+}
+
+// Prefetch live data
+const liveDataSet: LiveData[] = []
+lists.value.map((list) => {
+  const liveData = fetchLiveData(list.name)
+  liveDataSet.push(liveData)
+})
+/* console.log(liveDataSet) */
 </script>
 
 <template>
