@@ -335,6 +335,8 @@ h2 {
   }
 }
 @media (max-width: 624px) {
+  /* width less than 624 */
+
   a {
     word-break: break-all;
   }
@@ -350,6 +352,8 @@ h2 {
       height: 70px;
       position: fixed;
       right: 0%;
+      /* transform: scale(0.5); */
+      /* transform-origin: right; */
     }
   }
   .refresh {

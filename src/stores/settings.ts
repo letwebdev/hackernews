@@ -36,6 +36,8 @@ export const useSettingsStore = defineStore("settings", () => {
         this.value = !this.value
       },
     }
+    // TODO add options to zoom button
+    // TODO also options to hide other properties
     displayingItemText = {
       description: "Displaying the text part of an item(if any)",
       value: true,
@@ -58,7 +60,6 @@ export const useSettingsStore = defineStore("settings", () => {
     //   },
     // }
   }
-
   const settings = ref(new Settings())
   function reset() {
     Object.assign(settings.value, new Settings())
