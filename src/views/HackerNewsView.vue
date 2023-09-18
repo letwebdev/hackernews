@@ -99,14 +99,17 @@ async function fetchList(listName: string = "topstories") {
 }
 function getItemIds(liveData: LiveData): number[] {
   console.log(liveData)
+  let itemIds: number[]
   if (typeof liveData === "number") {
     console.log("Live data is currently largest item id: " + liveData)
+    itemIds = []
     const maxItemId: number = liveData
-    const randomItemId = generateRandomInteger(maxItemId)
-    console.log("Fetch the random id: " + randomItemId)
-    return [randomItemId]
+    for (let i = 0; i < settings.numberOfItemsFetchedEachTime.value; i++) {
+      const randomItemId = generateRandomInteger(maxItemId)
+      itemIds.push(randomItemId)
+    }
+    console.log("Fetch generated random ids: " + itemIds)
   } else if (typeof liveData === "object") {
-    let itemIds: number[]
     let itemIdsInLiveData: number[]
     if (Array.isArray(liveData)) {
       console.log("Live data is an array ")
@@ -137,14 +140,13 @@ function getItemIds(liveData: LiveData): number[] {
         break
       }
     }
-
-    return itemIds
   } else {
     console.log("Unknwon live data type:")
     console.log(liveData)
     // TODO see :43
     return [1]
   }
+  return itemIds
 }
 let itemsInQueue: number = 0
 function fetchItem(id: number) {
