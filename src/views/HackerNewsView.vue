@@ -120,6 +120,24 @@ function getItemIds(liveData: LiveData): number[] {
     } else {
       itemIds = [...itemIdsInLiveData]
     }
+    // Remove the ids of fetched items to prevent duplication
+    for (const element of liveDataSet) {
+      /* console.log(element) */
+      if (element.liveData === liveData) {
+        const start = settings.numberOfItemsFetchedEachTime.value
+        if (Array.isArray(element.liveData)) {
+          const end = element.liveData.length - 1
+          element.liveData = element.liveData.splice(start, end)
+          console.log(element.liveData)
+        } else {
+          const end = element.liveData.items.length - 1
+          element.liveData.items = element.liveData.items.splice(start, end)
+          console.log(element.liveData.items)
+        }
+        break
+      }
+    }
+
     return itemIds
   } else {
     console.log("Unknwon live data type:")
