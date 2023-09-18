@@ -333,6 +333,9 @@ h2 {
   }
 }
 @media (max-width: 624px) {
+  a {
+    word-break: break-all;
+  }
   .controlPanel {
     align-items: center;
     justify-content: center;
