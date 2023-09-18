@@ -348,7 +348,7 @@ h2 {
 @media (max-width: 624px) {
   /* width less than 624 */
   h2 {
-    font-size: 95%;
+    font-size: 110%;
   }
 
   a {
