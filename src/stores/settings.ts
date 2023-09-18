@@ -7,11 +7,11 @@ export const useSettingsStore = defineStore("settings", () => {
       description: "Number of items fetched each time",
       value: 20,
     }
-    // TODO multi-pages
-    maximumDisplayedItemsPerPage = {
-      description: "Maximum displayed items per page",
-      value: 20,
-    }
+    // // TODO multi-pages
+    // maximumDisplayedItemsPerPage = {
+    //   description: "Maximum displayed items per page",
+    //   value: 20,
+    // }
     maximumLinkLengthToDisplay = {
       description: "Maximum link length to display",
       value: 200,
@@ -47,16 +47,16 @@ export const useSettingsStore = defineStore("settings", () => {
       },
     }
     // TODO
-    history = {
-      description: "Recording history",
-      value: false,
-      get enabled() {
-        return this.value
-      },
-      toggle() {
-        this.value = !this.value
-      },
-    }
+    // history = {
+    //   description: "Recording history",
+    //   value: false,
+    //   get enabled() {
+    //     return this.value
+    //   },
+    //   toggle() {
+    //     this.value = !this.value
+    //   },
+    // }
   }
 
   const settings = ref(new Settings())

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 "use strict"
-import { ref } from "vue"
+import { ref, computed } from "vue"
 import SettingItems from "@/components/SettingItems.vue"
 import { useSettingsStore } from "@/stores/settings"
 const settings = useSettingsStore().settings
@@ -182,12 +182,14 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
       liveData: liveData,
     }
     liveDataSet.push(elementOfLiveDataSet)
+    if (list.name === "topstories") {
+      // FIXME Wait until previous displayed
+      fetchList(list.name)
+    }
   }
-  /* console.log(liveDataSet) */
   // Fetch once
   fetchList("maxitem")
-  // FIXME Wait until previous displayed
-  fetchList("topstories")
+  /* console.log(liveDataSet) */
   //----
 })()
 </script>
@@ -214,7 +216,7 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
       <button @click="fetchMore" class="fetchMore">Fetch more</button>
       <button @click="refresh" class="refresh">Refresh</button>
     </section>
-    <SettingItems />
+    <SettingItems class="settingItems" />
     <div>
       {{ promptForFetching }}
     </div>
