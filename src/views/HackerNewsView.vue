@@ -93,9 +93,9 @@ async function fetchList(listName: string = "topstories") {
   const itemIds = getItemIds(liveDataToFetch)
   itemIds.forEach((itemId: number) => {
     fetchItem(itemId)
-    // TODO After all promises finished
-    promptForFetching.value = ""
   })
+  // TODO After all promises finished
+  promptForFetching.value = ""
 }
 function getItemIds(liveData: LiveData): number[] {
   console.log(liveData)
@@ -175,23 +175,21 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
 }
 ;(async () => {
   // Prefetch live data
-  await Promise.all(
-    lists.value.map(async (list) => {
-      const liveData = await fetchLiveData(list.name)
-      const elementOfLiveDataSet = {
-        listName: list.name,
-        liveData: liveData,
-      }
-      liveDataSet.push(elementOfLiveDataSet)
-    })
-  ).then(async () => {
-    /* console.log(liveDataSet) */
-    // Fetch once
-    await fetchList("maxitem").then(() => {
-      // FIXME Doesn't wait until previous displayed
-      fetchList("topstories")
-    })
+  for await (const list of lists.value) {
+    const liveData = await fetchLiveData(list.name)
+    const elementOfLiveDataSet = {
+      listName: list.name,
+      liveData: liveData,
+    }
+    liveDataSet.push(elementOfLiveDataSet)
+  }
+  /* console.log(liveDataSet) */
+  // Fetch once
+  fetchList("maxitem").then(() => {
+    // FIXME Wait until previous displayed
+    return fetchList("topstories")
   })
+  //----
 })()
 </script>
 
