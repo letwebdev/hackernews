@@ -175,9 +175,12 @@ function fetchMore() {
   fetchSelectedLists()
 }
 function refresh() {
+  clear()
+  fetchMore()
+}
+function clear() {
   // Clear displayed items
   items.value = []
-  fetchMore()
 }
 const baseURL: URL = new URL("https://hacker-news.firebaseio.com/v0")
 async function fetchLiveData(listName: string = "topstories"): Promise<LiveData> {
@@ -216,6 +219,7 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
     <section class="controlPanel">
       <h2>Control Panel</h2>
       <button @click="refresh" class="refresh">Refresh</button>
+      <button @click="clear" class="clear">Clear</button>
       <!-- 
       <div>Selected: {{ selected.map((option) => option.description) }}</div>
       -->
@@ -262,38 +266,6 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
 main {
   margin-bottom: 11%;
 }
-.controlPanel {
-  display: flex;
-  flex-wrap: nowrap;
-  flex-direction: column;
-  position: fixed;
-  margin: 0 0 10% 0;
-  width: 200px;
-  /* padding: 0 0 0 0; */
-  :is(select) {
-    margin: 5% 0;
-    max-width: 165px;
-    height: 230px;
-  }
-  :is(button) {
-    width: 120px;
-    height: 4ex;
-    background-image: linear-gradient(135deg, #00f059 40%, #62f0f5);
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
-    color: white;
-    cursor: pointer;
-    z-index: 2;
-  }
-  :is(button):active {
-    box-shadow: 2px 2px 5px #00ff00;
-  }
-}
-.settingItems,
-article {
-  margin-left: 22%;
-}
 h2 {
   text-decoration: none;
   color: hsla(160, 100%, 37%, 1);
@@ -304,7 +276,54 @@ h2 {
   cursor: pointer;
 }
 
+.controlPanel {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  :is(button) {
+    margin: 5px auto;
+    height: 4ex;
+    background-image: linear-gradient(135deg, #00f059 60%, #42f0a5);
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+  }
+}
 @media (min-width: 624px) {
+  /*
+    width>624px
+   */
+  .controlPanel {
+    position: fixed;
+    margin: 0 0 10% 0;
+    width: 200px;
+    /* padding: 0 0 0 0; */
+    :is(select) {
+      margin: 5% 0;
+      max-width: 165px;
+      height: 230px;
+    }
+    :is(button) {
+      width: 120px;
+      margin: 5px auto;
+      height: 4ex;
+      background-image: linear-gradient(135deg, #00f059 60%, #42f0a5);
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      z-index: 2;
+    }
+    :is(button):active {
+      box-shadow: 2px 2px 5px #00ff00;
+    }
+  }
+  .settingItems,
+  article {
+    margin-left: 22%;
+  }
   .selectedLists {
     max-width: 35%;
     float: left;
@@ -314,6 +333,20 @@ h2 {
   }
 }
 @media (max-width: 624px) {
+  .controlPanel {
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    :is(button) {
+      width: 120px;
+    }
+    :is(button).fetchMore {
+      width: 70px;
+      height: 70px;
+      position: fixed;
+      right: 0%;
+    }
+  }
   .refresh {
     margin: 0%;
   }
