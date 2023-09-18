@@ -185,10 +185,9 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
   }
   /* console.log(liveDataSet) */
   // Fetch once
-  fetchList("maxitem").then(() => {
-    // FIXME Wait until previous displayed
-    return fetchList("topstories")
-  })
+  fetchList("maxitem")
+  // FIXME Wait until previous displayed
+  fetchList("topstories")
   //----
 })()
 </script>
