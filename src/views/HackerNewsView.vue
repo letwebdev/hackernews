@@ -335,7 +335,7 @@ h2 {
   .settingItems,
   article {
     margin-left: 22%;
-    margin-bottom: 3%;
+    margin-bottom: 1%;
   }
   .selectedLists {
     max-width: 35%;
@@ -347,6 +347,9 @@ h2 {
 }
 @media (max-width: 624px) {
   /* width less than 624 */
+  h2 {
+    font-size: 95%;
+  }
 
   a {
     /* So that _ in long link on mobile phone wrapped */

@@ -5,6 +5,7 @@ import { ref } from "vue"
 const settings = useSettingsStore().settings
 const reset = useSettingsStore().reset
 const folded = ref(true)
+// Spaces seems invalid
 const foldSign = ref("  ∧  ")
 function fold() {
   folded.value = !folded.value
