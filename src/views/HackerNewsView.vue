@@ -44,7 +44,7 @@ interface Item {
   // TODO Solve dead item
 }
 type Items = Item[]
-type LiveData = number | number[] | { items: number[]; profiles: string[] } | undefined
+type LiveData = number[] | { items: number[]; profiles: string[] } | undefined
 interface ElementOfLiveDataSet {
   listName: string
   liveData: LiveData
@@ -102,9 +102,9 @@ function getItemIds(liveData: LiveData): number[] {
   if (typeof liveData === "number") {
     console.log("Live data is currently largest item id: " + liveData)
     const maxItemId: number = liveData
-    const randomItemId = [generateRandomInteger(maxItemId)]
+    const randomItemId = generateRandomInteger(maxItemId)
     console.log("Fetch the random id: " + randomItemId)
-    return randomItemId
+    return [randomItemId]
   } else if (typeof liveData === "object") {
     let itemIds: number[]
     let itemIdsInLiveData: number[]
@@ -139,10 +139,12 @@ function fetchItem(id: number) {
   fetch(itemURL)
     .then((response) => response.json())
     .then((item: Item) => {
+      // Convert Unix time to readable time
       const readableTime = new Date(item.time * 1000)
       item.readableTime = `${readableTime.getFullYear()}-${
         readableTime.getMonth() + 1
       }-${readableTime.getDate()} ${readableTime.getHours()}:${readableTime.getMinutes()}`
+
       item.discuss = discussURL
 
       items.value.push(item)
