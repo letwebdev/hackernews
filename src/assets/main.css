@@ -1,8 +1,8 @@
 @import "./base.css";
 
 #app {
-  max-width: 90%;
-  margin: 0 10%;
+  max-width: 100%;
+  margin: 0 2%;
   padding: 2rem 0rem 0 0.4rem;
 
   font-weight: normal;
@@ -29,8 +29,8 @@ a,
 
   #app {
     display: grid;
-    grid-template-columns: 0.8fr 2fr;
+    grid-template-columns: 0.25fr 2fr;
     padding: 0 0 0 0.7rem;
-    max-width: 80%;
+    max-width: 95%;
   }
 }

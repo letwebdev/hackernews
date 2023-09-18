@@ -253,12 +253,12 @@ main {
   margin: 0 0 10% 0;
   width: 200px;
   /* padding: 0 0 0 0; */
-  select {
+  :is(select) {
     margin: 5% 0;
     max-width: 165px;
     height: 230px;
   }
-  button {
+  :is(button) {
     width: 120px;
     height: 4ex;
     background-image: linear-gradient(135deg, #00f059 40%, #62f0f5);
@@ -269,7 +269,7 @@ main {
     cursor: pointer;
     z-index: 2;
   }
-  button:active {
+  :is(button):active {
     box-shadow: 2px 2px 5px #00ff00;
   }
 }
