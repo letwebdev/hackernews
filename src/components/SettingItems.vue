@@ -4,8 +4,8 @@ import { useSettingsStore } from "@/stores/settings"
 import { ref } from "vue"
 const settings = useSettingsStore().settings
 const reset = useSettingsStore().reset
-const folded = ref(false)
-const foldSign = ref("  ∨  ")
+const folded = ref(true)
+const foldSign = ref("  ∧  ")
 function fold() {
   folded.value = !folded.value
   foldSign.value = foldSign.value === "  ∧  " ? "  ∨  " : "  ∧  "
@@ -41,11 +41,11 @@ button {
 }
 h2 {
   color: hsla(160, 92%, 27%, 1);
-  button {
+  :is(button) {
     background-color: transparent;
     border: none;
   }
-  button:hover {
+  :is(button):hover {
     color: #00aa00;
     font-weight: bold;
     cursor: pointer;

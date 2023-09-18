@@ -247,17 +247,27 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
     </div>
     <article v-for="item in items" :key="item.id">
       <a :href="item.url">
-        <h2 v-html="item.title" class="itemTitle"></h2>
+        <h2
+          v-show="settings.displayingItemTitle.enabled"
+          v-html="item.title"
+          class="itemTitle"
+        ></h2>
       </a>
       <ul>
         <p v-show="settings.displayingItemText.enabled" v-html="item.text"></p>
-        <li>time: {{ item.readableTime }}</li>
-        <li>type: {{ item.type }}</li>
-        <li v-if="item.url && settings.maximumLinkLengthToDisplay.value > item.url.length">
+        <li v-show="settings.displayingItemTime.enabled">time: {{ item.readableTime }}</li>
+        <li v-show="settings.displayingItemType.enabled">type: {{ item.type }}</li>
+        <li
+          v-show="
+            settings.displayingItemLink.enabled &&
+            item.url &&
+            settings.maximumLinkLengthToDisplay.value > item.url.length
+          "
+        >
           link: <a :href="item.url">{{ item.url }}</a>
         </li>
-        <li>id: {{ item.id }}</li>
-        <li>
+        <li v-show="settings.displayingItemId.enabled">id: {{ item.id }}</li>
+        <li v-show="settings.displayingItemDiscuss.enabled">
           discuss: <a :href="item.discuss.toString()">{{ item.discuss }}</a>
         </li>
       </ul>
@@ -325,6 +335,7 @@ h2 {
   .settingItems,
   article {
     margin-left: 22%;
+    margin-bottom: 3%;
   }
   .selectedLists {
     max-width: 35%;
@@ -338,6 +349,7 @@ h2 {
   /* width less than 624 */
 
   a {
+    /* So that _ in long link on mobile phone wrapped */
     word-break: break-all;
   }
   .controlPanel {

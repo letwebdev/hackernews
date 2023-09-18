@@ -38,8 +38,68 @@ export const useSettingsStore = defineStore("settings", () => {
     }
     // TODO add options to zoom button
     // TODO also options to hide other properties
+    displayingItemTitle = {
+      description: "Displaying item title",
+      value: true,
+      get enabled() {
+        return this.value
+      },
+      toggle() {
+        this.value = !this.value
+      },
+    }
     displayingItemText = {
-      description: "Displaying the text part of an item(if any)",
+      description: "Displaying text part of an item(if any)",
+      value: true,
+      get enabled() {
+        return this.value
+      },
+      toggle() {
+        this.value = !this.value
+      },
+    }
+    displayingItemTime = {
+      description: "Displaying posted time",
+      value: true,
+      get enabled() {
+        return this.value
+      },
+      toggle() {
+        this.value = !this.value
+      },
+    }
+    displayingItemType = {
+      description: "Displaying item type",
+      value: true,
+      get enabled() {
+        return this.value
+      },
+      toggle() {
+        this.value = !this.value
+      },
+    }
+    displayingItemLink = {
+      description: "Displaying item link",
+      value: true,
+      get enabled() {
+        return this.value
+      },
+      toggle() {
+        this.value = !this.value
+      },
+    }
+    displayingItemId = {
+      description: "Displaying item id",
+      value: true,
+      get enabled() {
+        return this.value
+      },
+      toggle() {
+        this.value = !this.value
+      },
+    }
+    displayingItemDiscuss = {
+      description: "Displaying discuss link",
       value: true,
       get enabled() {
         return this.value
