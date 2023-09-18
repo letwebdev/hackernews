@@ -105,23 +105,20 @@ function getItemIds(liveData: LiveData): number[] {
     const randomItemId = [generateRandomInteger(maxItemId)]
     console.log("Fetch the random id: " + randomItemId)
     return randomItemId
-  } else if (Array.isArray(liveData)) {
-    console.log("Live data is an array ")
-    let itemIds: number[]
-    if (settings.fetchingRandomly.enabled) {
-      itemIds = shuffle(liveData)
-    } else {
-      itemIds = [...liveData]
-    }
-    return itemIds
   } else if (typeof liveData === "object") {
-    console.log("Live data is an non-array object ")
-    console.log(liveData)
     let itemIds: number[]
-    if (settings.fetchingRandomly.enabled) {
-      itemIds = shuffle(liveData.items)
+    let itemIdsInLiveData: number[]
+    if (Array.isArray(liveData)) {
+      console.log("Live data is an array ")
+      itemIdsInLiveData = liveData
     } else {
-      itemIds = [...liveData.items]
+      console.log("Live data is an non-array object ")
+      itemIdsInLiveData = liveData.items
+    }
+    if (settings.fetchingRandomly.enabled) {
+      itemIds = shuffle(itemIdsInLiveData)
+    } else {
+      itemIds = [...itemIdsInLiveData]
     }
     return itemIds
   } else {
