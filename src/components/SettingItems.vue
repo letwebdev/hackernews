@@ -5,16 +5,16 @@ import { ref } from "vue"
 const settings = useSettingsStore().settings
 const reset = useSettingsStore().reset
 const folded = ref(false)
-const foldSign = ref("∨")
+const foldSign = ref("  ∨  ")
 function fold() {
   folded.value = !folded.value
-  foldSign.value = foldSign.value === "∧" ? "∨" : "∧"
+  foldSign.value = foldSign.value === "  ∧  " ? "  ∨  " : "  ∧  "
 }
 </script>
 <template>
   <section>
     <h2>
-      Settings <span @click="fold">{{ foldSign }}</span>
+      Settings <button @click="fold">{{ foldSign }}</button>
     </h2>
     <ul v-show="!folded">
       <template v-for="(properties, item) in settings" :key="item">
@@ -41,5 +41,14 @@ button {
 }
 h2 {
   color: hsla(160, 92%, 27%, 1);
+  button {
+    background-color: transparent;
+    border: none;
+  }
+  button:hover {
+    color: #00aa00;
+    font-weight: bold;
+    cursor: pointer;
+  }
 }
 </style>
