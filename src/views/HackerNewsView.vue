@@ -1,6 +1,6 @@
 <script setup lang="ts">
 "use strict"
-import { ref, computed } from "vue"
+import { ref } from "vue"
 import SettingItems from "@/components/SettingItems.vue"
 import { useSettingsStore } from "@/stores/settings"
 const settings = useSettingsStore().settings
@@ -245,7 +245,9 @@ main {
 }
 .controlPanel {
   display: block;
-  margin: 0 0 10% 20%;
+  position: fixed;
+  margin: 0 0 10% -19%;
+  /* padding: 0 0 0 0; */
 }
 h2 {
   text-decoration: none;
@@ -257,8 +259,8 @@ h2 {
   cursor: pointer;
 }
 
-.refresh {
-  width: 5em;
+.refresh,
+.fetchMore {
   height: 4ex;
   background-image: linear-gradient(135deg, #00f059 40%, #62f0f5);
   border: none;

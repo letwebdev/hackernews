@@ -3,10 +3,8 @@
 import SettingItems from "@/components/SettingItems.vue"
 </script>
 <template>
-  <main class="settings">
-    <h2>Settings</h2>
-    <SettingItems />
-  </main>
+  <h2>Settings</h2>
+  <SettingItems />
 </template>
 
 <style>
