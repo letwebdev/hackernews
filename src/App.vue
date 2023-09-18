@@ -26,6 +26,8 @@ nav {
   font-size: 12px;
   text-align: center;
   margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
 nav a.router-link-exact-active {

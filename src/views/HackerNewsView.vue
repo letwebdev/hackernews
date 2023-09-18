@@ -198,7 +198,10 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
   <main>
     <section class="controlPanel">
       <h2>Control Panel</h2>
+      <button @click="refresh" class="refresh">Refresh</button>
+      <!-- 
       <div>Selected: {{ selected.map((option) => option.description) }}</div>
+      -->
       <select
         v-model="selected"
         multiple
@@ -214,7 +217,6 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
         </option>
       </select>
       <button @click="fetchMore" class="fetchMore">Fetch more</button>
-      <button @click="refresh" class="refresh">Refresh</button>
     </section>
     <SettingItems class="settingItems" />
     <div>
@@ -244,10 +246,36 @@ main {
   margin-bottom: 11%;
 }
 .controlPanel {
-  display: block;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
   position: fixed;
-  margin: 0 0 10% -19%;
+  margin: 0 0 10% 0;
+  width: 200px;
   /* padding: 0 0 0 0; */
+  select {
+    margin: 5% 0;
+    max-width: 165px;
+    height: 230px;
+  }
+  button {
+    width: 120px;
+    height: 4ex;
+    background-image: linear-gradient(135deg, #00f059 40%, #62f0f5);
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    z-index: 2;
+  }
+  button:active {
+    box-shadow: 2px 2px 5px #00ff00;
+  }
+}
+.settingItems,
+article {
+  margin-left: 22%;
 }
 h2 {
   text-decoration: none;
@@ -259,20 +287,6 @@ h2 {
   cursor: pointer;
 }
 
-.refresh,
-.fetchMore {
-  height: 4ex;
-  background-image: linear-gradient(135deg, #00f059 40%, #62f0f5);
-  border: none;
-  border-radius: 5px;
-  font-weight: bold;
-  color: white;
-  cursor: pointer;
-  z-index: 2;
-}
-.refresh:active {
-  box-shadow: 2px 2px 5px #00ff00;
-}
 @media (min-width: 624px) {
   .selectedLists {
     max-width: 35%;
