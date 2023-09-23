@@ -9,7 +9,7 @@ function generateRandomInteger(max: number, min = 1): number {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 function shuffle(arrayToShuffle: any[]): any[] {
-  /* Fisher–Yates shuffle */
+  // Fisher–Yates shuffle
   const array = arrayToShuffle
   let currentIndex = array.length
   let randomIndex: number
@@ -348,7 +348,7 @@ h2 {
 @media (max-width: 624px) {
   /* width less than 624 */
   h2 {
-    font-size: 110%;
+    font-size: 120%;
   }
 
   a {
