@@ -1,5 +1,6 @@
 <script setup lang="ts">
 "use strict"
+import router from "@/router"
 import { useSettingsStore } from "@/stores/settings"
 import { ref } from "vue"
 const settings = useSettingsStore().settings
@@ -16,6 +17,8 @@ function toggle(property: { value: boolean }) {
 }
 function reset() {
   localStorage.removeItem("settings")
+  // new bug: have to refresh to make reset() take effect
+  window.location.reload()
 }
 </script>
 <template>
@@ -23,7 +26,6 @@ function reset() {
     <h2>
       <button @click="fold">Settings{{ foldSign }}</button>
     </h2>
-    <div>{{ settings }}</div>
     <ul v-show="!folded">
       <template v-for="(property, item) in settings" :key="item">
         <li>
@@ -34,7 +36,7 @@ function reset() {
           <input v-else v-model="property.value" type="number" />
         </li>
       </template>
-      <button @click="reset">Reset</button>
+      <button @click="reset">Reset and reload current page</button>
     </ul>
   </section>
 </template>
