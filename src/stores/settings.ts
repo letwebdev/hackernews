@@ -17,7 +17,7 @@ export const useSettingsStore = defineStore("settings", () => {
       value: 200,
     }
     fetchingListsAfterSelection = {
-      description: "Fetching lists after selection",
+      description: "Fetching lists immediately after selection",
       value: false,
     }
     fetchingRandomly = {
