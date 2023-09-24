@@ -1,5 +1,6 @@
 import { defineStore } from "pinia"
 import { ref } from "vue"
+import { useLocalStorage, useStorage } from "@vueuse/core"
 export const useSettingsStore = defineStore("settings", () => {
   // TODO Local storage
   class Settings {
@@ -120,9 +121,11 @@ export const useSettingsStore = defineStore("settings", () => {
     //   },
     // }
   }
-  const settings = ref(new Settings())
+  const settings = useLocalStorage("settings", new Settings())
+  console.log(settings.value)
   function reset() {
-    Object.assign(settings.value, new Settings())
+    const settingsReset = useLocalStorage("settings", new Settings())
+    Object.assign(settings, settingsReset)
   }
   return { Settings, settings, reset }
 })

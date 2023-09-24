@@ -3,31 +3,32 @@
 import { useSettingsStore } from "@/stores/settings"
 import { ref } from "vue"
 const settings = useSettingsStore().settings
+console.log(settings)
 const reset = useSettingsStore().reset
-const folded = ref(true)
+const folded = ref(false)
 // Spaces seems invalid
-const foldSign = ref("  ∧  ")
+const foldSign = ref("  ∨  ")
 function fold() {
   folded.value = !folded.value
   foldSign.value = foldSign.value === "  ∧  " ? "  ∨  " : "  ∧  "
+}
+function toggle(property) {
+  property.value === !property.value
 }
 </script>
 <template>
   <section>
     <h2>
-      Settings <button @click="fold">{{ foldSign }}</button>
+      <button @click="fold">Settings{{ foldSign }}</button>
     </h2>
     <ul v-show="!folded">
-      <template v-for="(properties, item) in settings" :key="item">
+      <template v-for="(property, item) in settings" :key="item">
         <li>
-          {{ properties.description }}:
-          <button
-            v-if="typeof properties.value === 'boolean'"
-            @click="properties.value = !properties.value"
-          >
-            {{ properties.value }}
+          {{ property.description }}:
+          <button v-if="typeof property.value === 'boolean'" @click="toggle(property)">
+            {{ property.enabled }}
           </button>
-          <input v-else v-model="properties.value" type="number" />
+          <input v-else v-model="property.value" type="number" />
         </li>
       </template>
       <button @click="reset">reset</button>
