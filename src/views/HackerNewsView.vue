@@ -344,7 +344,7 @@ h2 {
   }
 }
 @media (max-width: 624px) {
-  /* width less than 624 */
+  /* width <= 624 */
   h2 {
     font-size: 120%;
   }
@@ -361,8 +361,8 @@ h2 {
       width: 120px;
     }
     :is(button).fetchMore {
-      width: 70px;
-      height: 70px;
+      width: 50px;
+      height: 40px;
       position: fixed;
       right: 0%;
       /* transform: scale(0.5); */
