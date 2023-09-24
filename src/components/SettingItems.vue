@@ -3,7 +3,7 @@
 import { useSettingsStore } from "@/stores/settings"
 import { ref } from "vue"
 const settings = useSettingsStore().settings
-console.log(settings)
+/* console.log(settings) */
 const reset = useSettingsStore().reset
 const folded = ref(false)
 // Spaces seems invalid

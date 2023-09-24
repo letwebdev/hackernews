@@ -98,6 +98,7 @@ async function fetchList(listName: string = "topstories") {
   promptForFetching.value = ""
 }
 function getItemIds(liveData: LiveData): number[] {
+  console.log("liveData:")
   console.log(liveData)
   let itemIds: number[]
   if (typeof liveData === "number") {

@@ -61,10 +61,12 @@ export const useSettingsStore = defineStore("settings", () => {
     // }
   }
   const settings = useLocalStorage("settings", new Settings())
-  console.log(settings.value)
   function reset() {
+    // console.log(settings)
     const settingsReset = useLocalStorage("settings", new Settings())
+    // console.log(settingsReset)
     Object.assign(settings, settingsReset)
+    // settings.value = null
   }
   return { Settings, settings, reset }
 })
