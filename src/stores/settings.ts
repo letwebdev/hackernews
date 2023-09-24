@@ -23,18 +23,12 @@ export const useSettingsStore = defineStore("settings", () => {
       get enabled() {
         return this.value
       },
-      toggle() {
-        this.value = !this.value
-      },
     }
     fetchingRandomly = {
       description: "Fetching randomly",
       value: false,
       get enabled() {
         return this.value
-      },
-      toggle() {
-        this.value = !this.value
       },
     }
     // TODO add options to zoom button
@@ -45,18 +39,12 @@ export const useSettingsStore = defineStore("settings", () => {
       get enabled() {
         return this.value
       },
-      toggle() {
-        this.value = !this.value
-      },
     }
     displayingItemText = {
       description: "Displaying text part of an item(if any)",
       value: true,
       get enabled() {
         return this.value
-      },
-      toggle() {
-        this.value = !this.value
       },
     }
     displayingItemTime = {
@@ -65,18 +53,12 @@ export const useSettingsStore = defineStore("settings", () => {
       get enabled() {
         return this.value
       },
-      toggle() {
-        this.value = !this.value
-      },
     }
     displayingItemType = {
       description: "Displaying item type",
       value: true,
       get enabled() {
         return this.value
-      },
-      toggle() {
-        this.value = !this.value
       },
     }
     displayingItemLink = {
@@ -85,9 +67,6 @@ export const useSettingsStore = defineStore("settings", () => {
       get enabled() {
         return this.value
       },
-      toggle() {
-        this.value = !this.value
-      },
     }
     displayingItemId = {
       description: "Displaying item id",
@@ -95,18 +74,12 @@ export const useSettingsStore = defineStore("settings", () => {
       get enabled() {
         return this.value
       },
-      toggle() {
-        this.value = !this.value
-      },
     }
     displayingItemDiscuss = {
       description: "Displaying discuss link",
       value: true,
       get enabled() {
         return this.value
-      },
-      toggle() {
-        this.value = !this.value
       },
     }
     // TODO

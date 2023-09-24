@@ -13,7 +13,9 @@ function fold() {
   foldSign.value = foldSign.value === "  ∧  " ? "  ∨  " : "  ∧  "
 }
 function toggle(property) {
-  property.value === !property.value
+  console.log(property)
+  property.value = !property.value
+  console.log(property)
 }
 </script>
 <template>
