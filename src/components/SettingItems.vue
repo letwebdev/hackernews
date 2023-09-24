@@ -1,13 +1,13 @@
 <script setup lang="ts">
 "use strict"
-import router from "@/router"
 import { useSettingsStore } from "@/stores/settings"
 import { ref } from "vue"
+import { useLocalStorage } from "@vueuse/core"
 const settings = useSettingsStore().settings
 /* console.log(settings) */
-const folded = ref(false)
+const folded = useLocalStorage("folded", false)
 // Spaces seems invalid
-const foldSign = ref("  ∨  ")
+const foldSign = ref(folded ? "  ∨  " : "  ∧  ")
 function fold() {
   folded.value = !folded.value
   foldSign.value = foldSign.value === "  ∧  " ? "  ∨  " : "  ∧  "
@@ -17,7 +17,7 @@ function toggle(property: { value: boolean }) {
 }
 function reset() {
   localStorage.removeItem("settings")
-  // new bug: have to refresh to make reset() take effect
+  // BUG: have to refresh to make reset() take effect
   window.location.reload()
 }
 </script>
