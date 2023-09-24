@@ -31,7 +31,7 @@ function toggle(property) {
           <input v-else v-model="property.value" type="number" />
         </li>
       </template>
-      <button @click="reset">reset</button>
+      <button @click="reset">Reset</button>
     </ul>
   </section>
 </template>
