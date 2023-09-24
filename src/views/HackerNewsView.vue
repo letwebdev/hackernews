@@ -118,7 +118,7 @@ function getItemIds(liveData: LiveData): number[] {
       console.log("Live data is an non-array object ")
       itemIdsInLiveData = liveData.items
     }
-    if (settings.fetchingRandomly.enabled) {
+    if (settings.fetchingRandomly.value) {
       itemIds = shuffle(itemIdsInLiveData)
     } else {
       itemIds = [...itemIdsInLiveData]
@@ -247,27 +247,23 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
     </div>
     <article v-for="item in items" :key="item.id">
       <a :href="item.url">
-        <h2
-          v-show="settings.displayingItemTitle.enabled"
-          v-html="item.title"
-          class="itemTitle"
-        ></h2>
+        <h2 v-show="settings.displayingItemTitle.value" v-html="item.title" class="itemTitle"></h2>
       </a>
       <ul>
-        <p v-show="settings.displayingItemText.enabled" v-html="item.text"></p>
-        <li v-show="settings.displayingItemTime.enabled">time: {{ item.readableTime }}</li>
-        <li v-show="settings.displayingItemType.enabled">type: {{ item.type }}</li>
+        <p v-show="settings.displayingItemText.value" v-html="item.text"></p>
+        <li v-show="settings.displayingItemTime.value">time: {{ item.readableTime }}</li>
+        <li v-show="settings.displayingItemType.value">type: {{ item.type }}</li>
         <li
           v-show="
-            settings.displayingItemLink.enabled &&
+            settings.displayingItemLink.value &&
             item.url &&
             settings.maximumLinkLengthToDisplay.value > item.url.length
           "
         >
           link: <a :href="item.url">{{ item.url }}</a>
         </li>
-        <li v-show="settings.displayingItemId.enabled">id: {{ item.id }}</li>
-        <li v-show="settings.displayingItemDiscuss.enabled">
+        <li v-show="settings.displayingItemId.value">id: {{ item.id }}</li>
+        <li v-show="settings.displayingItemDiscuss.value">
           discuss: <a :href="item.discuss.toString()">{{ item.discuss }}</a>
         </li>
       </ul>

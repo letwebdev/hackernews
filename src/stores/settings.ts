@@ -20,67 +20,40 @@ export const useSettingsStore = defineStore("settings", () => {
     fetchingListsAfterSelection = {
       description: "Fetching lists after selection",
       value: false,
-      get enabled() {
-        return this.value
-      },
     }
     fetchingRandomly = {
       description: "Fetching randomly",
       value: false,
-      get enabled() {
-        return this.value
-      },
     }
     // TODO add options to zoom button
     // TODO also options to hide other properties
     displayingItemTitle = {
       description: "Displaying item title",
       value: true,
-      get enabled() {
-        return this.value
-      },
     }
     displayingItemText = {
       description: "Displaying text part of an item(if any)",
       value: true,
-      get enabled() {
-        return this.value
-      },
     }
     displayingItemTime = {
       description: "Displaying posted time",
       value: true,
-      get enabled() {
-        return this.value
-      },
     }
     displayingItemType = {
       description: "Displaying item type",
       value: true,
-      get enabled() {
-        return this.value
-      },
     }
     displayingItemLink = {
       description: "Displaying item link",
       value: true,
-      get enabled() {
-        return this.value
-      },
     }
     displayingItemId = {
       description: "Displaying item id",
       value: true,
-      get enabled() {
-        return this.value
-      },
     }
     displayingItemDiscuss = {
       description: "Displaying discuss link",
       value: true,
-      get enabled() {
-        return this.value
-      },
     }
     // TODO
     // history = {

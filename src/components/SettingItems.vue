@@ -12,10 +12,10 @@ function fold() {
   folded.value = !folded.value
   foldSign.value = foldSign.value === "  ∧  " ? "  ∨  " : "  ∧  "
 }
-function toggle(property) {
-  console.log(property)
-  property.value = !property.value
-  console.log(property)
+function toggle(bool) {
+  console.log("-----------")
+  console.log(bool)
+  return !bool
 }
 </script>
 <template>
@@ -27,8 +27,11 @@ function toggle(property) {
       <template v-for="(property, item) in settings" :key="item">
         <li>
           {{ property.description }}:
-          <button v-if="typeof property.value === 'boolean'" @click="toggle(property)">
-            {{ property.enabled }}
+          <button
+            v-if="typeof property.value === 'boolean'"
+            @click="property.value = toggle(property.value)"
+          >
+            {{ property.value }}
           </button>
           <input v-else v-model="property.value" type="number" />
         </li>
