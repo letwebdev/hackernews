@@ -4,8 +4,6 @@ import { useSettingsStore } from "@/stores/settings"
 import { ref } from "vue"
 const settings = useSettingsStore().settings
 /* console.log(settings) */
-const reset = useSettingsStore().reset
-/* console.log(settings) */
 const folded = ref(false)
 // Spaces seems invalid
 const foldSign = ref("  ∨  ")
@@ -16,12 +14,16 @@ function fold() {
 function toggle(property: { value: boolean }) {
   property.value = !property.value
 }
+function reset() {
+  localStorage.removeItem("settings")
+}
 </script>
 <template>
   <section>
     <h2>
       <button @click="fold">Settings{{ foldSign }}</button>
     </h2>
+    <div>{{ settings }}</div>
     <ul v-show="!folded">
       <template v-for="(property, item) in settings" :key="item">
         <li>
