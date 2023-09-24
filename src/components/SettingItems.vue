@@ -6,7 +6,7 @@ import { useLocalStorage } from "@vueuse/core"
 const settings = useSettingsStore().settings
 /* console.log(settings) */
 const folded = useLocalStorage("folded", false)
-// Spaces seems invalid
+// BUG: foldSign not reactive, have to toggle it in fold() manually
 const foldSign = ref(folded ? "  ∨  " : "  ∧  ")
 function fold() {
   folded.value = !folded.value
@@ -24,7 +24,7 @@ function reset() {
 <template>
   <section>
     <h2>
-      <button @click="fold">Settings{{ foldSign }}</button>
+      <button @click="fold">Settings {{ foldSign }}</button>
     </h2>
     <ul v-show="!folded">
       <template v-for="(property, item) in settings" :key="item">
