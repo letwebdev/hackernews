@@ -1,6 +1,5 @@
 import { defineStore } from "pinia"
-import { ref } from "vue"
-import { useLocalStorage, useStorage } from "@vueuse/core"
+import { useLocalStorage } from "@vueuse/core"
 export const useSettingsStore = defineStore("settings", () => {
   // TODO Local storage
   class Settings {
@@ -59,12 +58,6 @@ export const useSettingsStore = defineStore("settings", () => {
     // history = {
     //   description: "Recording history",
     //   value: false,
-    //   get enabled() {
-    //     return this.value
-    //   },
-    //   toggle() {
-    //     this.value = !this.value
-    //   },
     // }
   }
   const settings = useLocalStorage("settings", new Settings())
