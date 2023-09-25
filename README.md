@@ -46,7 +46,6 @@ npm run lint
 For more details, see [Add Capacitor to your web app](https://capacitorjs.com/docs/getting-started#add-capacitor-to-your-web-app)
 
 ```sh
-npm run build
 
 # Install Capacitor
 npm i @capacitor/core
@@ -60,6 +59,7 @@ npm i @capacitor/android
 npx cap add android
 
 # Sync the web code to the native project
+npm run build
 npx cap sync
 
 # Open the project in Android Studio
