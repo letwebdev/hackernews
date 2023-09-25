@@ -54,11 +54,15 @@ export const useSettingsStore = defineStore("settings", () => {
       description: "Displaying discuss link",
       value: true,
     }
-    // TODO
-    // history = {
-    //   description: "Recording history",
-    //   value: false,
-    // }
+    /* TODO
+     history = {
+       description: "Recording history",
+       value: false,
+     }
+
+        option to enlarge font size
+
+         */
   }
   const settings = useLocalStorage("settings", new Settings())
   return { Settings, settings }

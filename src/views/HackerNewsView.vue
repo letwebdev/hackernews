@@ -349,7 +349,7 @@ h2 {
     font-size: 120%;
   }
 
-  a {
+  * {
     /* So that _ in long link on mobile phone wrapped */
     word-break: break-all;
   }
