@@ -44,7 +44,7 @@ For more details, see [Add Capacitor to your web app](https://capacitorjs.com/do
 
 - either of
   - Android Studio
-  - basic Android command-line tools
+  - basic Android command-line tools and Java(8<= version <= 19, tested on Java 19)
     1. Set [ANDROID_HOME](https://developer.android.com/tools/variables#android_home)
     2. Download the command line tools zip from [Download Android Studio & App Tools - Android Developers](https://developer.android.com/studio) > Command line tools only
     3. Unzip it to `"${ANDROID_HOME}/cmdline-tools/latest"`
