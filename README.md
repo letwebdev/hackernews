@@ -42,26 +42,30 @@ For more details, see [Add Capacitor to your web app](https://capacitorjs.com/do
    npm install
    ```
 
-- either of
+- Either of
   - Android Studio
-  - basic Android command-line tools and Java(8<= version <= 19, tested on Java 19)
-    1. Set [ANDROID_HOME](https://developer.android.com/tools/variables#android_home)
-    2. Download the command line tools zip from [Download Android Studio & App Tools - Android Developers](https://developer.android.com/studio) > Command line tools only
-    3. Unzip it to `"${ANDROID_HOME}/cmdline-tools/latest"`
-    4. Add these tools to PATH
+  - Both of
+    - Java(8<= version <= 19, tested on Java 19)
+    - Basic Android command-line tools
+      1. Set [ANDROID_HOME](https://developer.android.com/tools/variables#android_home)
+      2. Download the command line tools zip from [Download Android Studio & App Tools - Android Developers](https://developer.android.com/studio) > Command line tools only
+      3. Unzip it to `"${ANDROID_HOME}/cmdline-tools/latest"`
+      4. Add these tools to PATH
 
-        ```sh
-        export PATH="${ANDROID_HOME}/cmdline-tools/latest/bin:${PATH}" >> "${HOME}/.profile"
-        source "${HOME}/.profile"
-        ```
+          ```sh
+          export PATH="${ANDROID_HOME}/cmdline-tools/latest/bin:${PATH}" >> "${HOME}/.profile"
+          source "${HOME}/.profile"
+          ```
 
-    5. Accept the licenses
+      5. Accept the licenses
 
-        ```sh
-        yes | sdkmanager --licenses
-        ```
+          ```sh
+          yes | sdkmanager --licenses
+          ```
 
 ### Create an Android project
+
+Modify capacitor.config.ts first(optional)
 
 ```sh
 npx cap add android
