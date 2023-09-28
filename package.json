@@ -5,14 +5,17 @@
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check build-only",
-    "sync": "npm run build && npm run sync-only",
     "preview": "vite preview",
     "test:unit": "vitest",
     "build-only": "vite build",
-    "sync-only": "cap sync",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "build-apk": "npm run sync && npm run build-apk-only",
+    "fix-path-apk": "sed --in-place 's|/hackernews|.|g' 'android/app/src/main/assets/public/index.html'",
+    "sync": "npm run build && npm run sync-only",
+    "build-apk-only": "(cd android && bash ./gradlew assembleDebug)",
+    "sync-only": "cap sync  && npm run fix-path-apk"
   },
   "dependencies": {
     "@vueuse/core": "^10.4.1",
