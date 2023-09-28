@@ -9,7 +9,7 @@ See [Vite Configuration Reference](https://vitejs.dev/config/).
 ## Project Setup
 
 ```sh
-npm install
+npm install --omit=optional
 ```
 
 ### Compile and Hot-Reload for Development
@@ -46,16 +46,12 @@ npm run lint
 For more details, see [Add Capacitor to your web app](https://capacitorjs.com/docs/getting-started#add-capacitor-to-your-web-app)
 
 ```sh
-
 # Install Capacitor
-npm i @capacitor/core
-npm i -D @capacitor/cli
-
-# Initialize Capacitor config
-npx cap init
+npm install --save-optional @capacitor/core 
+npm install --save-optional --save-dev @capacitor/cli
 
 # Create a Android project
-npm i @capacitor/android
+npm install --save-optional @capacitor/android
 npx cap add android
 
 # Sync the web code to the native project
