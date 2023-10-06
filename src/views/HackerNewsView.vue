@@ -197,6 +197,7 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
     console.log(`Error: ${error.message}`)
   }
 }
+// Init
 ;(async () => {
   // Prefetch live data
   // TODO refresh live data when refresh()
