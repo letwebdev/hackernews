@@ -199,6 +199,7 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
 }
 ;(async () => {
   // Prefetch live data
+  // TODO refresh live data when refresh()
   for await (const list of lists.value) {
     const liveData = await fetchLiveData(list.name)
     const elementOfLiveDataSet = {
@@ -217,7 +218,6 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
   //----
 })()
 </script>
-
 <template>
   <main>
     <section class="controlPanel">
@@ -225,7 +225,7 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
       <button @click="refresh" class="refresh">Refresh</button>
       <button @click="clear" class="clear">Clear</button>
       <!-- 
-      <div>Selected: {{ selected.map((option) => option.description) }}</div>
+        <div>Selected: {{ selected.map((option) => option.description) }}</div>
       -->
       <select
         v-model="selected"
@@ -248,6 +248,9 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
       {{ promptForFetching }}
     </div>
     <article v-for="item in items" :key="item.id">
+      <!--
+        FIXME: Ask HN doesn't have url, simply discuss link
+      -->
       <a :href="item.url">
         <h2 v-show="settings.displayingItemTitle.value" v-html="item.title" class="itemTitle"></h2>
       </a>
