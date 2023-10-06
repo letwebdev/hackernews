@@ -1,6 +1,6 @@
 <script setup lang="ts">
 "use strict"
-import { ref } from "vue"
+import { computed, ref } from "vue"
 import SettingItems from "@/components/SettingItems.vue"
 import { useSettingsStore } from "@/stores/settings"
 const settings = useSettingsStore().settings
@@ -217,6 +217,7 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
   /* console.log(liveDataSet) */
   //----
 })()
+const descriptions = computed<string[]>(() => selected.value.map((option) => option.description))
 </script>
 <template>
   <main>
@@ -224,7 +225,10 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
       <h2>Control Panel</h2>
       <button @click="refresh" class="refresh">Refresh</button>
       <button @click="clear" class="clear">Clear</button>
-
+      <ul class="descriptionsOfSelected">
+        Selected:
+        <li v-for="description in descriptions" :key="description">{{ description }}</li>
+      </ul>
       <select
         v-model="selected"
         multiple
@@ -339,6 +343,9 @@ h2 {
   .selectedLists {
     max-width: 35%;
     float: left;
+  }
+  .descriptionsOfSelected {
+    display: none;
   }
   .refresh {
     margin: 5% 0 0 11%;
