@@ -68,6 +68,7 @@ const items = ref<Items>([])
 const liveDataSet: LiveDataSet = []
 const selected = ref([{ name: "topstories", description: "Top stories" }])
 function fetchSelectedLists() {
+  // FIXME
   promptForFetching.value = "Fetching selected lists..."
   const names: string[] = []
   selected.value.forEach((list) => {
@@ -117,7 +118,7 @@ function getItemIds(liveData: LiveData): number[] {
       console.log("Live data is an array ")
       itemIdsInLiveData = liveData
     } else {
-      console.log("Live data is an non-array object ")
+      console.log("Live data is a non-array object ")
       itemIdsInLiveData = liveData.items
     }
     if (settings.fetchingRandomly.value) {
@@ -145,7 +146,6 @@ function getItemIds(liveData: LiveData): number[] {
   } else {
     console.log("Unknwon live data type:")
     console.log(liveData)
-    // TODO see :43
     return [1]
   }
   return itemIds
@@ -224,9 +224,7 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
       <h2>Control Panel</h2>
       <button @click="refresh" class="refresh">Refresh</button>
       <button @click="clear" class="clear">Clear</button>
-      <!-- 
-        <div>Selected: {{ selected.map((option) => option.description) }}</div>
-      -->
+
       <select
         v-model="selected"
         multiple
