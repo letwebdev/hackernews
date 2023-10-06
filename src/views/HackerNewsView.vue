@@ -9,7 +9,7 @@ const settings = useSettingsStore().settings
 function generateRandomInteger(max: number, min = 1): number {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
-function shuffle(arrayToShuffle: any[]): any[] {
+function shuffleArray(arrayToShuffle: any[]): any[] {
   // Fisher–Yates shuffle
   const array = arrayToShuffle
   let currentIndex = array.length
@@ -121,7 +121,7 @@ function getItemIds(liveData: LiveData): number[] {
       itemIdsInLiveData = liveData.items
     }
     if (settings.fetchingRandomly.value) {
-      itemIds = shuffle(itemIdsInLiveData)
+      itemIds = shuffleArray(itemIdsInLiveData)
     } else {
       itemIds = [...itemIdsInLiveData]
     }
