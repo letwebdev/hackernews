@@ -1,17 +1,16 @@
 <script setup lang="ts">
+import { computed, ref } from "vue"
+
 import { useSettingsStore } from "@/stores/settings"
 import { useItemsStore } from "@/stores/items"
 import { storeToRefs } from "pinia"
-import type { Item, Lists, LiveData, LiveDataSet } from "@/libs/types"
-import { computed, ref } from "vue"
+
 import { generateRandomInteger, shuffleArray } from "@/libs/math"
+import type { Item, Lists, LiveData, LiveDataSet } from "@/libs/types"
+
 const settings = useSettingsStore().settings
 const items = storeToRefs(useItemsStore()).items
 const emit = defineEmits(["showPrompt", "clearPrompt"])
-
-function fetchingListsAfterSelection() {
-  settings.fetchingListsAfterSelection.value && fetchMore()
-}
 
 const lists = ref<Lists>([
   { name: "topstories", description: "Top stories" },
@@ -39,6 +38,7 @@ function fetchLists(listNames: string[]) {
     fetchList(listName)
   })
 }
+
 async function fetchList(listName: string = "topstories") {
   /* console.log(listName) */
   let liveDataToFetch
@@ -108,6 +108,8 @@ function getItemIds(liveData: LiveData): number[] {
   return itemIds
 }
 
+const baseURL: URL = new URL("https://hacker-news.firebaseio.com/v0")
+
 function fetchItem(id: number) {
   itemsInQueue += 1
   if (itemsInQueue > settings.numberOfItemsFetchedEachTime.value) {
@@ -119,19 +121,17 @@ function fetchItem(id: number) {
     .then((response) => response.json())
     .then((item: Item) => {
       // Convert Unix time to readable time
-      const readableTime = new Date(item.time * 1000)
-      item.readableTime = `${readableTime.getFullYear()}-${
-        readableTime.getMonth() + 1
-      }-${readableTime.getDate()} ${readableTime.getHours()}:${readableTime.getMinutes()}`
-
+      const unixTime = new Date(item.time * 1000)
+      item.readableTime = `
+      ${unixTime.getFullYear()}-${unixTime.getMonth() + 1}-${unixTime.getDate()} 
+      ${unixTime.getHours()}:${unixTime.getMinutes()}
+      `
       item.discuss = discussURL
-
       items.value.push(item)
     })
     .catch((error) => console.error(`Error fetching data: ${error.message}`))
 }
 
-const baseURL: URL = new URL("https://hacker-news.firebaseio.com/v0")
 async function fetchLiveData(listName: string = "topstories"): Promise<LiveData> {
   try {
     const listURL: URL = new URL(`${baseURL}/${listName}.json?print=pretty`)
@@ -142,6 +142,7 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
     console.log(`Error: ${error.message}`)
   }
 }
+
 // Init
 ;(async () => {
   // Prefetch live data
@@ -159,14 +160,11 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
       emit("clearPrompt")
     }
   }
-  // Fetch once
   fetchList("maxitem")
   /* console.log(liveDataSet) */
   //----
 })()
 
-const selected = ref([{ name: "topstories", description: "Top stories" }])
-const descriptions = computed<string[]>(() => selected.value.map((option) => option.description))
 let itemsInQueue: number = 0
 function fetchMore() {
   // Clear count
@@ -180,6 +178,12 @@ function refresh() {
 function clear() {
   // Clear displayed items
   items.value = []
+}
+
+const selected = ref([{ name: "topstories", description: "Top stories" }])
+const descriptions = computed<string[]>(() => selected.value.map((option) => option.description))
+function fetchingListsAfterSelection() {
+  settings.fetchingListsAfterSelection.value && fetchMore()
 }
 </script>
 <template>
