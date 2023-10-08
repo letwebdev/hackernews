@@ -222,6 +222,13 @@ const descriptions = computed<string[]>(() => selected.value.map((option) => opt
 function setUrl(item: Item) {
   return item.url ? item.url.toString() : item.discuss.toString()
 }
+function displayingLink(item: Item): boolean {
+  return (
+    settings.displayingItemLink.value &&
+    item.url !== "" &&
+    settings.maximumLinkLengthToDisplay.value > item.url.length
+  )
+}
 </script>
 <template>
   <main>
@@ -261,13 +268,7 @@ function setUrl(item: Item) {
         <p v-show="settings.displayingItemText.value" v-html="item.text"></p>
         <li v-show="settings.displayingItemTime.value">time: {{ item.readableTime }}</li>
         <li v-show="settings.displayingItemType.value">type: {{ item.type }}</li>
-        <li
-          v-show="
-            settings.displayingItemLink.value &&
-            item.url &&
-            settings.maximumLinkLengthToDisplay.value > item.url.length
-          "
-        >
+        <li v-show="displayingLink(item)">
           link: <a :href="item.url">{{ item.url }}</a>
         </li>
         <li v-show="settings.displayingItemId.value">id: {{ item.id }}</li>
