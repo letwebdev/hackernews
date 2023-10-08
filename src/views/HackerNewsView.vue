@@ -1,6 +1,6 @@
 <script setup lang="ts">
 "use strict"
-import { ref } from "vue"
+import { computed, ref } from "vue"
 import ControlPanel from "@/components/ControlPanel.vue"
 import SettingItems from "@/components/SettingItems.vue"
 import ItemPost from "@/components/ItemPost.vue"
@@ -16,11 +16,9 @@ const items = storeToRefs(useItemsStore()).items
 const promptForFetching = ref<string>("")
 
 const folded = useLocalStorage("folded", false)
-// BUG: foldSign not reactive, have to toggle it in fold() manually
-const foldSign = ref(folded ? "  ∨  " : "  ∧  ")
+const foldSign = computed(() => (folded.value ? "  ∨  " : "  ∧  "))
 function fold() {
   folded.value = !folded.value
-  foldSign.value = foldSign.value === "  ∧  " ? "  ∨  " : "  ∧  "
 }
 </script>
 <template>
