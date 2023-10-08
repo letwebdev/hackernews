@@ -8,9 +8,7 @@ import ItemPost from "@/components/ItemPost.vue"
 // TODO Auto fetch more when scrolling to the bottom
 
 const items = useItemsStore().items
-console.log("-------------------------")
-console.log(items)
-console.log("-------------------------")
+/* console.log(items) */
 const promptForFetching = ref<string>()
 </script>
 <template>
