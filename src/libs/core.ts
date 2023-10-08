@@ -6,7 +6,6 @@ import { ref } from "vue"
 import { useSettingsStore } from "@/stores/settings"
 import { useItemsStore } from "@/stores/items"
 import { storeToRefs } from "pinia"
-const itemsInQueue = storeToRefs(useItemsStore()).itemsInQueue
 
 const items = storeToRefs(useItemsStore()).items
 const settings = useSettingsStore().settings
@@ -27,7 +26,14 @@ export const lists = ref<Lists>([
 
 const liveDataSet: LiveDataSet = []
 
-export function fetchLists(listNames: string[]) {
+function fetchSelectedLists() {
+  const names: string[] = []
+  selected.value.forEach((list) => {
+    names.push(list.name)
+  })
+  fetchLists(names)
+}
+function fetchLists(listNames: string[]) {
   listNames.forEach((listName: string) => {
     fetchList(listName)
   })
@@ -105,8 +111,8 @@ function getItemIds(liveData: LiveData): number[] {
 const baseURL: URL = new URL("https://hacker-news.firebaseio.com/v0")
 
 function fetchItem(id: number) {
-  itemsInQueue.value += 1
-  if (itemsInQueue.value > settings.numberOfItemsFetchedEachTime.value) {
+  itemsInQueue += 1
+  if (itemsInQueue > settings.numberOfItemsFetchedEachTime.value) {
     return
   }
   const itemURL: URL = new URL(`${baseURL}/item/${id}.json?print=pretty`)
@@ -157,3 +163,5 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
   /* console.log(liveDataSet) */
   //----
 })()
+
+let itemsInQueue: number = 0
