@@ -2,6 +2,16 @@
 "use strict"
 import { useSettingsStore } from "@/stores/settings"
 const settings = useSettingsStore().settings
+function setUrl(item: Item) {
+  return item.url ? item.url.toString() : item.discuss.toString()
+}
+function displayingLink(item: Item): boolean {
+  return (
+    settings.displayingItemLink.value &&
+    item.url !== undefined &&
+    settings.maximumLinkLengthToDisplay.value > item.url.length
+  )
+}
 </script>
 <template>
   <article>
