@@ -3,9 +3,16 @@ import { generateRandomInteger, shuffleArray } from "@/libs/math"
 import type { Item, Lists, LiveData, LiveDataSet } from "@/libs/types"
 import { ref } from "vue"
 
+import { useSettingsStore } from "@/stores/settings"
+import { useItemsStore } from "@/stores/items"
+import { storeToRefs } from "pinia"
+
+const items = storeToRefs(useItemsStore()).items
+const settings = useSettingsStore().settings
+
 const emit = defineEmits(["showPrompt", "clearPrompt"])
 
-const lists = ref<Lists>([
+export const lists = ref<Lists>([
   { name: "topstories", description: "Top stories" },
   { name: "newstories", description: "New stories" },
   { name: "beststories", description: "Best stories" },
@@ -16,6 +23,7 @@ const lists = ref<Lists>([
   { name: "maxitem", description: "any" },
   { name: "updates", description: "Changed items" },
 ])
+
 const liveDataSet: LiveDataSet = []
 
 function fetchSelectedLists() {

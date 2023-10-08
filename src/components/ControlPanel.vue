@@ -5,12 +5,11 @@ import { useSettingsStore } from "@/stores/settings"
 import { useItemsStore } from "@/stores/items"
 import { storeToRefs } from "pinia"
 
-import { generateRandomInteger, shuffleArray } from "@/libs/math"
-import type { Item, Lists, LiveData, LiveDataSet } from "@/libs/types"
+import type { Lists } from "@/libs/types"
+import { Lists } from "@/libs/core"
 
 const settings = useSettingsStore().settings
 const items = storeToRefs(useItemsStore()).items
-const emit = defineEmits(["showPrompt", "clearPrompt"])
 
 function fetchMore() {
   // Clear count
