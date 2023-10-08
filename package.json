@@ -15,7 +15,8 @@
     "fix-path-apk": "sed --in-place 's|/hackernews|.|g' 'android/app/src/main/assets/public/index.html'",
     "sync": "npm run build && npm run sync-only",
     "build-apk-only": "(cd android && bash ./gradlew assembleDebug)",
-    "sync-only": "cap sync  && npm run fix-path-apk"
+    "sync-only": "cap sync  && npm run fix-path-apk",
+    "push": "npm run build && git add -A && git commit && git push"
   },
   "dependencies": {
     "@vueuse/core": "^10.4.1",
