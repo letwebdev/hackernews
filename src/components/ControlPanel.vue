@@ -232,9 +232,7 @@ h2 {
   }
 }
 @media (min-width: 624px) {
-  /*
-    width>624px
-   */
+  /* width>624px */
   .controlPanel {
     position: fixed;
     margin: 0 0 10% 0;
@@ -292,8 +290,6 @@ h2 {
       height: 40px;
       position: fixed;
       right: 0%;
-      /* transform: scale(0.5); */
-      /* transform-origin: right; */
     }
   }
   .refresh {
