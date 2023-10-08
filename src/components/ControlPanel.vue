@@ -31,7 +31,6 @@ function fetchSelectedLists() {
     names.push(list.name)
   })
   fetchLists(names)
-  emit("showPrompt")
 }
 function fetchLists(listNames: string[]) {
   listNames.forEach((listName: string) => {
