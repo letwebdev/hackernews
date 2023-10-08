@@ -2,6 +2,7 @@
 "use strict"
 import { ref } from "vue"
 import ControlPanel from "@/components/ControlPanel.vue"
+import ItemPost from "@/components/ItemPost.vue"
 import SettingItems from "@/components/SettingItems.vue"
 import { useSettingsStore } from "@/stores/settings"
 const settings = useSettingsStore().settings
@@ -224,78 +225,16 @@ function displayingLink(item: Item): boolean {
     <div>
       {{ promptForFetching }}
     </div>
-    <article v-for="item in items" :key="item.id">
-      <h2 v-show="settings.displayingItemTitle.value" class="itemTitle">
-        <a :href="setUrl(item)"> {{ item.title }}</a>
-      </h2>
-      <ul>
-        <p v-show="settings.displayingItemText.value" v-html="item.text"></p>
-        <li v-show="settings.displayingItemTime.value">time: {{ item.readableTime }}</li>
-        <li v-show="settings.displayingItemType.value">type: {{ item.type }}</li>
-        <li v-show="displayingLink(item)">
-          link: <a :href="item.url">{{ item.url }}</a>
-        </li>
-        <li v-show="settings.displayingItemId.value">id: {{ item.id }}</li>
-        <li v-show="settings.displayingItemDiscuss.value">
-          discuss: <a :href="item.discuss.toString()">{{ item.discuss }}</a>
-        </li>
-      </ul>
-    </article>
+    <ItemPost v-for="item in items" :key="item.id" />
   </main>
 </template>
 <style scoped>
 main {
   margin-bottom: 11%;
 }
-h2 {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-}
-.itemTitle:hover {
-  background-color: hsla(160, 100%, 37%, 0.2);
-  cursor: pointer;
-}
 
-@media (min-width: 624px) {
-  /* width>624px */
-  :is(button) {
-    width: 120px;
-    margin: 5px auto;
-    height: 4ex;
-    background-image: linear-gradient(135deg, #00f059 60%, #42f0a5);
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
-    color: white;
-    cursor: pointer;
-    z-index: 2;
-  }
-  :is(button):active {
-    box-shadow: 2px 2px 5px #00ff00;
-  }
-}
-.settingItems,
-article {
+.settingItems {
   margin-left: 22%;
   margin-bottom: 1%;
-}
-@media (max-width: 624px) {
-  /* width <= 624 */
-  h2 {
-    font-size: 120%;
-  }
-  * {
-    /* So that _ in long link on mobile phone wrapped */
-    word-break: break-all;
-  }
-}
-/* Firefox doesn't support :has() */
-li:has(.itemUrl:empty) {
-  display: none;
-}
-.itemText {
-  position: relative;
-  margin-top: 10%;
 }
 </style>
