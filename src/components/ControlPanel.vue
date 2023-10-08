@@ -1,17 +1,36 @@
 <script setup lang="ts">
 "use strict"
 import { useSettingsStore } from "@/stores/settings"
-import { computed } from "vue"
+import { computed, ref } from "vue"
 defineProps(["itemsInQueue"])
 const settings = useSettingsStore().settings
 function fetchingListsAfterSelection() {
   settings.fetchingListsAfterSelection.value && fetchMore()
 }
+
+interface List {
+  readonly name: string
+  readonly description: string
+}
+type Lists = List[]
+const lists = ref<Lists>([
+  { name: "topstories", description: "Top stories" },
+  { name: "newstories", description: "New stories" },
+  { name: "beststories", description: "Best stories" },
+  { name: "askstories", description: "Ask stories" },
+  { name: "showstories", description: "Show stories" },
+  { name: "jobstories", description: "Job stories" },
+  // Current largest item id
+  { name: "maxitem", description: "any" },
+  { name: "updates", description: "Changed items" },
+])
+
+const selected = ref([{ name: "topstories", description: "Top stories" }])
 const descriptions = computed<string[]>(() => selected.value.map((option) => option.description))
 function fetchMore() {
   // Clear count
-  itemsInQueue = 0
-  fetchSelectedLists()
+  /* itemsInQueue = 0 */
+  /* fetchSelectedLists() */
 }
 function refresh() {
   clear()
@@ -19,7 +38,7 @@ function refresh() {
 }
 function clear() {
   // Clear displayed items
-  items.value = []
+  /* items.value = [] */
 }
 </script>
 <template>

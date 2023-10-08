@@ -2,8 +2,8 @@
 "use strict"
 import { ref } from "vue"
 import ControlPanel from "@/components/ControlPanel.vue"
-import ItemPost from "@/components/ItemPost.vue"
 import SettingItems from "@/components/SettingItems.vue"
+import ItemPost from "@/components/ItemPost.vue"
 import { useSettingsStore } from "@/stores/settings"
 const settings = useSettingsStore().settings
 // TODO Auto fetch more when scrolling to the bottom
@@ -225,7 +225,9 @@ function displayingLink(item: Item): boolean {
     <div>
       {{ promptForFetching }}
     </div>
+    <!--
     <ItemPost v-for="item in items" :key="item.id" />
+-->
   </main>
 </template>
 <style scoped>
