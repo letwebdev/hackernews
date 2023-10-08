@@ -4,6 +4,7 @@ import { ref } from "vue"
 import ControlPanel from "@/components/ControlPanel.vue"
 import SettingItems from "@/components/SettingItems.vue"
 import ItemPost from "@/components/ItemPost.vue"
+import { useLocalStorage } from "@vueuse/core"
 
 import { useItemsStore } from "@/stores/items"
 import { storeToRefs } from "pinia"
@@ -11,7 +12,16 @@ import { storeToRefs } from "pinia"
 
 const items = storeToRefs(useItemsStore()).items
 /* console.log(items) */
+
 const promptForFetching = ref<string>("")
+
+const folded = useLocalStorage("folded", false)
+// BUG: foldSign not reactive, have to toggle it in fold() manually
+const foldSign = ref(folded ? "  ∨  " : "  ∧  ")
+function fold() {
+  folded.value = !folded.value
+  foldSign.value = foldSign.value === "  ∧  " ? "  ∨  " : "  ∧  "
+}
 </script>
 <template>
   <main>
@@ -20,7 +30,12 @@ const promptForFetching = ref<string>("")
       @show-prompt="promptForFetching = 'Fetching selected lists...'"
       @clear-prompt="promptForFetching = ''"
     />
-    <SettingItems class="settingItems" />
+    <h2 class="settingItems">
+      <button @click="fold">Settings {{ foldSign }}</button>
+    </h2>
+    <ul v-show="!folded">
+      <SettingItems class="settingItems" />
+    </ul>
     <ItemPost v-for="item in items" :key="item.id" :item="item" />
     <div>
       {{ promptForFetching }}
@@ -32,6 +47,24 @@ main {
   margin-bottom: 11%;
 }
 
+h2.settingItems {
+  margin-left: 22%;
+  margin-bottom: 1%;
+  button {
+    border-radius: 5px;
+    z-index: 2;
+  }
+  color: hsla(160, 92%, 27%, 1);
+  :is(button) {
+    background-color: transparent;
+    border: none;
+  }
+  :is(button):hover {
+    color: #00aa00;
+    font-weight: bold;
+    cursor: pointer;
+  }
+}
 .settingItems {
   margin-left: 22%;
   margin-bottom: 1%;
