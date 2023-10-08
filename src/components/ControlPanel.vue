@@ -1,5 +1,4 @@
 <script setup lang="ts">
-"use strict"
 import { useSettingsStore } from "@/stores/settings"
 import { useItemsStore } from "@/stores/items"
 import { storeToRefs } from "pinia"
@@ -8,6 +7,8 @@ import { computed, ref } from "vue"
 import { generateRandomInteger, shuffleArray } from "@/libs/math"
 const settings = useSettingsStore().settings
 const items = storeToRefs(useItemsStore()).items
+const emit = defineEmits(["showPrompt", "clearPrompt"])
+
 function fetchingListsAfterSelection() {
   settings.fetchingListsAfterSelection.value && fetchMore()
 }
@@ -26,13 +27,12 @@ const lists = ref<Lists>([
 const liveDataSet: LiveDataSet = []
 
 function fetchSelectedLists() {
-  // FIXME
-  /* promptForFetching.value = "Fetching selected lists..." */
   const names: string[] = []
   selected.value.forEach((list) => {
     names.push(list.name)
   })
   fetchLists(names)
+  emit("showPrompt")
 }
 function fetchLists(listNames: string[]) {
   listNames.forEach((listName: string) => {
@@ -54,9 +54,8 @@ async function fetchList(listName: string = "topstories") {
   itemIds.forEach((itemId: number) => {
     fetchItem(itemId)
   })
-  // TODO After all promises finished
-  /* promptForFetching.value = "" */
 }
+
 function getItemIds(liveData: LiveData): number[] {
   console.log("liveData:")
   console.log(liveData)
@@ -147,6 +146,7 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
 ;(async () => {
   // Prefetch live data
   // TODO refresh live data when refresh()
+  emit("showPrompt")
   for await (const list of lists.value) {
     const liveData = await fetchLiveData(list.name)
     const elementOfLiveDataSet = {
@@ -155,8 +155,8 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
     }
     liveDataSet.push(elementOfLiveDataSet)
     if (list.name === "topstories") {
-      // FIXME Wait until previous displayed
       fetchList(list.name)
+      emit("clearPrompt")
     }
   }
   // Fetch once
@@ -209,6 +209,11 @@ function clear() {
   </section>
 </template>
 <style scoped>
+h2 {
+  text-decoration: none;
+  color: hsla(160, 100%, 37%, 1);
+  transition: 0.4s;
+}
 .controlPanel {
   display: flex;
   flex-wrap: nowrap;

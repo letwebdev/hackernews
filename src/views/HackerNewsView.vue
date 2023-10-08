@@ -11,16 +11,20 @@ import { storeToRefs } from "pinia"
 
 const items = storeToRefs(useItemsStore()).items
 /* console.log(items) */
-const promptForFetching = ref<string>()
+const promptForFetching = ref<string>("")
 </script>
 <template>
   <main>
-    <ControlPanel class="controlPanel" />
+    <ControlPanel
+      class="controlPanel"
+      @show-prompt="promptForFetching = 'Fetching selected lists...'"
+      @clear-prompt="promptForFetching = ''"
+    />
     <SettingItems class="settingItems" />
+    <ItemPost v-for="item in items" :key="item.id" :item="item" />
     <div>
       {{ promptForFetching }}
     </div>
-    <ItemPost v-for="item in items" :key="item.id" :item="item" />
   </main>
 </template>
 <style scoped>
