@@ -264,9 +264,9 @@ function fetchingListsAfterSelection() {
       {{ promptForFetching }}
     </div>
     <article v-for="item in items" :key="item.id">
-      <a :href="setUrl(item)">
-        <h2 v-show="settings.displayingItemTitle.value" v-html="item.title" class="itemTitle"></h2>
-      </a>
+      <h2 v-show="settings.displayingItemTitle.value" class="itemTitle">
+        <a :href="setUrl(item)"> {{ item.title }}</a>
+      </h2>
       <ul>
         <p v-show="settings.displayingItemText.value" v-html="item.text"></p>
         <li v-show="settings.displayingItemTime.value">time: {{ item.readableTime }}</li>
