@@ -20,7 +20,7 @@ const promptForFetching = ref<string>()
     <div>
       {{ promptForFetching }}
     </div>
-    <ItemPost v-for="item in items" :key="item.id" />
+    <ItemPost v-for="item in items" :key="item.id" :item="item" />
   </main>
 </template>
 <style scoped>

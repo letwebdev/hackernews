@@ -23,6 +23,7 @@ const lists = ref<Lists>([
   { name: "updates", description: "Changed items" },
 ])
 const liveDataSet: LiveDataSet = []
+
 function fetchSelectedLists() {
   // FIXME
   /* promptForFetching.value = "Fetching selected lists..." */
