@@ -2,7 +2,7 @@
 import { computed, ref } from "vue"
 
 import { useSettingsStore } from "@/stores/settings"
-import { useItemsStore } from "@/stores/items"
+import { useItemsStore } from "@/stores/coreData"
 import { storeToRefs } from "pinia"
 
 import { generateRandomInteger, shuffleArray } from "@/libs/math"

@@ -6,7 +6,7 @@ import SettingItems from "@/components/SettingItems.vue"
 import ItemPost from "@/components/ItemPost.vue"
 import { useLocalStorage } from "@vueuse/core"
 
-import { useItemsStore } from "@/stores/items"
+import { useItemsStore } from "@/stores/coreData"
 import { storeToRefs } from "pinia"
 // TODO Auto fetch more when scrolling to the bottom
 
