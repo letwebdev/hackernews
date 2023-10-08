@@ -130,6 +130,7 @@ function getItemIds(liveData: LiveData): number[] {
   }
   return itemIds
 }
+
 function fetchItem(id: number) {
   itemsInQueue += 1
   if (itemsInQueue > settings.numberOfItemsFetchedEachTime.value) {
@@ -152,6 +153,7 @@ function fetchItem(id: number) {
     })
     .catch((error) => console.error(`Error fetching data: ${error.message}`))
 }
+
 const baseURL: URL = new URL("https://hacker-news.firebaseio.com/v0")
 async function fetchLiveData(listName: string = "topstories"): Promise<LiveData> {
   try {
