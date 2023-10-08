@@ -18,3 +18,9 @@ export interface List {
   readonly description: string
 }
 export type Lists = List[]
+export type LiveData = number[] | { items: number[]; profiles: string[] } | undefined
+export interface ElementOfLiveDataSet {
+  listName: string
+  liveData: LiveData
+}
+export type LiveDataSet = ElementOfLiveDataSet[]

@@ -2,7 +2,7 @@
 "use strict"
 import { useSettingsStore } from "@/stores/settings"
 import { useItemsStore } from "@/stores/items"
-import type { Item, Lists } from "@/libs/types"
+import type { Item, Lists, LiveData, LiveDataSet } from "@/libs/types"
 import { computed, ref } from "vue"
 import { generateRandomInteger, shuffleArray } from "@/libs/math"
 const settings = useSettingsStore().settings
@@ -22,12 +22,6 @@ const lists = ref<Lists>([
   { name: "maxitem", description: "any" },
   { name: "updates", description: "Changed items" },
 ])
-type LiveData = number[] | { items: number[]; profiles: string[] } | undefined
-interface ElementOfLiveDataSet {
-  listName: string
-  liveData: LiveData
-}
-type LiveDataSet = ElementOfLiveDataSet[]
 const liveDataSet: LiveDataSet = []
 function fetchSelectedLists() {
   // FIXME
