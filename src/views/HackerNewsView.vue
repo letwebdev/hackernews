@@ -1,6 +1,7 @@
 <script setup lang="ts">
 "use strict"
 import { computed, ref } from "vue"
+import ControlPanel from "@/components/ControlPanel.vue"
 import SettingItems from "@/components/SettingItems.vue"
 import { useSettingsStore } from "@/stores/settings"
 const settings = useSettingsStore().settings
@@ -235,30 +236,7 @@ function fetchingListsAfterSelection() {
 </script>
 <template>
   <main>
-    <section class="controlPanel">
-      <h2>Control Panel</h2>
-      <button @click="refresh" class="refresh">Refresh</button>
-      <button @click="clear" class="clear">Clear</button>
-      <ul class="descriptionsOfSelected">
-        Selected:
-        <li v-for="description in descriptions" :key="description">{{ description }}</li>
-      </ul>
-      <select
-        v-model="selected"
-        multiple
-        v-on:change="fetchingListsAfterSelection"
-        class="selectedLists"
-      >
-        <option
-          v-for="list in lists"
-          :key="list.name"
-          :value="{ description: list.description, name: list.name }"
-        >
-          {{ list.description }}
-        </option>
-      </select>
-      <button @click="fetchMore" class="fetchMore">Fetch more</button>
-    </section>
+    <ControlPanel class="controlPanel" />
     <SettingItems class="settingItems" />
     <div>
       {{ promptForFetching }}
@@ -296,11 +274,10 @@ h2 {
   cursor: pointer;
 }
 
-.controlPanel {
-  display: flex;
-  flex-wrap: nowrap;
-  flex-direction: column;
+@media (min-width: 624px) {
+  /* width>624px */
   :is(button) {
+    width: 120px;
     margin: 5px auto;
     height: 4ex;
     background-image: linear-gradient(135deg, #00f059 60%, #42f0a5);
@@ -308,84 +285,26 @@ h2 {
     border-radius: 5px;
     font-weight: bold;
     color: white;
+    cursor: pointer;
+    z-index: 2;
+  }
+  :is(button):active {
+    box-shadow: 2px 2px 5px #00ff00;
   }
 }
-@media (min-width: 624px) {
-  /*
-    width>624px
-   */
-  .controlPanel {
-    position: fixed;
-    margin: 0 0 10% 0;
-    width: 200px;
-    /* padding: 0 0 0 0; */
-    :is(select) {
-      margin: 5% 0;
-      max-width: 165px;
-      height: 230px;
-    }
-    :is(button) {
-      width: 120px;
-      margin: 5px auto;
-      height: 4ex;
-      background-image: linear-gradient(135deg, #00f059 60%, #42f0a5);
-      border: none;
-      border-radius: 5px;
-      font-weight: bold;
-      color: white;
-      cursor: pointer;
-      z-index: 2;
-    }
-    :is(button):active {
-      box-shadow: 2px 2px 5px #00ff00;
-    }
-  }
-  .settingItems,
-  article {
-    margin-left: 22%;
-    margin-bottom: 1%;
-  }
-  .selectedLists {
-    max-width: 35%;
-    float: left;
-  }
-  .descriptionsOfSelected {
-    display: none;
-  }
-  .refresh {
-    margin: 5% 0 0 11%;
-  }
+.settingItems,
+article {
+  margin-left: 22%;
+  margin-bottom: 1%;
 }
 @media (max-width: 624px) {
   /* width <= 624 */
   h2 {
     font-size: 120%;
   }
-
   * {
     /* So that _ in long link on mobile phone wrapped */
     word-break: break-all;
-  }
-  .controlPanel {
-    align-items: center;
-    justify-content: center;
-    width: 200px;
-    :is(button) {
-      width: 120px;
-    }
-    /* TODO long press the button to open control panel
-     */
-    :is(button).fetchMore {
-      width: 50px;
-      height: 40px;
-      position: fixed;
-      right: 0%;
-      /* transform: scale(0.5); */
-      /* transform-origin: right; */
-    }
-  }
-  .refresh {
-    margin: 0%;
   }
 }
 /* Firefox doesn't support :has() */
