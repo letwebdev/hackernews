@@ -3,5 +3,6 @@ import { ref } from "vue"
 import type { Items } from "@/libs/types"
 export const useItemsStore = defineStore("items", () => {
   const items = ref<Items>([])
-  return { items }
+  const itemsInQueue = ref<number>(0)
+  return { items, itemsInQueue }
 })

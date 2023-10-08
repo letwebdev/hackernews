@@ -5,15 +5,22 @@ import { useSettingsStore } from "@/stores/settings"
 import { useItemsStore } from "@/stores/items"
 import { storeToRefs } from "pinia"
 
-import type { Lists } from "@/libs/types"
-import { Lists } from "@/libs/core"
+import { lists, fetchLists } from "@/libs/core"
 
 const settings = useSettingsStore().settings
 const items = storeToRefs(useItemsStore()).items
+const itemsInQueue = storeToRefs(useItemsStore()).itemsInQueue
+function fetchSelectedLists() {
+  const names: string[] = []
+  selected.value.forEach((list) => {
+    names.push(list.name)
+  })
+  fetchLists(names)
+}
 
 function fetchMore() {
   // Clear count
-  itemsInQueue = 0
+  itemsInQueue.value = 0
   fetchSelectedLists()
 }
 function refresh() {
