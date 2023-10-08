@@ -1,7 +1,9 @@
 <script setup lang="ts">
 "use strict"
 import { useSettingsStore } from "@/stores/settings"
+import type { Item } from "@/libs/types"
 const settings = useSettingsStore().settings
+defineProps(["item"])
 function setUrl(item: Item) {
   return item.url ? item.url.toString() : item.discuss.toString()
 }

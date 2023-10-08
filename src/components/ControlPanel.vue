@@ -1,9 +1,12 @@
 <script setup lang="ts">
 "use strict"
 import { useSettingsStore } from "@/stores/settings"
+import { useItemsStore } from "@/stores/items"
+import type { Item } from "@/libs/types"
 import { computed, ref } from "vue"
 import { generateRandomInteger, shuffleArray } from "@/libs/math"
 const settings = useSettingsStore().settings
+let items = useItemsStore().items
 function fetchingListsAfterSelection() {
   settings.fetchingListsAfterSelection.value && fetchMore()
 }
@@ -24,28 +27,12 @@ const lists = ref<Lists>([
   { name: "maxitem", description: "any" },
   { name: "updates", description: "Changed items" },
 ])
-interface Item {
-  readonly by: string
-  readonly id: number
-  discuss: URL
-  readonly poll: number
-  readonly score: number
-  readonly text: string
-  readonly time: number
-  readableTime: string
-  readonly type: string
-  readonly url?: string
-  readonly title: string
-  // TODO Solve dead item
-}
-type Items = Item[]
 type LiveData = number[] | { items: number[]; profiles: string[] } | undefined
 interface ElementOfLiveDataSet {
   listName: string
   liveData: LiveData
 }
 type LiveDataSet = ElementOfLiveDataSet[]
-const items = ref<Items>([])
 const liveDataSet: LiveDataSet = []
 function fetchSelectedLists() {
   // FIXME
@@ -149,7 +136,7 @@ function fetchItem(id: number) {
 
       item.discuss = discussURL
 
-      items.value.push(item)
+      items.push(item)
     })
     .catch((error) => console.error(`Error fetching data: ${error.message}`))
 }
@@ -201,7 +188,7 @@ function refresh() {
 }
 function clear() {
   // Clear displayed items
-  items.value = []
+  items = []
 }
 </script>
 <template>

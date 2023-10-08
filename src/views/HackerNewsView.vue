@@ -3,9 +3,14 @@
 import { ref } from "vue"
 import ControlPanel from "@/components/ControlPanel.vue"
 import SettingItems from "@/components/SettingItems.vue"
+import { useItemsStore } from "@/stores/items"
 import ItemPost from "@/components/ItemPost.vue"
 // TODO Auto fetch more when scrolling to the bottom
 
+const items = useItemsStore().items
+console.log("-------------------------")
+console.log(items)
+console.log("-------------------------")
 const promptForFetching = ref<string>()
 </script>
 <template>
@@ -15,9 +20,7 @@ const promptForFetching = ref<string>()
     <div>
       {{ promptForFetching }}
     </div>
-    <!--
     <ItemPost v-for="item in items" :key="item.id" />
--->
   </main>
 </template>
 <style scoped>
