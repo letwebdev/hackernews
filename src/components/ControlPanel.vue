@@ -2,11 +2,12 @@
 "use strict"
 import { useSettingsStore } from "@/stores/settings"
 import { useItemsStore } from "@/stores/items"
+import { storeToRefs } from "pinia"
 import type { Item, Lists, LiveData, LiveDataSet } from "@/libs/types"
 import { computed, ref } from "vue"
 import { generateRandomInteger, shuffleArray } from "@/libs/math"
 const settings = useSettingsStore().settings
-let items = useItemsStore().items
+const items = storeToRefs(useItemsStore()).items
 function fetchingListsAfterSelection() {
   settings.fetchingListsAfterSelection.value && fetchMore()
 }
@@ -126,7 +127,7 @@ function fetchItem(id: number) {
 
       item.discuss = discussURL
 
-      items.push(item)
+      items.value.push(item)
     })
     .catch((error) => console.error(`Error fetching data: ${error.message}`))
 }
@@ -178,7 +179,7 @@ function refresh() {
 }
 function clear() {
   // Clear displayed items
-  items = []
+  items.value = []
 }
 </script>
 <template>

@@ -3,11 +3,13 @@
 import { ref } from "vue"
 import ControlPanel from "@/components/ControlPanel.vue"
 import SettingItems from "@/components/SettingItems.vue"
-import { useItemsStore } from "@/stores/items"
 import ItemPost from "@/components/ItemPost.vue"
+
+import { useItemsStore } from "@/stores/items"
+import { storeToRefs } from "pinia"
 // TODO Auto fetch more when scrolling to the bottom
 
-const items = useItemsStore().items
+const items = storeToRefs(useItemsStore()).items
 /* console.log(items) */
 const promptForFetching = ref<string>()
 </script>
