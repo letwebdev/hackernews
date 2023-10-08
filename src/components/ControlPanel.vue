@@ -77,7 +77,7 @@ async function fetchList(listName: string = "topstories") {
     fetchItem(itemId)
   })
   // TODO After all promises finished
-  promptForFetching.value = ""
+  /* promptForFetching.value = "" */
 }
 function getItemIds(liveData: LiveData): number[] {
   console.log("liveData:")
@@ -191,7 +191,7 @@ let itemsInQueue: number = 0
 function fetchMore() {
   // Clear count
   itemsInQueue = 0
-  /* fetchSelectedLists() */
+  fetchSelectedLists()
 }
 function refresh() {
   clear()
