@@ -219,6 +219,12 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
   //----
 })()
 const descriptions = computed<string[]>(() => selected.value.map((option) => option.description))
+function setUrl(item: Item) {
+  if (item.title.startsWith("Ask HN")) {
+    return item.discuss.toString()
+  }
+  return item.url.toString()
+}
 </script>
 <template>
   <main>
@@ -251,10 +257,7 @@ const descriptions = computed<string[]>(() => selected.value.map((option) => opt
       {{ promptForFetching }}
     </div>
     <article v-for="item in items" :key="item.id">
-      <!--
-        FIXME: Ask HN doesn't have url, simply discuss link
-      -->
-      <a :href="item.url">
+      <a :href="setUrl(item)">
         <h2 v-show="settings.displayingItemTitle.value" v-html="item.title" class="itemTitle"></h2>
       </a>
       <ul>
