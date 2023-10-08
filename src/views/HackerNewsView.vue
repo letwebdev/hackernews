@@ -40,7 +40,7 @@ interface Item {
   readonly time: number
   readableTime: string
   readonly type: string
-  readonly url: string
+  readonly url?: string
   readonly title: string
   // TODO Solve dead item
 }
@@ -225,7 +225,7 @@ function setUrl(item: Item) {
 function displayingLink(item: Item): boolean {
   return (
     settings.displayingItemLink.value &&
-    item.url !== "" &&
+    item.url !== undefined &&
     settings.maximumLinkLengthToDisplay.value > item.url.length
   )
 }
