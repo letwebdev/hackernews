@@ -220,10 +220,7 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
 })()
 const descriptions = computed<string[]>(() => selected.value.map((option) => option.description))
 function setUrl(item: Item) {
-  if (item.title.startsWith("Ask HN")) {
-    return item.discuss.toString()
-  }
-  return item.url.toString()
+  return item.url ? item.url.toString() : item.discuss.toString()
 }
 </script>
 <template>
