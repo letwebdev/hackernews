@@ -1,7 +1,19 @@
 import { defineStore } from "pinia"
 import { ref } from "vue"
-import type { Items } from "@/libs/types"
-export const useItemsStore = defineStore("items", () => {
+import type { Items, Lists, LiveDataSet } from "@/libs/types"
+export const useCoreDataStore = defineStore("items", () => {
   const items = ref<Items>([])
-  return { items }
+  const lists = ref<Lists>([
+    { name: "topstories", description: "Top stories" },
+    { name: "newstories", description: "New stories" },
+    { name: "beststories", description: "Best stories" },
+    { name: "askstories", description: "Ask stories" },
+    { name: "showstories", description: "Show stories" },
+    { name: "jobstories", description: "Job stories" },
+    // Current largest item id
+    { name: "maxitem", description: "any" },
+    { name: "updates", description: "Changed items" },
+  ])
+  const liveDataSet: LiveDataSet = []
+  return { items, lists, liveDataSet }
 })

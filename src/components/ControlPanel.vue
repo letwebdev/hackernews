@@ -2,28 +2,17 @@
 import { computed, ref } from "vue"
 
 import { useSettingsStore } from "@/stores/settings"
-import { useItemsStore } from "@/stores/coreData"
+import { useCoreDataStore } from "@/stores/coreData"
 import { storeToRefs } from "pinia"
 
 import { generateRandomInteger, shuffleArray } from "@/libs/math"
-import type { Item, Lists, LiveData, LiveDataSet } from "@/libs/types"
+import type { Item, LiveData } from "@/libs/types"
 
 const settings = useSettingsStore().settings
-const items = storeToRefs(useItemsStore()).items
+const items = storeToRefs(useCoreDataStore()).items
+const lists = storeToRefs(useCoreDataStore()).lists
+const liveDataSet = useCoreDataStore().liveDataSet
 const emit = defineEmits(["showPrompt", "clearPrompt"])
-
-const lists = ref<Lists>([
-  { name: "topstories", description: "Top stories" },
-  { name: "newstories", description: "New stories" },
-  { name: "beststories", description: "Best stories" },
-  { name: "askstories", description: "Ask stories" },
-  { name: "showstories", description: "Show stories" },
-  { name: "jobstories", description: "Job stories" },
-  // Current largest item id
-  { name: "maxitem", description: "any" },
-  { name: "updates", description: "Changed items" },
-])
-const liveDataSet: LiveDataSet = []
 
 function fetchSelectedLists() {
   const names: string[] = []
