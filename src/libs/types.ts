@@ -13,3 +13,8 @@ export interface Item {
   // TODO Solve dead item
 }
 export type Items = Item[]
+export interface List {
+  readonly name: string
+  readonly description: string
+}
+export type Lists = List[]

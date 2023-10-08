@@ -2,7 +2,7 @@
 "use strict"
 import { useSettingsStore } from "@/stores/settings"
 import { useItemsStore } from "@/stores/items"
-import type { Item } from "@/libs/types"
+import type { Item, Lists } from "@/libs/types"
 import { computed, ref } from "vue"
 import { generateRandomInteger, shuffleArray } from "@/libs/math"
 const settings = useSettingsStore().settings
@@ -11,11 +11,6 @@ function fetchingListsAfterSelection() {
   settings.fetchingListsAfterSelection.value && fetchMore()
 }
 
-interface List {
-  readonly name: string
-  readonly description: string
-}
-type Lists = List[]
 const lists = ref<Lists>([
   { name: "topstories", description: "Top stories" },
   { name: "newstories", description: "New stories" },
