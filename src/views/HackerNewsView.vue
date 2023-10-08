@@ -6,11 +6,11 @@ import SettingItems from "@/components/SettingItems.vue"
 import ItemPost from "@/components/ItemPost.vue"
 import { useLocalStorage } from "@vueuse/core"
 
-import { useItemsStore } from "@/stores/items"
+import { useCoreDataStore } from "@/stores/coreData"
 import { storeToRefs } from "pinia"
 // TODO Auto fetch more when scrolling to the bottom
 
-const items = storeToRefs(useItemsStore()).items
+const items = storeToRefs(useCoreDataStore()).items
 /* console.log(items) */
 
 const promptForFetching = ref<string>("")
