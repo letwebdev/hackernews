@@ -229,6 +229,9 @@ function displayingLink(item: Item): boolean {
     settings.maximumLinkLengthToDisplay.value > item.url.length
   )
 }
+function fetchingListsAfterSelection() {
+  settings.fetchingListsAfterSelection.value && fetchMore()
+}
 </script>
 <template>
   <main>
@@ -243,7 +246,7 @@ function displayingLink(item: Item): boolean {
       <select
         v-model="selected"
         multiple
-        v-on:change="settings.fetchingListsAfterSelection.value && fetchMore()"
+        v-on:change="fetchingListsAfterSelection"
         class="selectedLists"
       >
         <option
