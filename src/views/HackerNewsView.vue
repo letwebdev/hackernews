@@ -1,6 +1,6 @@
 <script setup lang="ts">
 "use strict"
-import { computed, ref } from "vue"
+import { ref } from "vue"
 import ControlPanel from "@/components/ControlPanel.vue"
 import SettingItems from "@/components/SettingItems.vue"
 import { useSettingsStore } from "@/stores/settings"
@@ -174,19 +174,6 @@ function fetchItem(id: number) {
     })
     .catch((error) => console.error(`Error fetching data: ${error.message}`))
 }
-function fetchMore() {
-  // Clear count
-  itemsInQueue = 0
-  fetchSelectedLists()
-}
-function refresh() {
-  clear()
-  fetchMore()
-}
-function clear() {
-  // Clear displayed items
-  items.value = []
-}
 const baseURL: URL = new URL("https://hacker-news.firebaseio.com/v0")
 async function fetchLiveData(listName: string = "topstories"): Promise<LiveData> {
   try {
@@ -219,7 +206,6 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
   /* console.log(liveDataSet) */
   //----
 })()
-const descriptions = computed<string[]>(() => selected.value.map((option) => option.description))
 function setUrl(item: Item) {
   return item.url ? item.url.toString() : item.discuss.toString()
 }
@@ -230,13 +216,10 @@ function displayingLink(item: Item): boolean {
     settings.maximumLinkLengthToDisplay.value > item.url.length
   )
 }
-function fetchingListsAfterSelection() {
-  settings.fetchingListsAfterSelection.value && fetchMore()
-}
 </script>
 <template>
   <main>
-    <ControlPanel class="controlPanel" />
+    <ControlPanel class="controlPanel" itemsInQueue="itemsInQueue" items="items" />
     <SettingItems class="settingItems" />
     <div>
       {{ promptForFetching }}

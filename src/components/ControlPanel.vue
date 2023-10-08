@@ -1,5 +1,26 @@
 <script setup lang="ts">
 "use strict"
+import { useSettingsStore } from "@/stores/settings"
+import { computed } from "vue"
+defineProps(["itemsInQueue"])
+const settings = useSettingsStore().settings
+function fetchingListsAfterSelection() {
+  settings.fetchingListsAfterSelection.value && fetchMore()
+}
+const descriptions = computed<string[]>(() => selected.value.map((option) => option.description))
+function fetchMore() {
+  // Clear count
+  itemsInQueue = 0
+  fetchSelectedLists()
+}
+function refresh() {
+  clear()
+  fetchMore()
+}
+function clear() {
+  // Clear displayed items
+  items.value = []
+}
 </script>
 <template>
   <section>
@@ -50,7 +71,6 @@
     position: fixed;
     margin: 0 0 10% 0;
     width: 200px;
-    /* padding: 0 0 0 0; */
     :is(select) {
       margin: 5% 0;
       max-width: 165px;
