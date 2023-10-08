@@ -33,9 +33,7 @@ function fold() {
     <h2 class="settingItems">
       <button @click="fold">Settings {{ foldSign }}</button>
     </h2>
-    <ul v-show="!folded">
-      <SettingItems class="settingItems" />
-    </ul>
+    <SettingItems class="settingItems" v-show="!folded" />
     <ItemPost v-for="item in items" :key="item.id" :item="item" />
     <div>
       {{ promptForFetching }}
@@ -50,12 +48,10 @@ main {
 h2.settingItems {
   margin-left: 22%;
   margin-bottom: 1%;
-  button {
-    border-radius: 5px;
-    z-index: 2;
-  }
   color: hsla(160, 92%, 27%, 1);
   :is(button) {
+    border-radius: 5px;
+    z-index: 2;
     background-color: transparent;
     border: none;
   }
