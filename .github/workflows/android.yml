@@ -33,7 +33,7 @@ jobs:
       run: npm run bump
     - name: Build apk
       run: npm run build-apk
-
+    - name: Upload apk
       uses: actions/upload-artifact@v1
       with:
         name: apk
