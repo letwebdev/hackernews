@@ -16,7 +16,8 @@
     "sync": "npm run build && npm run sync-only",
     "build-apk-only": "(cd android && bash ./gradlew assembleDebug)",
     "sync-only": "cap sync  && npm run fix-path-apk",
-    "push": "npm run build && git add -A && git commit && git push"
+    "push": "npm run build && git add -A && git commit && git push",
+    "bump": "newVersion=$(git tag |grep --extended-regexp '[0-9]+.'|tail --lines 1|awk --field-separator=. '/[0-9]+./{$NF++;print}' OFS=.) && git tag -a ${newVersion} -m 'Bump version'"
   },
   "dependencies": {
     "@vueuse/core": "^10.4.1",
