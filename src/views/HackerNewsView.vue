@@ -48,7 +48,7 @@ nav {
   margin: 0 0 10% 10%;
 }
 main {
-  margin-bottom: 10%;
+  margin-bottom: 50%;
 }
 .itemPost {
   margin-left: 32%;
@@ -58,7 +58,7 @@ main {
   flex-flow: column;
   margin-left: 32%;
   margin-bottom: 1%;
-  h2 {
+  :is(h2) {
     color: hsla(160, 92%, 27%, 1);
   }
   :is(button) {

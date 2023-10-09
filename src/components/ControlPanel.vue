@@ -175,8 +175,8 @@ function fetchingListsAfterSelection() {
 }
 </script>
 <template>
-  <section>
-    <h2>Control Panel</h2>
+  <main>
+    <h1>Control Panel</h1>
     <button @click="refresh" class="refresh">Refresh</button>
     <button @click="clear" class="clear">Clear</button>
     <ul class="descriptionsOfSelected">
@@ -198,15 +198,15 @@ function fetchingListsAfterSelection() {
       </option>
     </select>
     <button @click="fetchMore" class="fetchMore">Fetch more</button>
-  </section>
+  </main>
 </template>
 <style scoped>
-h2 {
+h1 {
   text-decoration: none;
   color: hsla(160, 100%, 37%, 1);
   transition: 0.4s;
 }
-.controlPanel {
+main {
   display: flex;
   flex-wrap: nowrap;
   flex-direction: column;
@@ -221,8 +221,7 @@ h2 {
   }
 }
 @media (min-width: 624px) {
-  /* width>624px */
-  .controlPanel {
+  main {
     width: 200px;
     :is(select) {
       margin: 5% 0;
@@ -231,34 +230,21 @@ h2 {
     }
     :is(button) {
       width: 120px;
-      margin: 5px auto;
-      height: 4ex;
-      background-image: linear-gradient(135deg, #00f059 60%, #42f0a5);
-      border: none;
-      border-radius: 5px;
-      font-weight: bold;
-      color: white;
       cursor: pointer;
-      z-index: 2;
     }
     :is(button):active {
       box-shadow: 2px 2px 5px #00ff00;
     }
+    .refresh {
+      margin: 5% 0 0 11%;
+    }
   }
-  .settingItems,
-  article {
-    margin-left: 22%;
-    margin-bottom: 1%;
-  }
-  .selectedLists {
+  select {
     max-width: 35%;
     float: left;
   }
   .descriptionsOfSelected {
     display: none;
-  }
-  .refresh {
-    margin: 5% 0 0 11%;
   }
 }
 @media (max-width: 624px) {
