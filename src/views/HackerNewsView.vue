@@ -43,10 +43,10 @@ function fold() {
   </main>
 </template>
 <style scoped>
-main {
-  margin: 0 5% 10% 20%;
-}
 @media (min-width: 624px) {
+  main {
+    margin: 0 5% 10% 20%;
+  }
   nav {
     position: fixed;
     margin: 0 0 0 9%;
@@ -65,6 +65,17 @@ main {
   :is(button):hover {
     color: #00aa00;
     font-weight: bold;
+  }
+}
+@media (max-width: 624px) {
+  nav section {
+    margin: auto auto;
+  }
+  main {
+    margin: 0 1% 30% 1%;
+    .settingItems {
+      margin: auto 4%;
+    }
   }
 }
 </style>
