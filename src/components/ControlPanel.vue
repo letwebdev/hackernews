@@ -223,17 +223,11 @@ button {
   color: white;
 }
 @media (min-width: 624px) {
-  /*
-     BUG: Can't nest rules
-     */
   button {
     cursor: pointer;
-  }
-  button:active {
-    box-shadow: 2px 2px 5px #00ff00;
-  }
-  button.refresh {
-    margin: 5% 0 0 11%;
+    &:active {
+      box-shadow: 2px 2px 5px #00ff00;
+    }
   }
 
   select {
@@ -253,14 +247,16 @@ button {
   }
   /* TODO Long press the button to open control panel
      */
-  button.fetchMore {
-    width: 50px;
-    height: 40px;
-    position: fixed;
-    right: 0%;
-  }
-  button.refresh {
-    margin: 0%;
+  button {
+    &.fetchMore {
+      width: 50px;
+      height: 40px;
+      position: fixed;
+      right: 0%;
+    }
+    &.refresh {
+      margin: 0%;
+    }
   }
   select {
     max-width: 35%;

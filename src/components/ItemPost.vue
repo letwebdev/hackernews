@@ -39,7 +39,7 @@ h2 {
   text-decoration: none;
   color: hsla(160, 100%, 37%, 1);
   transition: 0.4s;
-  :hover {
+  &:hover {
     background-color: hsla(160, 100%, 37%, 0.2);
     cursor: pointer;
   }
