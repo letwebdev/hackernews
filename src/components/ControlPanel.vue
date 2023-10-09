@@ -223,8 +223,6 @@ h2 {
 @media (min-width: 624px) {
   /* width>624px */
   .controlPanel {
-    position: fixed;
-    margin: 0 0 10% 0;
     width: 200px;
     :is(select) {
       margin: 5% 0;
