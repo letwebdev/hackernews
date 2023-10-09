@@ -14,7 +14,7 @@
     "build-apk": "npm run sync && npm run build-apk-only",
     "fix-path-apk": "sed --in-place 's|/hackernews|.|g' 'android/app/src/main/assets/public/index.html'",
     "sync": "npm run build && npm run sync-only",
-    "build-apk-only": "(cd android && bash ./gradlew assembleDebug)",
+    "build-apk-only": "(npm run bump && cd android && bash ./gradlew assembleDebug)",
     "sync-only": "cap sync  && npm run fix-path-apk",
     "push": "npm run build && git add -A && git commit && git push",
     "bump": "bash ./scripts/bumpVersionNumber.sh"
