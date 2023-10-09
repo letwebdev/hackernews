@@ -45,32 +45,24 @@ function fold() {
 <style scoped>
 nav {
   position: fixed;
-  margin: 0 0 0 10%;
+  margin: 0 0 0 4%;
 }
 main {
-  margin-bottom: 10%;
-}
-.itemPost {
-  margin-left: 32%;
+  margin: 0 5% 10% 20%;
 }
 .settingItems {
   display: flex;
   flex-flow: column;
-  margin-left: 32%;
   margin-bottom: 1%;
   :is(h2) {
     color: hsla(160, 92%, 27%, 1);
   }
-  :is(button) {
-    border-radius: 5px;
-    z-index: 2;
-    background-color: transparent;
-    border: none;
-  }
+  /*
+      FIXME: Invalid
+    */
   :is(button):hover {
     color: #00aa00;
     font-weight: bold;
-    cursor: pointer;
   }
 }
 </style>

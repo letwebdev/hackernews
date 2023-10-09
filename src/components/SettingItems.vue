@@ -29,7 +29,6 @@ function reset() {
 <style scoped>
 button {
   border-radius: 5px;
-  z-index: 2;
 }
 :is(button):hover {
   cursor: pointer;
