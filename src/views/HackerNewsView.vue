@@ -72,7 +72,7 @@ function fold() {
     margin: auto auto;
   }
   main {
-    margin: 0 1% 30% 1%;
+    padding: 0 1% 30% 1%;
     .settingItems {
       margin: auto 4%;
     }
