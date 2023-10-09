@@ -175,7 +175,7 @@ function fetchingListsAfterSelection() {
 }
 </script>
 <template>
-  <main>
+  <section>
     <h1>Control Panel</h1>
     <button @click="refresh" class="refresh">Refresh</button>
     <button @click="clear" class="clear">Clear</button>
@@ -198,7 +198,7 @@ function fetchingListsAfterSelection() {
       </option>
     </select>
     <button @click="fetchMore" class="fetchMore">Fetch more</button>
-  </main>
+  </section>
 </template>
 <style scoped>
 h1 {
@@ -206,7 +206,7 @@ h1 {
   color: hsla(160, 100%, 37%, 1);
   transition: 0.4s;
 }
-main {
+section {
   display: flex;
   flex-wrap: nowrap;
   flex-direction: column;
@@ -241,7 +241,7 @@ button {
   }
 }
 @media (max-width: 624px) {
-  main {
+  section {
     align-items: center;
     justify-content: center;
   }
@@ -259,7 +259,7 @@ button {
     }
   }
   select {
-    max-width: 35%;
+    max-width: 55%;
     float: left;
   }
 }

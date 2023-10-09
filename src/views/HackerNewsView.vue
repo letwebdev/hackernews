@@ -43,12 +43,14 @@ function fold() {
   </main>
 </template>
 <style scoped>
-nav {
-  position: fixed;
-  margin: 0 0 0 4%;
-}
 main {
   margin: 0 5% 10% 20%;
+}
+@media (min-width: 624px) {
+  nav {
+    position: fixed;
+    margin: 0 0 0 9%;
+  }
 }
 .settingItems {
   display: flex;
