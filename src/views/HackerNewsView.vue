@@ -45,10 +45,10 @@ function fold() {
 <style scoped>
 nav {
   position: fixed;
-  margin: 0 0 10% 10%;
+  margin: 0 0 0 10%;
 }
 main {
-  margin-bottom: 50%;
+  margin-bottom: 10%;
 }
 .itemPost {
   margin-left: 32%;
