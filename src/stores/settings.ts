@@ -1,7 +1,6 @@
 import { defineStore } from "pinia"
 import { useLocalStorage } from "@vueuse/core"
 export const useSettingsStore = defineStore("settings", () => {
-  // TODO Local storage
   class Settings {
     numberOfItemsFetchedEachTime = {
       description: "Number of items fetched each time",
@@ -24,8 +23,7 @@ export const useSettingsStore = defineStore("settings", () => {
       description: "Fetching randomly",
       value: false,
     }
-    // TODO add options to zoom button
-    // TODO also options to hide other properties
+    // TODO Add options to zoom button
     displayingItemTitle = {
       description: "Displaying item title",
       value: true,

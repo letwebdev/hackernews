@@ -272,7 +272,7 @@ h2 {
     :is(button) {
       width: 120px;
     }
-    /* TODO long press the button to open control panel
+    /* TODO Long press the button to open control panel
      */
     :is(button).fetchMore {
       width: 50px;
