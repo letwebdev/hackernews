@@ -179,7 +179,7 @@ function fetchingListsAfterSelection() {
     <h1>Control Panel</h1>
     <button @click="refresh" class="refresh">Refresh</button>
     <button @click="clear" class="clear">Clear</button>
-    <ul class="descriptionsOfSelected">
+    <ul>
       Selected:
       <li v-for="description in descriptions" :key="description">{{ description }}</li>
     </ul>
@@ -210,6 +210,7 @@ main {
   display: flex;
   flex-wrap: nowrap;
   flex-direction: column;
+  width: 200px;
   :is(button) {
     margin: 5px auto;
     height: 4ex;
@@ -222,7 +223,6 @@ main {
 }
 @media (min-width: 624px) {
   main {
-    width: 200px;
     :is(select) {
       margin: 5% 0;
       max-width: 165px;
@@ -243,16 +243,14 @@ main {
     max-width: 35%;
     float: left;
   }
-  .descriptionsOfSelected {
+  ul {
     display: none;
   }
 }
 @media (max-width: 624px) {
-  /* width <= 624 */
-  .controlPanel {
+  main {
     align-items: center;
     justify-content: center;
-    width: 200px;
     :is(button) {
       width: 120px;
     }
@@ -264,9 +262,9 @@ main {
       position: fixed;
       right: 0%;
     }
-  }
-  .refresh {
-    margin: 0%;
+    .refresh {
+      margin: 0%;
+    }
   }
 }
 </style>
