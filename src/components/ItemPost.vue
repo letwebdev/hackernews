@@ -49,7 +49,7 @@ h2 {
   word-break: break-all;
 }
 @media (max-width: 624px) {
-  :is(h2) {
+  h2 {
     font-size: 120%;
   }
 }
