@@ -211,38 +211,37 @@ main {
   flex-wrap: nowrap;
   flex-direction: column;
   width: 200px;
-  :is(button) {
-    margin: 5px auto;
-    height: 4ex;
-    background-image: linear-gradient(135deg, #00f059 60%, #42f0a5);
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
-    color: white;
-  }
+}
+button {
+  width: 120px;
+  margin: 5px auto;
+  height: 4ex;
+  background-image: linear-gradient(135deg, #00f059 60%, #42f0a5);
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  color: white;
 }
 @media (min-width: 624px) {
-  main {
-    :is(select) {
-      margin: 5% 0;
-      max-width: 165px;
-      height: 230px;
-    }
-    :is(button) {
-      width: 120px;
-      cursor: pointer;
-    }
-    :is(button):active {
-      box-shadow: 2px 2px 5px #00ff00;
-    }
-    .refresh {
-      margin: 5% 0 0 11%;
-    }
+  /*
+     BUG: Can't nest rules
+     */
+  button {
+    cursor: pointer;
   }
+  button:active {
+    box-shadow: 2px 2px 5px #00ff00;
+  }
+  button.refresh {
+    margin: 5% 0 0 11%;
+  }
+
   select {
-    max-width: 35%;
-    float: left;
+    margin: 5% 0;
+    max-width: 165px;
+    height: 230px;
   }
+
   ul {
     display: none;
   }
@@ -251,20 +250,21 @@ main {
   main {
     align-items: center;
     justify-content: center;
-    :is(button) {
-      width: 120px;
-    }
-    /* TODO Long press the button to open control panel
+  }
+  /* TODO Long press the button to open control panel
      */
-    :is(button).fetchMore {
-      width: 50px;
-      height: 40px;
-      position: fixed;
-      right: 0%;
-    }
-    .refresh {
-      margin: 0%;
-    }
+  button.fetchMore {
+    width: 50px;
+    height: 40px;
+    position: fixed;
+    right: 0%;
+  }
+  button.refresh {
+    margin: 0%;
+  }
+  select {
+    max-width: 35%;
+    float: left;
   }
 }
 </style>
