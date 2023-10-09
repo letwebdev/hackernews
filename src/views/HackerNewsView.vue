@@ -22,45 +22,60 @@ function fold() {
 }
 </script>
 <template>
-  <main>
+  <nav>
     <ControlPanel
       class="controlPanel"
       @show-prompt="promptForFetching = 'Fetching selected lists...'"
       @clear-prompt="promptForFetching = ''"
     />
-    <h2 class="settingItems">
-      <button @click="fold">Settings {{ foldSign }}</button>
-    </h2>
-    <SettingItems class="settingItems" v-show="!folded" />
-    <ItemPost v-for="item in items" :key="item.id" :item="item" />
+  </nav>
+  <main>
+    <section class="settingItems">
+      <h2>
+        <button @click="fold">Settings {{ foldSign }}</button>
+      </h2>
+      <SettingItems v-show="!folded" />
+    </section>
+    <ItemPost class="itemPost" v-for="item in items" :key="item.id" :item="item" />
     <div>
       {{ promptForFetching }}
     </div>
   </main>
 </template>
 <style scoped>
-main {
-  margin-bottom: 11%;
-}
-
-h2.settingItems {
-  margin-left: 22%;
-  margin-bottom: 1%;
-  color: hsla(160, 92%, 27%, 1);
-  :is(button) {
-    border-radius: 5px;
-    z-index: 2;
-    background-color: transparent;
-    border: none;
+@media (min-width: 624px) {
+  main {
+    margin: 0 5% 10% 20%;
   }
-  :is(button):hover {
-    color: #00aa00;
-    font-weight: bold;
-    cursor: pointer;
+  nav {
+    position: fixed;
+    margin: 0 0 0 9%;
   }
 }
 .settingItems {
-  margin-left: 22%;
+  display: flex;
+  flex-flow: column;
   margin-bottom: 1%;
+  :is(h2) {
+    color: hsla(160, 92%, 27%, 1);
+  }
+  /*
+      FIXME: Invalid
+    */
+  :is(button):hover {
+    color: #00aa00;
+    font-weight: bold;
+  }
+}
+@media (max-width: 624px) {
+  nav section {
+    margin: auto auto;
+  }
+  main {
+    margin: 0 1% 30% 1%;
+    .settingItems {
+      margin: auto 4%;
+    }
+  }
 }
 </style>

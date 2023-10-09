@@ -17,7 +17,7 @@ function displayingLink(item: Item): boolean {
 </script>
 <template>
   <article>
-    <h2 v-show="settings.displayingItemTitle.value" class="itemTitle">
+    <h2 v-show="settings.displayingItemTitle.value">
       <a :href="setUrl(item)"> {{ item.title }}</a>
     </h2>
     <ul>
@@ -39,27 +39,18 @@ h2 {
   text-decoration: none;
   color: hsla(160, 100%, 37%, 1);
   transition: 0.4s;
-}
-.itemTitle:hover {
-  background-color: hsla(160, 100%, 37%, 0.2);
-  cursor: pointer;
+  &:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+    cursor: pointer;
+  }
 }
 * {
-  /* So that _ in long link on mobile phone wrapped */
+  /* Wrap "_", etc. in long link on mobile phone  */
   word-break: break-all;
 }
 @media (max-width: 624px) {
-  /* width <= 624 */
   h2 {
     font-size: 120%;
   }
-}
-.itemText {
-  position: relative;
-  margin-top: 10%;
-}
-article {
-  margin-left: 22%;
-  margin-bottom: 1%;
 }
 </style>
