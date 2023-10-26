@@ -9,7 +9,6 @@ import { useLocalStorage } from "@vueuse/core"
 
 import { useCoreDataStore } from "@/stores/coreData"
 import { storeToRefs } from "pinia"
-// TODO Auto fetch more when scrolling to the bottom
 
 const items = storeToRefs(useCoreDataStore()).items
 /* console.log(items) */

@@ -52,6 +52,10 @@ export const useSettingsStore = defineStore("settings", () => {
       description: "Displaying discuss link",
       value: true,
     }
+    automaticallyFetchingMoreWhenScrollingToTheBottom = {
+      description: "Automatically fetching more when scrolling to the bottom",
+      value: true,
+    }
     /* TODO
      history = {
        description: "Recording history",

@@ -173,6 +173,15 @@ const descriptions = computed<string[]>(() => selected.value.map((option) => opt
 function fetchingListsAfterSelection() {
   settings.fetchingListsAfterSelection.value && fetchMore()
 }
+
+window.addEventListener("scroll", () => {
+  if (settings.automaticallyFetchingMoreWhenScrollingToTheBottom.value === false) {
+    return
+  }
+  if (window.innerHeight + Math.round(window.scrollY) + 1 >= document.body.offsetHeight) {
+    fetchMore()
+  }
+})
 </script>
 <template>
   <section>
