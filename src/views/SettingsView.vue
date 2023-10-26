@@ -3,14 +3,15 @@
 import SettingItems from "@/components/SettingItems.vue"
 </script>
 <template>
-  <SettingItems />
+  <main class="wrapper">
+    <SettingItems />
+  </main>
 </template>
 
-<style>
+<style scoped>
 @media (min-width: 1024px) {
-  .settings {
-    margin-top: 30%;
-    min-height: 100vh;
+  .wrapper {
+    margin: 7% 0 0 5%;
     display: block;
     align-items: center;
   }
