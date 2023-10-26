@@ -3,6 +3,7 @@
 import { computed, ref } from "vue"
 import ControlPanel from "@/components/ControlPanel.vue"
 import SettingItems from "@/components/SettingItems.vue"
+import NavigatingButtons from "@/components/NavigatingButtons.vue"
 import ItemPost from "@/components/ItemPost.vue"
 import { useLocalStorage } from "@vueuse/core"
 
@@ -41,23 +42,26 @@ function fold() {
       {{ promptForFetching }}
     </div>
   </main>
+  <NavigatingButtons />
 </template>
 <style scoped>
-@media (min-width: 624px) {
+@media (min-width: 1024px) {
   main {
-    margin: 0 5% 10% 20%;
+    margin: 0 20% 10% 1%;
   }
   nav {
     position: fixed;
-    margin: 0 0 0 9%;
+    right: 2%;
   }
 }
 .settingItems {
   display: flex;
   flex-flow: column;
   margin-bottom: 1%;
-  :is(h2) {
+  :is(h2) button {
     color: hsla(160, 92%, 27%, 1);
+    border: none;
+    background-color: transparent;
   }
   /*
       FIXME: Invalid
@@ -67,7 +71,7 @@ function fold() {
     font-weight: bold;
   }
 }
-@media (max-width: 624px) {
+@media (max-width: 1024px) {
   nav section {
     margin: auto auto;
   }

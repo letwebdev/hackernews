@@ -222,7 +222,7 @@ button {
   font-weight: bold;
   color: white;
 }
-@media (min-width: 624px) {
+@media (min-width: 1024px) {
   button {
     cursor: pointer;
     &:active {
@@ -240,7 +240,7 @@ button {
     display: none;
   }
 }
-@media (max-width: 624px) {
+@media (max-width: 1024px) {
   section {
     align-items: center;
     justify-content: center;
@@ -252,6 +252,7 @@ button {
       width: 50px;
       height: 40px;
       position: fixed;
+      top: 30%;
       right: 0%;
     }
     &.refresh {

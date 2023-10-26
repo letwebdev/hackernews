@@ -18,7 +18,6 @@ import { RouterLink, RouterView } from "vue-router"
 <style scoped>
 header {
   line-height: 1.5;
-  max-height: 100vh;
 }
 
 nav {
@@ -28,37 +27,35 @@ nav {
   margin-top: 1rem;
   display: flex;
   flex-direction: column;
+
+  :is(a) {
+    display: inline-block;
+    padding: 0 1rem;
+    border-left: 1px solid var(--color-border);
+    &.router-link-exact-active {
+      color: var(--color-text);
+      &:hover {
+        background-color: transparent;
+      }
+    }
+    &:first-of-type {
+      border: 0;
+    }
+  }
 }
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 624px) {
+@media (min-width: 1024px) {
   header {
+    height: 70vh;
     display: flex;
     place-items: center;
     padding-right: calc(var(--section-gap) / 8);
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
+    .wrapper {
+      position: fixed;
+      display: flex;
+      place-items: flex-start;
+      flex-wrap: wrap;
+    }
   }
 
   nav {
