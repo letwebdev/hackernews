@@ -3,6 +3,7 @@
 import { computed, ref } from "vue"
 import ControlPanel from "@/components/ControlPanel.vue"
 import SettingItems from "@/components/SettingItems.vue"
+import NavigatingButtons from "@/components/NavigatingButtons.vue"
 import ItemPost from "@/components/ItemPost.vue"
 import { useLocalStorage } from "@vueuse/core"
 
@@ -41,6 +42,7 @@ function fold() {
       {{ promptForFetching }}
     </div>
   </main>
+  <NavigatingButtons />
 </template>
 <style scoped>
 @media (min-width: 624px) {
