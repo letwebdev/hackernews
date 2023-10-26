@@ -56,8 +56,10 @@ function fold() {
   display: flex;
   flex-flow: column;
   margin-bottom: 1%;
-  :is(h2) {
+  :is(h2) button {
     color: hsla(160, 92%, 27%, 1);
+    border: none;
+    background-color: transparent;
   }
   /*
       FIXME: Invalid
