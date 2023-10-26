@@ -56,6 +56,7 @@ export const useSettingsStore = defineStore("settings", () => {
       description: "Automatically fetching more when scrolling to the bottom",
       value: true,
     }
+    // TODO Not need to delete old localstorage when adding new setting items
     /* TODO
      history = {
        description: "Recording history",

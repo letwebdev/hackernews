@@ -20,6 +20,7 @@ const foldSign = computed(() => (folded.value ? "  ∨  " : "  ∧  "))
 function fold() {
   folded.value = !folded.value
 }
+// TODO Be able to drag controlPanel
 </script>
 <template>
   <nav>
