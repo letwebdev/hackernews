@@ -46,7 +46,7 @@ nav {
 
 @media (min-width: 1024px) {
   header {
-    height: 100vh;
+    height: 70vh;
     position: fixed;
     display: flex;
     place-items: center;
