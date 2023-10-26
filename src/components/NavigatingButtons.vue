@@ -23,10 +23,11 @@ button {
   border: none;
   border-radius: 5px;
   background-color: transparent;
+  cursor: pointer;
   position: fixed;
   right: 0%;
   &.goToTop {
-    top: 25%;
+    top: 15%;
   }
   &.goToBottom {
     bottom: 25%;

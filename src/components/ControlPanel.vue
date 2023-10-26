@@ -252,6 +252,7 @@ button {
       width: 50px;
       height: 40px;
       position: fixed;
+      top: 30%;
       right: 0%;
     }
     &.refresh {
