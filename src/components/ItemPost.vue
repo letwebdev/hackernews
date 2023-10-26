@@ -39,6 +39,7 @@ h2 {
   text-decoration: none;
   color: hsla(160, 100%, 37%, 1);
   transition: 0.4s;
+  font-size: 110%;
   &:hover {
     background-color: hsla(160, 100%, 37%, 0.2);
     cursor: pointer;
@@ -48,9 +49,9 @@ h2 {
   /* Wrap "_", etc. in long link on mobile phone  */
   word-break: break-all;
 }
-@media (max-width: 624px) {
+@media (max-width: 1024px) {
   h2 {
-    font-size: 120%;
+    font-size: 110%;
   }
 }
 </style>

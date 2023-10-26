@@ -11,6 +11,7 @@ function goToBottom() {
     behavior: "smooth",
   })
 }
+// TODO Add "Go back to current position" button
 </script>
 <template>
   <button @click="goToTop" class="goToTop">🔝</button>
