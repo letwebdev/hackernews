@@ -45,13 +45,13 @@ function fold() {
   <NavigatingButtons />
 </template>
 <style scoped>
-@media (min-width: 624px) {
+@media (min-width: 1024px) {
   main {
-    margin: 0 5% 10% 20%;
+    margin: 0 20% 10% 11%;
   }
   nav {
     position: fixed;
-    margin: 0 0 0 9%;
+    right: 2%;
   }
 }
 .settingItems {
@@ -71,7 +71,7 @@ function fold() {
     font-weight: bold;
   }
 }
-@media (max-width: 624px) {
+@media (max-width: 1024px) {
   nav section {
     margin: auto auto;
   }
