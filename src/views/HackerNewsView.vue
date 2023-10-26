@@ -47,7 +47,7 @@ function fold() {
 <style scoped>
 @media (min-width: 1024px) {
   main {
-    margin: 0 20% 10% 11%;
+    margin: 0 20% 10% 1%;
   }
   nav {
     position: fixed;

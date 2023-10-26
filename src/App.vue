@@ -47,11 +47,11 @@ nav {
 @media (min-width: 1024px) {
   header {
     height: 70vh;
-    position: fixed;
     display: flex;
     place-items: center;
     padding-right: calc(var(--section-gap) / 8);
     .wrapper {
+      position: fixed;
       display: flex;
       place-items: flex-start;
       flex-wrap: wrap;
