@@ -31,8 +31,8 @@ function reset() {
 <style scoped>
 button {
   border-radius: 5px;
-}
-:is(button):hover {
-  cursor: pointer;
+  &:hover {
+    cursor: pointer;
+  }
 }
 </style>
