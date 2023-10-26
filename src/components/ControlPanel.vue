@@ -173,6 +173,12 @@ const descriptions = computed<string[]>(() => selected.value.map((option) => opt
 function fetchingListsAfterSelection() {
   settings.fetchingListsAfterSelection.value && fetchMore()
 }
+function goToTop() {
+  document.documentElement.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  })
+}
 </script>
 <template>
   <section>
@@ -198,6 +204,8 @@ function fetchingListsAfterSelection() {
       </option>
     </select>
     <button @click="fetchMore" class="fetchMore">Fetch more</button>
+    <br />
+    <button @click="goToTop" class="goToTop">🔝</button>
   </section>
 </template>
 <style scoped>
@@ -221,6 +229,15 @@ button {
   border-radius: 5px;
   font-weight: bold;
   color: white;
+  &.goToTop {
+    width: 50px;
+    height: 40px;
+    position: fixed;
+    right: 0%;
+    bottom: 25%;
+    background-image: none;
+    background-color: transparent;
+  }
 }
 @media (min-width: 624px) {
   button {
