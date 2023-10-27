@@ -46,8 +46,8 @@ h2 {
   }
 }
 * {
-  /* Wrap "_", etc. in long link on mobile phone  */
-  word-break: break-all;
+  /* Wrap "_", etc. in long link */
+  overflow-wrap: break-word;
 }
 @media (max-width: 1024px) {
   h2 {
