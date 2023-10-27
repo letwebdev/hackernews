@@ -31,11 +31,11 @@ function fold() {
     />
   </nav>
   <main>
-    <section class="settingItems">
+    <section class="settings">
       <h2>
         <button @click="fold">Settings {{ foldSign }}</button>
       </h2>
-      <SettingItems v-show="!folded" />
+      <SettingItems class="settingItems" v-show="!folded" />
     </section>
     <ItemPost class="itemPost" v-for="item in items" :key="item.id" :item="item" />
     <div>
@@ -54,7 +54,7 @@ function fold() {
     right: 2%;
   }
 }
-.settingItems {
+.settings {
   display: flex;
   flex-flow: column;
   margin-bottom: 1%;
@@ -63,12 +63,10 @@ function fold() {
     border: none;
     background-color: transparent;
   }
-  /*
-      FIXME: Invalid
-    */
-  :is(button):hover {
-    color: #00aa00;
-    font-weight: bold;
+  .settingItems {
+    :global(:is(button):hover) {
+      color: #00aa00;
+    }
   }
 }
 @media (max-width: 1024px) {
@@ -77,7 +75,7 @@ function fold() {
   }
   main {
     padding: 0 1% 30% 1%;
-    .settingItems {
+    .settings {
       margin: auto 4%;
     }
   }
