@@ -65,7 +65,8 @@ function fold() {
   }
   .settingItems {
     :global(:is(button):hover) {
-      color: #00aa00;
+      color: hsla(160, 92%, 27%, 1);
+      background-color: hsla(160, 100%, 37%, 0.2);
     }
   }
 }
