@@ -254,8 +254,6 @@ button {
     align-items: center;
     justify-content: center;
   }
-  /* TODO Long press the button to open control panel
-     */
   button {
     &.fetchMore {
       width: 50px;

@@ -6,11 +6,6 @@ export const useSettingsStore = defineStore("settings", () => {
       description: "Number of items fetched each time",
       value: 20,
     }
-    // // TODO multi-pages
-    // maximumDisplayedItemsPerPage = {
-    //   description: "Maximum displayed items per page",
-    //   value: 20,
-    // }
     maximumLinkLengthToDisplay = {
       description: "Maximum link length to display",
       value: 200,
@@ -23,7 +18,6 @@ export const useSettingsStore = defineStore("settings", () => {
       description: "Fetching randomly",
       value: false,
     }
-    // TODO Add options to zoom button
     displayingItemTitle = {
       description: "Displaying item title",
       value: true,
@@ -56,15 +50,12 @@ export const useSettingsStore = defineStore("settings", () => {
       description: "Automatically fetching more when scrolling to the bottom",
       value: true,
     }
-    // TODO Not need to delete old localstorage when adding new setting items
-    /* TODO
+    // TODO No longer need to delete old localstorage when adding new setting items
+    /* TODO history
      history = {
        description: "Recording history",
        value: false,
      }
-
-        option to enlarge font size
-
          */
   }
   const settings = useLocalStorage("settings", new Settings())
