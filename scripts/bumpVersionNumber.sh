@@ -1,4 +1,6 @@
 #!/bin/bash
+# Run before build apk
+
 # Go to the root dir of the repo
 cd "$(git rev-parse --show-toplevel)" || return
 allVersionNumbers="$(git tag | grep --extended-regexp 'v[0-9]+.[0-9]+.[0-9]')"
