@@ -1,4 +1,6 @@
 name: Build Android apk from Web code
+permissions:
+  contents: write
 
 on:
   push:
