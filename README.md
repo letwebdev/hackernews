@@ -1,6 +1,8 @@
 # Hacker News 
 
-## known bugs
+## Screenshots
+
+See [Screenshots in Wiki](https://github.com/letwebdev/hackernews/wiki/Screenshots)
 
 ## Customize vite configuration
 
