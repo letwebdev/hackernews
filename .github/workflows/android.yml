@@ -33,11 +33,15 @@ jobs:
       run: npm run bump
     - name: Build apk
       run: npm run build-apk
-    - name: Upload apk
+
+    - name: Upload apk-debug.apk
       uses: actions/upload-artifact@v3
       with:
-        name: debug
-        path: './android/app/build/outputs/apk/debug/'
+        path: './android/app/build/outputs/apk/debug/app-debug.apk'
+    - name: Upload output-metadata.json
+      uses: actions/upload-artifact@v3
+      with:
+        path: './android/app/build/outputs/apk/debug/output-metadata.json'
 
     - name: Rename bulit apk
       if: startsWith(github.ref, 'refs/tags/v')
@@ -46,7 +50,9 @@ jobs:
       if: startsWith(github.ref, 'refs/tags/v')
       uses: softprops/action-gh-release@v1
       with:
-        files: './android/app/build/outputs/apk/debug/hackernews-${{github.ref}}'
+        files: |
+          './android/app/build/outputs/apk/debug/hackernews-${{github.ref}}'
+          './android/app/build/outputs/apk/debug/output-metadata.json'
         # Name of the release. defaults to tag name
         name: apk ${{github.ref}}
 
