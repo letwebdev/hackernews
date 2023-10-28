@@ -62,12 +62,19 @@ jobs:
         name: output-metadata.json
         path: './android/app/build/outputs/apk/debug/output-metadata.json'
 
+    - name: Get last version tag
+      id: git-version-tag
+      run: |
+        lastVersionTag="$(git for-each-ref --sort=-creatordate --count 2 --format="%(refname:short)" "refs/tags/v*"|tail --lines 1)"
+        echo "LAST_VERSION_TAG=${lastVersionTag}" >> "$GITHUB_OUTPUT"
+
     - name: Release
       if: startsWith(github.ref, 'refs/tags/v')
       uses: softprops/action-gh-release@v1
       with:
         # TODO
         # generate_release_notes: true
+        body: "**Full Changelog**: https://github.com/${GITHUB_REPOSITORY}/compare/${{ steps.git-version-tag.outputs.LAST_VERSION_TAG }}...${{github.ref_name}}"
         # Can't use quotes here
         files: |
           ./android/app/build/outputs/apk/debug/hackernews-${{github.ref_name}}.apk
