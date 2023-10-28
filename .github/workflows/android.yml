@@ -28,7 +28,7 @@ jobs:
       with:
         java-version: '19'
         distribution: 'temurin'
-        cache: gradle
+        cache: 'gradle'
     - name: Create the Android project
       run: npx cap add android
     - name: Guarantee scripts execution permission
