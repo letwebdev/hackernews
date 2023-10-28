@@ -3,8 +3,6 @@ name: Build Android apk from Web code
 on:
   push:
     branches: [ "apk" ]
-    tags:
-    - "v*.*.*"
 
 jobs:
   build:
@@ -30,7 +28,7 @@ jobs:
     - name: Create the Android project
       run: npx cap add android
     - name: Guarantee scripts execution permission
-      run: chmod u+x ./scripts/*
+      run: chmod +x ./scripts/*
     - name: Bump version number
       run: npm run bump
     - name: Build apk
@@ -39,21 +37,23 @@ jobs:
     - name: Upload apk-debug.apk
       uses: actions/upload-artifact@v3
       with:
+        name: app-debug.apk
         path: './android/app/build/outputs/apk/debug/app-debug.apk'
     - name: Upload output-metadata.json
       uses: actions/upload-artifact@v3
       with:
+        name: output-metadata.json
         path: './android/app/build/outputs/apk/debug/output-metadata.json'
 
     - name: Rename bulit apk
       if: startsWith(github.ref, 'refs/tags/v')
-      run: mv "./android/app/build/outputs/apk/debug/app-debug.apk" "./android/app/build/outputs/apk/debug/hackernews-${{github.ref}}"
+      run: mv "./android/app/build/outputs/apk/debug/app-debug.apk" "./android/app/build/outputs/apk/debug/hackernews-${{github.ref_name}}"
     - name: Release
       if: startsWith(github.ref, 'refs/tags/v')
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          './android/app/build/outputs/apk/debug/hackernews-${{github.ref}}'
+          './android/app/build/outputs/apk/debug/hackernews-${{github.ref_name}}'
           './android/app/build/outputs/apk/debug/output-metadata.json'
         # Name of the release. defaults to tag name
         name: apk ${{github.ref}}
