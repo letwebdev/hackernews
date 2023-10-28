@@ -71,5 +71,5 @@ jobs:
           ./android/app/build/outputs/apk/debug/hackernews-${{github.ref_name}}.apk
           ./android/app/build/outputs/apk/debug/output-metadata.json
         # Name of the release. defaults to tag name
-        name: apk ${{github.ref}}
+        name: apk ${{github.ref_name}}
 
