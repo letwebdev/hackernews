@@ -17,7 +17,8 @@
     "build-apk-only": "(cd android && bash ./gradlew assembleDebug)",
     "sync-only": "cap sync  && npm run fix-path-apk",
     "push": "npm run build && git add -A && git commit && git push",
-    "bump": "./scripts/setVersionNumber.sh --bump"
+    "bump": "./scripts/setVersionNumber.sh --bump",
+    "setVersionNumber": "./scripts/setVersionNumber.sh"
   },
   "dependencies": {
     "@vueuse/core": "^10.4.1",

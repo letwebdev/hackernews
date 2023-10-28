@@ -31,8 +31,9 @@ jobs:
       run: npx cap add android
     - name: Guarantee scripts execution permission
       run: chmod +x ./scripts/*
-    - name: Bump version number
-      run: npm run bump
+    - name: Set version number
+      if: startsWith(github.ref, 'refs/tags/v')
+      run: npm run setVersionNumber
     - name: Build apk
       run: npm run build-apk
 
