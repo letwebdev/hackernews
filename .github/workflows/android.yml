@@ -34,6 +34,10 @@ jobs:
     - name: Build apk
       run: npm run build-apk
 
+    - name: Rename bulit apk
+      if: startsWith(github.ref, 'refs/tags/v')
+      run: mv "./android/app/build/outputs/apk/debug/app-debug.apk" "./android/app/build/outputs/apk/debug/hackernews-${{github.ref_name}}"
+
     - name: Upload apk-debug.apk
       uses: actions/upload-artifact@v3
       with:
@@ -45,9 +49,6 @@ jobs:
         name: output-metadata.json
         path: './android/app/build/outputs/apk/debug/output-metadata.json'
 
-    - name: Rename bulit apk
-      if: startsWith(github.ref, 'refs/tags/v')
-      run: mv "./android/app/build/outputs/apk/debug/app-debug.apk" "./android/app/build/outputs/apk/debug/hackernews-${{github.ref_name}}"
     - name: Release
       if: startsWith(github.ref, 'refs/tags/v')
       uses: softprops/action-gh-release@v1
