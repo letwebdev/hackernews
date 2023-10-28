@@ -64,9 +64,10 @@ jobs:
       if: startsWith(github.ref, 'refs/tags/v')
       uses: softprops/action-gh-release@v1
       with:
+        # Can't use quotes here
         files: |
-          './android/app/build/outputs/apk/debug/hackernews-${{github.ref_name}}'
-          './android/app/build/outputs/apk/debug/output-metadata.json'
+          ./android/app/build/outputs/apk/debug/hackernews-${{github.ref_name}}
+          ./android/app/build/outputs/apk/debug/output-metadata.json
         # Name of the release. defaults to tag name
         name: apk ${{github.ref}}
 
