@@ -29,6 +29,8 @@ jobs:
         cache: gradle
     - name: Create the Android project
       run: npx cap add android
+    - name: Guarantee scripts execution permission
+      run: chmod u+x ./scripts/*
     - name: Bump version number
       run: npm run bump
     - name: Build apk
