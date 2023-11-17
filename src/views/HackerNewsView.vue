@@ -33,7 +33,9 @@ function fold() {
   <main>
     <section class="settings">
       <h2>
-        <button @click="fold">Settings {{ foldSign }}</button>
+        <button @click="fold">
+          Settings <span>{{ foldSign }}</span>
+        </button>
       </h2>
       <SettingItems class="settingItems" v-show="!folded" />
     </section>
@@ -59,6 +61,9 @@ function fold() {
   flex-flow: column;
   margin-bottom: 1%;
   :is(h2) button {
+    span {
+      cursor: pointer;
+    }
     color: hsla(160, 92%, 27%, 1);
     border: none;
     background-color: transparent;
