@@ -1,4 +1,4 @@
-# Hacker News 
+# Hacker News
 
 ## Screenshots
 
@@ -40,30 +40,33 @@ For more details, see [Add Capacitor to your web app](https://capacitorjs.com/do
 
 - Capacitor
 
-   ```sh
-   npm install
-   ```
+  ```sh
+  npm install
+  ```
 
 - Either of
+
   - Android Studio
   - Both of
+
     - Java(8<= version <= 19, tested on Java 19)
     - Basic Android command-line tools
+
       1. Set [ANDROID_HOME](https://developer.android.com/tools/variables#android_home)
       2. Download the command line tools zip from [Download Android Studio & App Tools - Android Developers](https://developer.android.com/studio) > Command line tools only
       3. Unzip it to `"${ANDROID_HOME}/cmdline-tools/latest"`
       4. Add these tools to PATH
 
-          ```sh
-          export PATH="${ANDROID_HOME}/cmdline-tools/latest/bin:${PATH}" >> "${HOME}/.profile"
-          source "${HOME}/.profile"
-          ```
+         ```sh
+         export PATH="${ANDROID_HOME}/cmdline-tools/latest/bin:${PATH}" >> "${HOME}/.profile"
+         source "${HOME}/.profile"
+         ```
 
       5. Accept the licenses
 
-          ```sh
-          yes | sdkmanager --licenses
-          ```
+         ```sh
+         yes | sdkmanager --licenses
+         ```
 
 ### Create an Android project
 
@@ -89,7 +92,7 @@ npm run sync
 npx cap open android
 ```
 
-Build > Build bundle(s) / APK(s) > Build APK(s)  
+Build > Build bundle(s) / APK(s) > Build APK(s)
 
 #### With command line tools
 
@@ -101,3 +104,7 @@ Set [GRADLE_USER_HOME](https://docs.gradle.org/current/userguide/directory_layou
 # The built apk is located at "android/app/build/outputs/apk/debug/app-debug.apk"
 npm run build-apk
 ```
+
+## TODO
+
+CSS: mobile first
