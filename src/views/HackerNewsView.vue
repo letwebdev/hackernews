@@ -46,7 +46,7 @@ function fold() {
   </main>
   <NavigatingButtons />
 </template>
-<style scoped>
+<style lang="scss" scoped>
 @media (min-width: 1024px) {
   main {
     margin: 0 20% 10% 1%;
@@ -60,7 +60,7 @@ function fold() {
   display: flex;
   flex-flow: column;
   margin-bottom: 1%;
-  :is(h2) button {
+  h2 button {
     span {
       cursor: pointer;
     }
@@ -69,7 +69,7 @@ function fold() {
     background-color: transparent;
   }
   .settingItems {
-    :global(:is(button):hover) {
+    :global(button:hover) {
       color: hsla(160, 92%, 27%, 1);
       background-color: hsla(160, 100%, 37%, 0.2);
     }

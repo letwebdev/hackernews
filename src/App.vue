@@ -15,7 +15,7 @@ import { RouterLink, RouterView } from "vue-router"
   <RouterView />
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 header {
   line-height: 1.5;
 }
@@ -28,7 +28,7 @@ nav {
   display: flex;
   flex-direction: column;
 
-  :is(a) {
+  a {
     display: inline-block;
     padding: 0 1rem;
     border-left: 1px solid var(--color-border);
