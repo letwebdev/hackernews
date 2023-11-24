@@ -19,7 +19,11 @@
     "sync-only": "cap sync",
     "push": "npm run build && git add -A && git commit && git push",
     "bump": "./scripts/setVersionNumber.sh --bump",
-    "setVersionNumber": "./scripts/setVersionNumber.sh"
+    "setVersionNumber": "./scripts/setVersionNumber.sh",
+    "setUp:electron": "npm install --save-dev electron electron-builder",
+    "setUp:noSave:electron": "npm install --no-save electron electron-builder",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
   "dependencies": {
     "@vueuse/core": "^10.6.1",
