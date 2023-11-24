@@ -26,9 +26,11 @@ fi
 if [[ "${GITHUB_ACTIONS}" == true ]]; then
 	versionCode="${GITHUB_RUN_NUMBER}"
 fi
+ANDROID_PROJECT_DIR="./release/android"
+ANDROID_BUILD_SCRIPT="${ANDROID_PROJECT_DIR}/app/build.gradle"
 sed --in-place --regexp-extended \
 	"s/versionCode [0-9]+/versionCode ${versionCode}/" \
-	./android/app/build.gradle
+	"${ANDROID_BUILD_SCRIPT}"
 sed --in-place --regexp-extended \
 	"s/versionName \".*\"/versionName \"${versionNumber}\"/" \
-	./android/app/build.gradle
+	"${ANDROID_BUILD_SCRIPT}"

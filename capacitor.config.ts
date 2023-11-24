@@ -1,12 +1,15 @@
-import { CapacitorConfig } from '@capacitor/cli';
+import { CapacitorConfig } from "@capacitor/cli"
 
 const config: CapacitorConfig = {
-  appId: 'github.letwebdev.hackernews',
-  appName: 'Hacker News',
-  webDir: 'dist',
+  appId: "github.letwebdev.hackernews",
+  appName: "Hacker News",
+  webDir: "dist",
+  android: {
+    path: "release/android",
+  },
   server: {
-    androidScheme: 'https'
-  }
-};
+    androidScheme: "https",
+  },
+}
 
-export default config;
+export default config
