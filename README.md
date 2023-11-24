@@ -11,7 +11,7 @@ See [Vite Configuration Reference](https://vitejs.dev/config/).
 ## Project Setup
 
 ```sh
-npm install --omit=optional
+npm install
 ```
 
 ### Compile and Hot-Reload for Development
@@ -26,12 +26,6 @@ npm run dev
 npm run build
 ```
 
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
-
 ## Build APK
 
 ### Recuirements
@@ -41,7 +35,11 @@ For more details, see [Add Capacitor to your web app](https://capacitorjs.com/do
 - Capacitor
 
   ```sh
-  npm install
+  # Install dependencies
+  npm run setUp:capacitor
+
+  # Not save the related packages to package.json
+  #npm run setUp:noSave:capacitor
   ```
 
 - Either of
@@ -70,7 +68,7 @@ For more details, see [Add Capacitor to your web app](https://capacitorjs.com/do
 
 ### Create an Android project
 
-Modify capacitor.config.ts first(optional)
+Modify capacitor.config.ts first(optional), and then
 
 ```sh
 npx cap add android
@@ -94,17 +92,36 @@ npx cap open android
 
 Build > Build bundle(s) / APK(s) > Build APK(s)
 
-#### With command line tools
+#### At the command line
 
 Set [GRADLE_USER_HOME](https://docs.gradle.org/current/userguide/directory_layout.html#dir:gradle_user_home)(optional, defaults to `"${HOME}/.gradle"`)
 
 ##### Build and Sync the web code to, then Build the native project
 
 ```sh
-# The built apk is located at "android/app/build/outputs/apk/debug/app-debug.apk"
-npm run build-apk
+# The built apk is located at "release/android/app/build/outputs/apk/debug/app-debug.apk"
+npm run build:apk
 ```
 
-## TODO
+## Build Electron app
 
-CSS: mobile first
+```sh
+# Install dependencies
+npm run setUp:electron
+
+# Not save the related packages to package.json
+#npm run setUp:noSave:electron
+```
+
+```sh
+# Build web code and then build Electron app
+npm run build:electron
+```
+
+---
+
+For more scripts, see
+
+```sh
+npm run
+```

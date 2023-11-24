@@ -1,6 +1,8 @@
 {
-  "name": "vue-project",
-  "version": "0.0.0",
+  "name": "hackernews",
+  "author": "let webDeveloper",
+  "description": "A Hacker News client written in Vue3",
+  "version": "v0.0.5",
   "private": true,
   "main": "dist-electron/main.js",
   "scripts": {
@@ -18,14 +20,15 @@
     "setVersionNumber": "./scripts/setVersionNumber.sh",
     "setUp:capacitor": "npm install --save-dev @capacitor/cli && npm install @capacitor/core @capacitor/android",
     "setUp:noSave:capacitor": "npm install --no-save @capacitor/cli @capacitor/core @capacitor/android",
-    "build-apk": "npm run sync && npm run build-apk-only",
+    "build:apk": "npm run sync && npm run build-apk-only",
     "sync": "npm run build && npm run sync-only",
-    "build-apk-only": "(cd release/android && chmod +x ./gradlew && ./gradlew assembleDebug)",
+    "build:apk-only": "(cd release/android && chmod +x ./gradlew && ./gradlew assembleDebug)",
     "sync-only": "cap sync",
     "setUp:electron": "npm install --save-dev electron electron-builder",
     "setUp:noSave:electron": "npm install --no-save electron electron-builder",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "pack:electron": "electron-builder --dir",
+    "build:electron": "npm run build && npm run build:electron-only",
+    "build:electron-only": "electron-builder"
   },
   "dependencies": {
     "@vueuse/core": "^10.6.1",
