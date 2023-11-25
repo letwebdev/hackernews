@@ -1,7 +1,0 @@
-directories:
-  output: release/electron/
-  buildResources: build
-files:
-  - dist
-  - dist-electron
-
