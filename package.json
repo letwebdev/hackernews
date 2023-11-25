@@ -28,7 +28,11 @@
     "setUp:noSave:electron": "npm install --no-save electron electron-builder",
     "pack:electron": "electron-builder --dir",
     "build:electron": "npm run build && npm run build:electron-only",
-    "build:electron-only": "electron-builder"
+    "build:electron:linux": "npm run build && npm run build:electron:linux-only",
+    "build:electron:windows": "npm run build && npm run build:electron:windows-only",
+    "build:electron-only": "electron-builder",
+    "build:electron:linux-only": "electron-builder --linux",
+    "build:electron:windows-only": "electron-builder --windows"
   },
   "dependencies": {
     "@vueuse/core": "^10.6.1",
