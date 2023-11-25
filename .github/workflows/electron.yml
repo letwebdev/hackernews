@@ -1,0 +1,70 @@
+name: Build electron app, and release if pushing a version tag
+permissions:
+  contents: write
+
+on:
+  push:
+    branches: ["electron"]
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: "npm"
+      - name: Set up npm dependencies
+        run: npm install && npm run setUp:electron
+
+      - name: Build Electron app
+        run: npm run build:electron
+
+      # # TODO
+      # # Here only for workflow upload and release
+      # - name: Set app name
+      #   run: |
+      #     # Set app name to repository name
+      #     echo "APP_NAME=${GITHUB_REPOSITORY#*/}" >> "${GITHUB_ENV}"
+      # # Use a new run as newly defined environment variables can't be accessed in the same step
+      # - run: |
+      #     echo "APP_NAME_UNVERSIONED_WITH_EXTENSION=${APP_NAME}-debug.apk" >> "${GITHUB_ENV}"
+      #     echo "APP_NAME_VERSIONED_WITH_EXTENSION=${GITHUB_REF_NAME}.apk" >> "${GITHUB_ENV}"
+
+      # Upload
+      - name: Upload Electron app when pushing the branch "electron"
+        if: startsWith(github.ref, 'refs/heads/electron')
+        uses: actions/upload-artifact@v3
+        with:
+          # TODO use environment variables
+          name: electron-debug.AppImage
+          path: release/electron/v0.0.5/*.AppImage
+
+      # TODO
+      # - name: Upload Electron app when pushing a version tag
+      #   if: startsWith(github.ref, 'refs/tags/v')
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: ${{ env.APP_NAME_VERSIONED_WITH_EXTENSION }}
+      #     path: ${{ env.OUTPUT_APK_PATH }}/${{ env.APP_NAME_VERSIONED_WITH_EXTENSION }}
+
+      # TODO
+      # - name: Release
+      #   if: startsWith(github.ref, 'refs/tags/v')
+      #   uses: softprops/action-gh-release@v1
+      #   with:
+      #     generate_release_notes: true
+      #     # body: "**Full Changelog**: https://github.com/${GITHUB_REPOSITORY}/compare/${{ steps.git-version-tag.outputs.LATEST_BUT_ONE_VERSION_TAG }}...${{github.ref_name}}"
+      #     # Can't use quotes here
+      #     files: |
+      #       ${{ env.OUTPUT_APK_PATH }}/${{ env.APP_NAME_VERSIONED_WITH_EXTENSION }}
+      #       ${{ env.OUTPUT_APK_PATH }}/output-metadata.json
+      #     # Name of the release
+      #     name: apk ${{github.ref_name}}
