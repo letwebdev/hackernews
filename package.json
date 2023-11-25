@@ -30,9 +30,9 @@
     "build:electron": "npm run build && npm run build:electron-only",
     "build:electron:linux": "npm run build && npm run build:electron:linux-only",
     "build:electron:windows": "npm run build && npm run build:electron:windows-only",
-    "build:electron-only": "electron-builder",
-    "build:electron:linux-only": "electron-builder --linux",
-    "build:electron:windows-only": "electron-builder --windows",
+    "build:electron-only": "electron-builder --publish never",
+    "build:electron:linux-only": "electron-builder --linux --publish never",
+    "build:electron:windows-only": "electron-builder --windows --publish never",
     "setUp:all": "npm install --save-dev @capacitor/cli && npm install @capacitor/core @capacitor/android && npm install --save-dev electron electron-builder",
     "setUp:all-noSave": "npm install --no-save @capacitor/cli @capacitor/core @capacitor/android electron electron-builder"
   },
