@@ -40,7 +40,8 @@
     "@vueuse/core": "^10.6.1",
     "pinia": "^2.1.7",
     "vue": "^3.3.2",
-    "vue-router": "^4.2.5"
+    "vue-router": "^4.2.5",
+    "dotenv": "^16.3.1"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.6.0",
@@ -53,7 +54,6 @@
     "@vue/eslint-config-typescript": "^11.0.3",
     "@vue/test-utils": "^2.4.2",
     "@vue/tsconfig": "^0.4.0",
-    "dotenv": "^16.3.1",
     "eslint": "^8.54.0",
     "eslint-plugin-vue": "^9.18.1",
     "jsdom": "^22.1.0",
