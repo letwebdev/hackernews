@@ -23,8 +23,9 @@ jobs:
       - name: Set app name
         run: |
           # Set app name to repository name
-          echo "APP_NAME=/${GITHUB_REPOSITORY#*/}/" >> "${GITHUB_ENV}"
-
+          echo "APP_NAME=${GITHUB_REPOSITORY#*/}" >> "${GITHUB_ENV}"
+      # Use a new run as newly defined environment variables can't be accessed in the same step
+      - run: |
           echo "APP_NAME_UNVERSIONED_WITH_EXTENSION=${APP_NAME}-debug.apk" >> "${GITHUB_ENV}"
           echo "APP_NAME_VERSIONED_WITH_EXTENSION=${GITHUB_REF_NAME}.apk" >> "${GITHUB_ENV}"
 
