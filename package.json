@@ -20,7 +20,7 @@
     "setVersionNumber": "./scripts/setVersionNumber.sh",
     "setUp:capacitor": "npm install --save-dev @capacitor/cli && npm install @capacitor/core @capacitor/android",
     "setUp:capacitor-noSave": "npm install --no-save @capacitor/cli @capacitor/core @capacitor/android",
-    "build:apk": "npm run sync && npm run build-apk-only",
+    "build:apk": "npm run sync && npm run build:apk-only",
     "sync": "npm run build && npm run sync-only",
     "build:apk-only": "(source './.env' && cd ${CAPACITOR_ANDROID_PATH} && chmod +x ./gradlew && ./gradlew assembleDebug)",
     "sync-only": "cap sync",
