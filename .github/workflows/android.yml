@@ -13,6 +13,8 @@ jobs:
   setUpEnvironmentVariable:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: Get the paths to Android project and output apk
         run: cat "./.env" >> "${GITHUB_ENV}"
       - name: Set app name
@@ -28,9 +30,6 @@ jobs:
     needs: setUpEnvironmentVariable
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
