@@ -16,16 +16,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Get the paths to Android project and output apk
-        run: pwd && ls -A && cat "./.env" >> "${GITHUB_ENV}"
+        run: grep --invert-match '^#' "./.env" >> "${GITHUB_ENV}"
       - name: Set app name
         run: |
-          cat << _EOF_ >> "${GITHUB_ENV}"
-              # Set app name to repository name
-              "APP_NAME=/${GITHUB_REPOSITORY#*/}/" 
+          # Set app name to repository name
+          echo "APP_NAME=/${GITHUB_REPOSITORY#*/}/" >> "${GITHUB_ENV}"
 
-              "APP_NAME_UNVERSIONED_WITH_EXTENSION=${APP_NAME}-debug.apk" 
-              "APP_NAME_VERSIONED_WITH_EXTENSION=${GITHUB_REF_NAME}.apk" 
-          _EOF_
+          echo "APP_NAME_UNVERSIONED_WITH_EXTENSION=${APP_NAME}-debug.apk" >> "${GITHUB_ENV}"
+          echo "APP_NAME_VERSIONED_WITH_EXTENSION=${GITHUB_REF_NAME}.apk" >> "${GITHUB_ENV}"
   build:
     needs: setUpEnvironmentVariable
     runs-on: ubuntu-latest
