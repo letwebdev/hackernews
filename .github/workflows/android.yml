@@ -37,7 +37,7 @@ jobs:
       if: startsWith(github.ref, 'refs/tags/v')
       run: npm run setVersionNumber
     - name: Build apk
-      run: npm run build-apk
+      run: npm run build:apk
 
     - name: Rename bulit apk
       if: startsWith(github.ref, 'refs/tags/v')
