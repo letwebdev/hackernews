@@ -10,7 +10,22 @@ on:
   workflow_dispatch:
 
 jobs:
+  setUpEnvironmentVariable:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the paths to Android project and output apk
+        run: cat "./.env" >> "${GITHUB_ENV}"
+      - name: Set app name
+        run: |
+          cat << _EOF_ >> "${GITHUB_ENV}"
+              # Set app name to repository name
+              "APP_NAME=/${GITHUB_REPOSITORY#*/}/" 
+
+              "APP_NAME_UNVERSIONED_WITH_EXTENSION=${APP_NAME}-debug.apk" 
+              "APP_NAME_VERSIONED_WITH_EXTENSION=${GITHUB_REF_NAME}.apk" 
+          _EOF_
   build:
+    needs: setUpEnvironmentVariable
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -41,34 +56,34 @@ jobs:
       - name: Sync the web code and Build apk
         run: npm run build:apk
 
-  upload:
+  rename:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Get the paths to Android project and output apk
-        run: cat "./.env" >> "${GITHUB_ENV}"
-      - name: Set app name to repository name
-        # Get repository name
-        run: echo "APP_NAME=/${GITHUB_REPOSITORY#*/}/" >> "${GITHUB_ENV}"
       - name: Rename unversioned built apk
         if: ${{ ! startsWith(github.ref, 'refs/tags/v') }}
-        run: mv "${OUTPUT_APK_PATH}/${APP_DEBUG}" "${OUTPUT_APK_PATH}/${APP_NAME}-debug.apk"
+        run: mv "${OUTPUT_APK_PATH}/${APP_DEBUG}" "${OUTPUT_APK_PATH}/${APP_NAME_UNVERSIONED_WITH_EXTENSION}"
       - name: Rename versioned built apk
         if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-        run: mv "${OUTPUT_APK_PATH}/${APP_DEBUG}" "${OUTPUT_APK_PATH}/${APP_NAME}-${GITHUB_REF_NAME}.apk"
+        run: mv "${OUTPUT_APK_PATH}/${APP_DEBUG}" "${OUTPUT_APK_PATH}/${APP_NAME_VERSIONED_WITH_EXTENSION}"
 
+  upload:
+    needs: [build, rename]
+    runs-on: ubuntu-latest
+    steps:
       - name: Upload apk when pushing the branch "apk"
         if: startsWith(github.ref, 'refs/heads/apk')
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.APP_DEBUG }}
-          path: ${{ env.OUTPUT_APK_PATH }}/*.apk
+          name: ${{ env.APP_NAME_UNVERSIONED_WITH_EXTENSION }}
+          path: ${{ env.OUTPUT_APK_PATH }}/${{ env.APP_NAME_UNVERSIONED_WITH_EXTENSION }}
+
       - name: Upload apk when pushing a version tag
         if: startsWith(github.ref, 'refs/tags/v')
         uses: actions/upload-artifact@v3
         with:
-          name: hackernews-${{github.ref_name}}.apk
-          path: ${{ env.OUTPUT_APK_PATH }}/*.apk
+          name: ${{ env.APP_NAME_VERSIONED_WITH_EXTENSION }}
+          path: ${{ env.OUTPUT_APK_PATH }}/${{ env.APP_NAME_VERSIONED_WITH_EXTENSION }}
 
       - name: Upload output-metadata.json
         uses: actions/upload-artifact@v3
@@ -82,7 +97,7 @@ jobs:
     #     echo "LATEST_BUT_ONE_VERSION_TAG=${lastVersionTag}" >> "$GITHUB_OUTPUT"
 
   release:
-    needs: upload
+    needs: [build, rename]
     runs-on: ubuntu-latest
     steps:
       - name: Release
@@ -93,7 +108,7 @@ jobs:
           # body: "**Full Changelog**: https://github.com/${GITHUB_REPOSITORY}/compare/${{ steps.git-version-tag.outputs.LATEST_BUT_ONE_VERSION_TAG }}...${{github.ref_name}}"
           # Can't use quotes here
           files: |
-            ${{ env.OUTPUT_APK_PATH }}/${{ env.APP_NAME }}-${{ github.ref_name }}.apk
+            ${{ env.OUTPUT_APK_PATH }}/${{ env.APP_NAME_VERSIONED_WITH_EXTENSION }}
             ${{ env.OUTPUT_APK_PATH }}/output-metadata.json
-          # Name of the release.
+          # Name of the release
           name: apk ${{github.ref_name}}
