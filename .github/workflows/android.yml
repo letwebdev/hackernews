@@ -16,7 +16,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Get the paths to Android project and output apk
-        run: cat "./.env" >> "${GITHUB_ENV}"
+        run: pwd && ls -A && cat "./.env" >> "${GITHUB_ENV}"
       - name: Set app name
         run: |
           cat << _EOF_ >> "${GITHUB_ENV}"
