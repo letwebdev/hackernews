@@ -5,7 +5,7 @@
   "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
   "appId": "YourAppID",
   "asar": true,
-  "productName": "${productName}-Mac-v${version}",
+  "productName": "${productName}-v${version}",
   "directories": {
     "output": "release/electron/v${version}",
 	"buildResources":"build"
