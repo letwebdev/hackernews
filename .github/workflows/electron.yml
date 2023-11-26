@@ -28,7 +28,7 @@ jobs:
         run: npm run build:electron
       - name: Build Electron app for Windows
         run: |
-          docker run --rm -ti \
+          docker run --rm -t \
             --env-file <(env | grep -iE 'DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|CIRCLE|TRAVIS_TAG|TRAVIS|TRAVIS_REPO_|TRAVIS_BUILD_|TRAVIS_BRANCH|TRAVIS_PULL_REQUEST_|APPVEYOR_|CSC_|GH_|GITHUB_|BT_|AWS_|STRIP|BUILD_') \
             --env ELECTRON_CACHE="/root/.cache/electron" \
             --env ELECTRON_BUILDER_CACHE="/root/.cache/electron-builder" \
@@ -87,7 +87,7 @@ jobs:
           # TODO use environment variables
           name: electron-debug-linux-unpacked
           path: release/electron/v*.*.*/linux-unpacked
-      - name: Upload unpacked Electron app when pushing the branch "electron"
+      - name: Upload unpacked Electron app for Windows when pushing the branch "electron"
         if: startsWith(github.ref, 'refs/heads/electron')
         uses: actions/upload-artifact@v3
         with:
