@@ -38,10 +38,11 @@
   },
   "dependencies": {
     "@vueuse/core": "^10.6.1",
+    "dotenv": "^16.3.1",
+    "dotenv-expand": "^10.0.0",
     "pinia": "^2.1.7",
     "vue": "^3.3.2",
-    "vue-router": "^4.2.5",
-    "dotenv": "^16.3.1"
+    "vue-router": "^4.2.5"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.6.0",
