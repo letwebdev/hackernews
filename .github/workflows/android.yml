@@ -19,7 +19,7 @@ jobs:
       # Set up environment variables
       - name: Get the paths to Android project and output apk
         # The variable in GITHUB_ENV will no automatically expand, expand them in advance
-        run: set -o allexport && source "./.env" && grep --invert-match '^#' "./.env" | envsubst >> "${GITHUB_ENV}"
+        run: set -o allexport && source "./.env" && set +o allexport && grep --invert-match '^#' "./.env" | envsubst >> "${GITHUB_ENV}"
       - name: Set app name
         run: |
           # Set app name to repository name
