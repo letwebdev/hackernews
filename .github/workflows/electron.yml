@@ -46,12 +46,13 @@ jobs:
           # TODO use environment variables
           name: electron-debug.AppImage
           path: release/electron/v*.*.*/*.AppImage
-      - name: Upload Electron-builder config file when pushing the branch "electron"
-        if: startsWith(github.ref, 'refs/heads/electron')
-        uses: actions/upload-artifact@v3
-        with:
-          name: config files
-          path: release/electron/v*.*.*/*.ya?ml
+      # - name: Upload Electron-builder config files when pushing the branch "electron"
+      #   if: startsWith(github.ref, 'refs/heads/electron')
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: config files
+      #     # NOTE: Files not found as GitHub action doesn't generate these files
+      #     path: release/electron/v*.*.*/*.ya?ml
       - name: Upload unpacked Electron app when pushing the branch "electron"
         if: startsWith(github.ref, 'refs/heads/electron')
         uses: actions/upload-artifact@v3
