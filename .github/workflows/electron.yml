@@ -51,7 +51,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: config files
-          path: release/electron/v*.*.*/*.y[a]ml
+          path: release/electron/v*.*.*/*.ya?ml
       - name: Upload unpacked Electron app when pushing the branch "electron"
         if: startsWith(github.ref, 'refs/heads/electron')
         uses: actions/upload-artifact@v3
