@@ -7,6 +7,7 @@ import { RouterLink, RouterView } from "vue-router"
       <nav>
         <RouterLink to="/">Hacker News</RouterLink>
         <RouterLink to="/settings">Settings</RouterLink>
+        <RouterLink to="/charts">Charts</RouterLink>
         <RouterLink to="/about">About</RouterLink>
       </nav>
     </div>
@@ -17,6 +18,7 @@ import { RouterLink, RouterView } from "vue-router"
 
 <style lang="scss" scoped>
 header {
+  width: 170px;
   line-height: 1.5;
 }
 
@@ -43,7 +45,6 @@ nav {
     }
   }
 }
-
 @media (min-width: 1024px) {
   header {
     height: 70vh;
