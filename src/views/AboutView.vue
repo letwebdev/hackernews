@@ -11,7 +11,6 @@
 @media (min-width: 1024px) {
   .about {
     margin-top: 10%;
-    min-height: 80vh;
     display: block;
     align-items: center;
   }
