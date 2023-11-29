@@ -1,84 +1,102 @@
-name: Build Android apk from Web code
+name: Build Android apk from Web code, and release if pushing a version tag
 permissions:
   contents: write
 
 on:
   push:
-    branches: [ "apk" ]
+    branches: ["apk"]
     tags:
       - "v*.*.*"
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
-    - name: Set up Node
-      uses: actions/setup-node@v3
-      with:
-        node-version: 20
-        cache: 'npm'
-    - name: Install npm dependencies
-      run: npm install
+      # Set up environment variables
+      - name: Get the paths to Android project and output apk
+        # The variable in GITHUB_ENV will no automatically expand, expand them in advance
+        run: set -o allexport && source "./.env" && set +o allexport && grep --invert-match '^#' "./.env" | envsubst >> "${GITHUB_ENV}"
+      - name: Set app name
+        run: |
+          # Set app name to repository name
+          echo "APP_NAME=${GITHUB_REPOSITORY#*/}" >> "${GITHUB_ENV}"
+      # Use a new run as newly defined environment variables can't be accessed in the same step
+      - run: |
+          echo "APP_NAME_UNVERSIONED_WITH_EXTENSION=${APP_NAME}-debug.apk" >> "${GITHUB_ENV}"
+          echo "APP_NAME_VERSIONED_WITH_EXTENSION=${GITHUB_REF_NAME}.apk" >> "${GITHUB_ENV}"
 
-    - name: set up JDK 19
-      uses: actions/setup-java@v3
-      with:
-        java-version: '19'
-        distribution: 'temurin'
-        cache: 'gradle'
-    - name: Create the Android project
-      run: npx cap add android
-    - name: Guarantee scripts execution permission
-      run: chmod +x ./scripts/*
-    - name: Set version number
-      if: startsWith(github.ref, 'refs/tags/v')
-      run: npm run setVersionNumber
-    - name: Build apk
-      run: npm run build:apk
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: "npm"
+      - name: Set up npm dependencies
+        run: npm install && npm run setUp:capacitor
 
-    - name: Rename bulit apk
-      if: startsWith(github.ref, 'refs/tags/v')
-      run: mv "./release/android/app/build/outputs/apk/debug/app-debug.apk" "./release/android/app/build/outputs/apk/debug/hackernews-${{github.ref_name}}.apk"
+      - name: set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: "19"
+          distribution: "temurin"
+          cache: "gradle"
 
-    - name: Upload apk when pushing branch "apk"
-      if: startsWith(github.ref, 'refs/heads/apk')
-      uses: actions/upload-artifact@v3
-      with:
-        name: app-debug.apk
-        path: './release/android/app/build/outputs/apk/debug/*.apk'
-    - name: Upload apk when pushing version tag
-      if: startsWith(github.ref, 'refs/tags/v')
-      uses: actions/upload-artifact@v3
-      with:
-        name: hackernews-${{github.ref_name}}.apk
-        path: './release/android/app/build/outputs/apk/debug/*.apk'
+      - name: Create the Android project
+        run: npx cap add android
+      - name: Guarantee scripts execution permission
+        run: chmod +x ./scripts/*
+      - name: Set apk version number
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: npm run setVersionNumber
+      - name: Sync the web code and Build apk
+        run: npm run build:apk
 
-    - name: Upload output-metadata.json
-      uses: actions/upload-artifact@v3
-      with:
-        name: output-metadata.json
-        path: './release/android/app/build/outputs/apk/debug/output-metadata.json'
+      # Rename
+      - name: Rename unversioned built apk
+        if: ${{ ! startsWith(github.ref, 'refs/tags/v') }}
+        run: mv "${OUTPUT_APK_PATH}/${APP_DEBUG}" "${OUTPUT_APK_PATH}/${APP_NAME_UNVERSIONED_WITH_EXTENSION}"
+      - name: Rename versioned built apk
+        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        run: mv "${OUTPUT_APK_PATH}/${APP_DEBUG}" "${OUTPUT_APK_PATH}/${APP_NAME_VERSIONED_WITH_EXTENSION}"
 
-    - name: Get last version tag
-      id: git-version-tag
-      run: |
-        lastVersionTag="$(git for-each-ref --sort=-creatordate --count 2 --format="%(refname:short)" "refs/tags/v*"|tail --lines 1)"
-        echo "LAST_VERSION_TAG=${lastVersionTag}" >> "$GITHUB_OUTPUT"
+      # Upload
+      - name: Upload apk when pushing the branch "apk"
+        if: startsWith(github.ref, 'refs/heads/apk')
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.APP_NAME_UNVERSIONED_WITH_EXTENSION }}
+          path: ${{ env.OUTPUT_APK_PATH }}/${{ env.APP_NAME_UNVERSIONED_WITH_EXTENSION }}
 
-    - name: Release
-      if: startsWith(github.ref, 'refs/tags/v')
-      uses: softprops/action-gh-release@v1
-      with:
-        # TODO
-        # generate_release_notes: true
-        body: "**Full Changelog**: https://github.com/${GITHUB_REPOSITORY}/compare/${{ steps.git-version-tag.outputs.LAST_VERSION_TAG }}...${{github.ref_name}}"
-        # Can't use quotes here
-        files: |
-          ./release/android/app/build/outputs/apk/debug/hackernews-${{github.ref_name}}.apk
-          ./release/android/app/build/outputs/apk/debug/output-metadata.json
-        # Name of the release. defaults to tag name
-        name: apk ${{github.ref_name}}
+      - name: Upload apk when pushing a version tag
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.APP_NAME_VERSIONED_WITH_EXTENSION }}
+          path: ${{ env.OUTPUT_APK_PATH }}/${{ env.APP_NAME_VERSIONED_WITH_EXTENSION }}
 
+      - name: Upload output-metadata.json
+        uses: actions/upload-artifact@v3
+        with:
+          name: output-metadata.json
+          path: ${{ env.OUTPUT_APK_PATH }}/output-metadata.json
+      # - name: Get latest version tag
+      #   id: git-version-tag
+      #   run: |
+      #     latestButOneVersionTag="$(git for-each-ref --sort=-creatordate --count 2 --format="%(refname:short)" "refs/tags/v*"|tail --lines 1)"
+      #     echo "LATEST_BUT_ONE_VERSION_TAG=${lastVersionTag}" >> "$GITHUB_OUTPUT"
+
+      - name: Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v1
+        with:
+          generate_release_notes: true
+          # body: "**Full Changelog**: https://github.com/${GITHUB_REPOSITORY}/compare/${{ steps.git-version-tag.outputs.LATEST_BUT_ONE_VERSION_TAG }}...${{github.ref_name}}"
+          # Can't use quotes here
+          files: |
+            ${{ env.OUTPUT_APK_PATH }}/${{ env.APP_NAME_VERSIONED_WITH_EXTENSION }}
+            ${{ env.OUTPUT_APK_PATH }}/output-metadata.json
+          # Name of the release
+          name: apk ${{github.ref_name}}
