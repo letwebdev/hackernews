@@ -3,7 +3,6 @@ import { useCoreDataStore } from "@/stores/coreData"
 import { storeToRefs } from "pinia"
 import { generateRandomInteger, shuffleArray } from "@/libs/math"
 import type { Item, LiveData } from "@/libs/types"
-import type { Items, Lists, LiveDataSet } from "@/libs/types"
 import { ref } from "vue"
 
 import { defineStore } from "pinia"
@@ -12,9 +11,8 @@ const settings = useSettingsStore().settings
 const items = storeToRefs(useCoreDataStore()).items
 const lists = storeToRefs(useCoreDataStore()).lists
 const liveDataSet = useCoreDataStore().liveDataSet
-const emit = defineEmits(["showPrompt", "clearPrompt"])
 
-export const useFetchDataStore = defineStore("fetchData", () => {
+export const useFetchingDataStore = defineStore("fetchData", () => {
   function useFetchLists(listNames: string[]) {
     listNames.forEach((listName: string) => {
       useFetchList(listName)
@@ -93,8 +91,8 @@ export const useFetchDataStore = defineStore("fetchData", () => {
   const baseURL: URL = new URL("https://hacker-news.firebaseio.com/v0")
 
   function useFetchItem(id: number) {
-    itemsInQueue += 1
-    if (itemsInQueue > settings.numberOfItemsFetchedEachTime.value) {
+    itemsInQueue.value += 1
+    if (itemsInQueue.value > settings.numberOfItemsFetchedEachTime.value) {
       return
     }
     const itemURL: URL = new URL(`${baseURL}/item/${id}.json?print=pretty`)
@@ -149,6 +147,6 @@ export const useFetchDataStore = defineStore("fetchData", () => {
     //----
   })()
 
-  let itemsInQueue: number = 0
-  return { useFetchList, useFetchLists }
+  const itemsInQueue = ref<number>(0)
+  return { useFetchList, useFetchLists, itemsInQueue: itemsInQueue }
 })

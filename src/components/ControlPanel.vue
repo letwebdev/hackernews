@@ -174,6 +174,7 @@ function fetchingListsAfterSelection() {
   settings.fetchingListsAfterSelection.value && fetchMore()
 }
 
+// TODO Onmounted
 window.addEventListener("scroll", () => {
   if (settings.automaticallyFetchingMoreWhenScrollingToTheBottom.value === false) {
     return
