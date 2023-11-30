@@ -3,6 +3,8 @@ import { computed, ref } from "vue"
 
 import { useSettingsStore } from "@/stores/settings"
 import { useCoreDataStore } from "@/stores/coreData"
+import { useFetchingDataStore } from "@/stores/fetchData"
+
 import { storeToRefs } from "pinia"
 
 import { generateRandomInteger, shuffleArray } from "@/libs/math"
@@ -12,6 +14,8 @@ const settings = useSettingsStore().settings
 const items = storeToRefs(useCoreDataStore()).items
 const lists = storeToRefs(useCoreDataStore()).lists
 const liveDataSet = useCoreDataStore().liveDataSet
+const fetchLists = useFetchingDataStore().useFetchLists
+
 const emit = defineEmits(["showPrompt", "clearPrompt"])
 
 function fetchSelectedLists() {
@@ -20,11 +24,6 @@ function fetchSelectedLists() {
     names.push(list.name)
   })
   fetchLists(names)
-}
-function fetchLists(listNames: string[]) {
-  listNames.forEach((listName: string) => {
-    fetchList(listName)
-  })
 }
 
 async function fetchList(listName: string = "topstories") {

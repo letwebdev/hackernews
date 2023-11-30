@@ -7,12 +7,12 @@ import { ref } from "vue"
 
 import { defineStore } from "pinia"
 
-const settings = useSettingsStore().settings
-const items = storeToRefs(useCoreDataStore()).items
-const lists = storeToRefs(useCoreDataStore()).lists
-const liveDataSet = useCoreDataStore().liveDataSet
-
 export const useFetchingDataStore = defineStore("fetchData", () => {
+  const settings = useSettingsStore().settings
+  const items = storeToRefs(useCoreDataStore()).items
+  const lists = storeToRefs(useCoreDataStore()).lists
+  const liveDataSet = useCoreDataStore().liveDataSet
+
   function useFetchLists(listNames: string[]) {
     listNames.forEach((listName: string) => {
       useFetchList(listName)
