@@ -4,23 +4,25 @@
 
 See [Screenshots in Wiki](https://github.com/letwebdev/hackernews/wiki/Screenshots)
 
-## Customize vite configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
 ## Project Setup
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+Compile and Hot-Reload for Development
 
 ```sh
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+- If [Electron installed](#install-extra-recuirements)
+
+  ```sh
+  npm run dev:electron
+  ```
+
+Type-Check, Compile and Minify for Production
 
 ```sh
 npm run build
@@ -28,19 +30,7 @@ npm run build
 
 ## Build APK
 
-### Recuirements
-
-For more details, see [Add Capacitor to your web app](https://capacitorjs.com/docs/getting-started#add-capacitor-to-your-web-app).
-
-- Capacitor
-
-  ```sh
-  # Install dependencies
-  npm run setUp:capacitor
-
-  # Not save the related packages to package.json
-  #npm run setUp:noSave:capacitor
-  ```
+### Extra recuirements
 
 - Either of
 
@@ -68,6 +58,8 @@ For more details, see [Add Capacitor to your web app](https://capacitorjs.com/do
 
 ### Create an Android project
 
+For more details, see [Add Capacitor to your web app](https://capacitorjs.com/docs/getting-started#add-capacitor-to-your-web-app).
+
 Modify capacitor.config.ts first(optional), and then
 
 ```sh
@@ -76,42 +68,44 @@ npx cap add android
 
 ### Build
 
-#### With Android Studio
-
-##### Build and Sync the web code to the native project
-
-```sh
-npm run sync
-```
-
-##### Open Android Studio
-
-```sh
-npx cap open android
-```
-
-Build > Build bundle(s) / APK(s) > Build APK(s)
-
 #### At the command line
 
-Set [GRADLE_USER_HOME](https://docs.gradle.org/current/userguide/directory_layout.html#dir:gradle_user_home)(optional, defaults to `"${HOME}/.gradle"`)
+1. Set [GRADLE_USER_HOME](https://docs.gradle.org/current/userguide/directory_layout.html#dir:gradle_user_home)(optional, defaults to `"${HOME}/.gradle"`)
+2. Build and Sync the web code to, then Build the native project
 
-##### Build and Sync the web code to, then Build the native project
+   ```sh
+   # The built apk is located at "release/android/app/build/outputs/apk/debug/app-debug.apk"
+   npm run build:apk
+   ```
 
-```sh
-# The built apk is located at "release/android/app/build/outputs/apk/debug/app-debug.apk"
-npm run build:apk
-```
+#### With Android Studio
+
+1. Build and Sync the web code to the native project
+
+   ```sh
+   npm run sync
+   ```
+
+2. Open Android Studio
+
+   ```sh
+   npx cap open android
+   ```
+
+3. Build > Build bundle(s) / APK(s) > Build APK(s)
 
 ## Build Electron app
 
+### Install extra recuirements
+
 ```sh
-# Install dependencies
 npm run setUp:electron
 
 # Not save the related packages to package.json
 #npm run setUp:noSave:electron
 ```
+
+### Build app
 
 ```sh
 # Build web code and then build Electron app

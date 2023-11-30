@@ -35,7 +35,7 @@ jobs:
           node-version: 20
           cache: "npm"
       - name: Set up npm dependencies
-        run: npm install && npm run setUp:capacitor
+        run: npm install
 
       - name: set up JDK
         uses: actions/setup-java@v3

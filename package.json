@@ -7,7 +7,7 @@
   "main": "dist-electron/main.js",
   "scripts": {
     "dev": "vite",
-    "dev-electron": "VITE_LAUNCHING_ELECTRON='true' vite",
+    "dev:electron": "VITE_LAUNCHING_ELECTRON='true' vite",
     "build": "run-p type-check build-only",
     "preview": "vite preview",
     "test:unit": "vitest",
@@ -18,8 +18,6 @@
     "push": "npm run build && git add -A && git commit && git push",
     "bump": "./scripts/setVersionNumber.sh --bump",
     "setVersionNumber": "./scripts/setVersionNumber.sh",
-    "setUp:capacitor": "npm install --save-dev @capacitor/cli && npm install @capacitor/core @capacitor/android",
-    "setUp:capacitor-noSave": "npm install --no-save @capacitor/cli @capacitor/core @capacitor/android",
     "build:apk": "npm run sync && npm run build:apk-only",
     "sync": "npm run build && npm run sync-only",
     "build:apk-only": "source './.env' && cd ${CAPACITOR_ANDROID_PATH} && chmod +x ./gradlew && ./gradlew assembleDebug",
@@ -32,11 +30,11 @@
     "build:electron:windows": "npm run build && npm run build:electron:windows-only",
     "build:electron-only": "electron-builder --publish never",
     "build:electron:linux-only": "electron-builder --linux --publish never",
-    "build:electron:windows-only": "electron-builder --windows --publish never",
-    "setUp:all": "npm install --save-dev @capacitor/cli && npm install @capacitor/core @capacitor/android && npm install --save-dev electron electron-builder",
-    "setUp:all-noSave": "npm install --no-save @capacitor/cli @capacitor/core @capacitor/android electron electron-builder"
+    "build:electron:windows-only": "electron-builder --windows --publish never"
   },
   "dependencies": {
+    "@capacitor/android": "^5.5.1",
+    "@capacitor/core": "^5.5.1",
     "@vueuse/core": "^10.6.1",
     "dotenv": "^16.3.1",
     "dotenv-expand": "^10.0.0",
@@ -47,6 +45,7 @@
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
+    "@capacitor/cli": "^5.5.1",
     "@rushstack/eslint-patch": "^1.6.0",
     "@tsconfig/node18": "^2.0.1",
     "@types/jsdom": "^21.1.6",
