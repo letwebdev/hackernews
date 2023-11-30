@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia"
-import { useCoreDataStore } from "@/stores/coreData"
 import { useFetchingDataStore } from "@/stores/fetchData"
 
 import { use } from "echarts/core"
@@ -13,40 +12,24 @@ import VChart, { THEME_KEY } from "vue-echarts"
 import { ref, provide } from "vue"
 import type { Ref } from "vue"
 
-// Load data
-// TODO
-const liveDataSetInitialied = useFetchingDataStore().getLiveDataSetInitializationState
-/* const coreData = useCoreDataStore() */
-const coreDataRef = storeToRefs(useCoreDataStore())
-const lists = coreDataRef.lists
+const itemTypesAndCounts = storeToRefs(useFetchingDataStore()).itemTypesAndCounts
 
-let interValId: number | null = window.setInterval(() => {
-  if (liveDataSetInitialied.value) {
-    if (interValId) {
-      clearInterval(interValId)
-      interValId = null
-    }
-  }
-}, 200)
+const legendData: string[] = []
+const seriesData: object[] = []
+for (const [index, itemTypeAndCount] of itemTypesAndCounts.value.entries()) {
+  const type: string = itemTypeAndCount.type
+  legendData.push(type)
+  const count = itemTypesAndCounts.value[index].count
+  seriesData.push({ value: count, name: type })
+}
 
 provide(THEME_KEY, "light")
 
 use([CanvasRenderer, PieChart, TitleComponent, TooltipComponent, LegendComponent])
 
-const legendData: string[] = []
-const seriesData: object[] = []
-let testValue = ref(100)
-for (const list of lists.value) {
-  if (list.name === "maxitem" || list.name === "updates") {
-    continue
-  }
-  const storyType: string = list.description
-  legendData.push(storyType)
-  seriesData.push({ value: testValue, name: storyType })
-}
 const option: Ref<EChartsOption> = ref({
   title: {
-    text: "Story types(Top Stories)",
+    text: "fetched item types",
     left: "center",
   },
   tooltip: {
@@ -60,7 +43,7 @@ const option: Ref<EChartsOption> = ref({
   },
   series: [
     {
-      name: "Story types",
+      name: "item type",
       type: "pie",
       radius: "55%",
       center: ["50%", "60%"],

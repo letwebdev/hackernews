@@ -6,7 +6,7 @@ import type { Item, LiveData } from "@/libs/types"
 import { ref } from "vue"
 
 import { defineStore } from "pinia"
-import { computed } from "@vue/reactivity"
+import { computed } from "vue"
 
 export const useFetchingDataStore = defineStore("fetchData", () => {
   const settings = useSettingsStore().settings
@@ -17,7 +17,13 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
   const baseURL: URL = coreData.baseURL
 
   const liveDataSet = coreData.liveDataSet
-
+  const itemTypesAndCounts = ref([
+    { type: "job", count: 0 },
+    { type: "story", count: 0 },
+    { type: "comment", count: 0 },
+    { type: "poll", count: 0 },
+    { type: "pollopt", count: 0 },
+  ])
   function useFetchingLists(listNames: string[]) {
     listNames.forEach((listName: string) => {
       useFetchingList(listName)
@@ -111,6 +117,11 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
       `
         item.discuss = discussURL
         items.value.push(item)
+        // Update count
+        for (const itemTypeAndAccount of itemTypesAndCounts.value)
+          if (item.type === itemTypeAndAccount.type) {
+            itemTypeAndAccount.count++
+          }
       })
       .catch((error) => console.error(`Error fetching data: ${error.message}`))
   }
@@ -155,5 +166,6 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     liveDataSetInitialied,
     getLiveDataSetInitializationState,
     confirmLiveDataSetFetched,
+    itemTypesAndCounts,
   }
 })
