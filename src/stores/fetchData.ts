@@ -126,30 +126,22 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     }
   }
 
-  // Init
   const promptOfFetching = ref<string>("")
-
-  ;(async () => {
-    // Prefetch live data
-    // TODO refresh live data when refresh()
-    promptOfFetching.value = "Fetching selected lists..."
-    for await (const list of lists.value) {
-      const liveData: LiveData = await useFetchingLiveData(list.name)
-      const elementOfLiveDataSet = {
-        listName: list.name,
-        liveData: liveData,
-      }
-      liveDataSet.push(elementOfLiveDataSet)
-      if (list.name === "topstories") {
-        useFetchingList(list.name)
-        promptOfFetching.value = ""
-      }
-    }
-    useFetchingList("maxitem")
-    /* console.log(liveDataSet) */
-    //----
-  })()
-
+  function changePrompt(string: string) {
+    promptOfFetching.value = string
+  }
   const itemsInQueue = ref<number>(0)
-  return { useFetchingList, useFetchingLists, useFetchingItem, useFetchingLiveData, itemsInQueue }
+  function changeItemsInQueue(number: number) {
+    itemsInQueue.value = number
+  }
+  return {
+    useFetchingList,
+    useFetchingLists,
+    useFetchingItem,
+    useFetchingLiveData,
+    itemsInQueue,
+    promptOfFetching,
+    changePrompt,
+    changeItemsInQueue,
+  }
 })

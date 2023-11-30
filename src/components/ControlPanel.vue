@@ -18,9 +18,10 @@ const baseURL: URL = coreData.baseURL
 const liveDataSet = coreData.liveDataSet
 const fetchLists = useFetchingDataStore().useFetchingLists
 const fetchList = useFetchingDataStore().useFetchingList
+const promptOfFetching = useFetchingDataStore().promptOfFetching
+const changePrompt = useFetchingDataStore().changePrompt
 const itemsInQueue = useFetchingDataStore().itemsInQueue
-
-const emit = defineEmits(["showPrompt", "clearPrompt"])
+const changeItemsInQueue = useFetchingDataStore().changeItemsInQueue
 
 function fetchSelectedLists() {
   const names: string[] = []
@@ -32,13 +33,13 @@ function fetchSelectedLists() {
 
 // Init
 ;(async () => {
+  changePrompt("Fetching selected lists...")
   // Prefetch live data
   // TODO refresh live data when refresh()
-  emit("showPrompt")
   for await (const list of lists.value) {
     if (list.name === "topstories") {
       fetchList(list.name)
-      emit("clearPrompt")
+      changePrompt("")
     }
   }
   fetchList("maxitem")
@@ -48,7 +49,7 @@ function fetchSelectedLists() {
 
 function fetchMore() {
   // Clear count
-  itemsInQueue = 0
+  changeItemsInQueue(0)
   fetchSelectedLists()
 }
 function refresh() {
