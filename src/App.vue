@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router"
-import DataCharts from "@/components/DataCharts.vue"
 // Init
 import { useCoreDataStore } from "@/stores/coreData"
 import { useFetchingDataStore } from "@/stores/fetchData"
 
 import { storeToRefs } from "pinia"
 import type { LiveData } from "@/libs/types"
-import { computed } from "vue"
 const coreData = useCoreDataStore()
 const coreDataRef = storeToRefs(useCoreDataStore())
 const lists = coreDataRef.lists
@@ -28,7 +26,6 @@ const confirmLiveDataSetFetched = useFetchingDataStore().confirmLiveDataSetFetch
 })().then(() => {
   confirmLiveDataSetFetched()
 })
-const largeScreen = computed(() => window.matchMedia("(max-width: 2560px)"))
 </script>
 <template>
   <header>
@@ -42,10 +39,7 @@ const largeScreen = computed(() => window.matchMedia("(max-width: 2560px)"))
     </div>
   </header>
 
-  <main>
-    <RouterView />
-    <DataCharts v-if="largeScreen" />
-  </main>
+  <RouterView />
 </template>
 
 <style lang="scss" scoped>
@@ -98,11 +92,6 @@ nav {
 
     padding: 1rem 0;
     margin-top: 1rem;
-  }
-}
-@media (min-width: 2560px) {
-  main {
-    display: flex;
   }
 }
 </style>

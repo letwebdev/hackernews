@@ -5,6 +5,7 @@ import ControlPanel from "@/components/ControlPanel.vue"
 import SettingItems from "@/components/SettingItems.vue"
 import NavigatingButtons from "@/components/NavigatingButtons.vue"
 import ItemPost from "@/components/ItemPost.vue"
+import DataCharts from "@/components/DataCharts.vue"
 import { useLocalStorage } from "@vueuse/core"
 
 import { useCoreDataStore } from "@/stores/coreData"
@@ -20,6 +21,7 @@ const foldSign = computed(() => (folded.value ? "  ∨  " : "  ∧  "))
 function fold() {
   folded.value = !folded.value
 }
+const largeScreen = computed(() => window.matchMedia("(max-width: 2560px)"))
 // TODO Be able to drag controlPanel
 </script>
 <template>
@@ -28,11 +30,11 @@ function fold() {
   </nav>
   <main>
     <section class="settings">
-      <h2>
+      <h1>
         <button @click="fold">
           Settings <span>{{ foldSign }}</span>
         </button>
-      </h2>
+      </h1>
       <SettingItems class="settingItems" v-show="!folded" />
     </section>
     <ItemPost class="itemPost" v-for="item in items" :key="item.id" :item="item" />
@@ -40,33 +42,23 @@ function fold() {
       {{ promptOfFetching }}
     </div>
   </main>
+  <DataCharts v-if="largeScreen" />
+  <footer></footer>
   <NavigatingButtons />
 </template>
 <style lang="scss" scoped>
 nav section {
   margin: auto auto;
 }
-main {
-  padding: 0 1% 30% 1%;
-  .settings {
-    margin: auto 4%;
-  }
+footer {
+  padding-bottom: 30%;
 }
 
-@media (min-width: 1024px) {
-  main {
-    margin: 0 20% 10% 1%;
-  }
-  nav {
-    position: fixed;
-    right: 2%;
-  }
-}
 .settings {
   display: flex;
   flex-flow: column;
-  margin-bottom: 1%;
-  h2 button {
+  margin: auto 5% 1% 4%;
+  h1 button {
     span {
       cursor: pointer;
     }
@@ -79,6 +71,17 @@ main {
       color: hsla(160, 92%, 27%, 1);
       background-color: hsla(160, 100%, 37%, 0.2);
     }
+  }
+}
+@media (min-width: 1024px) {
+  nav {
+    position: fixed;
+    right: 2%;
+  }
+}
+@media (min-width: 2560px) {
+  main {
+    max-width: 1200px;
   }
 }
 </style>
