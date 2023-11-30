@@ -43,6 +43,16 @@ function fold() {
   <NavigatingButtons />
 </template>
 <style lang="scss" scoped>
+nav section {
+  margin: auto auto;
+}
+main {
+  padding: 0 1% 30% 1%;
+  .settings {
+    margin: auto 4%;
+  }
+}
+
 @media (min-width: 1024px) {
   main {
     margin: 0 20% 10% 1%;
@@ -68,17 +78,6 @@ function fold() {
     :global(button:hover) {
       color: hsla(160, 92%, 27%, 1);
       background-color: hsla(160, 100%, 37%, 0.2);
-    }
-  }
-}
-@media (max-width: 1024px) {
-  nav section {
-    margin: auto auto;
-  }
-  main {
-    padding: 0 1% 30% 1%;
-    .settings {
-      margin: auto 4%;
     }
   }
 }
