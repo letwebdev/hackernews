@@ -15,7 +15,7 @@ const fetchLists = useFetchingDataStore().useFetchingLists
 const fetchList = useFetchingDataStore().useFetchingList
 const changePrompt = useFetchingDataStore().changePrompt
 const changeItemsInQueue = useFetchingDataStore().changeItemsInQueue
-const getLiveDataSetInitializationState = useFetchingDataStore().getLiveDataSetInitializationState
+const liveDataSetInitialied = useFetchingDataStore().getLiveDataSetInitializationState
 
 function fetchSelectedLists() {
   const names: string[] = []
@@ -49,7 +49,7 @@ function fetchingListsAfterSelection() {
 changePrompt("Fetching selected lists...")
 // TODO refresh live data when refresh()
 let interValId: number | null = setInterval(() => {
-  if (getLiveDataSetInitializationState.value) {
+  if (liveDataSetInitialied.value) {
     fetchList(selected.value[0].name).then(() => changePrompt(""))
     fetchList("maxitem")
     if (interValId) {

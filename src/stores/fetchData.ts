@@ -127,6 +127,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
   }
 
   const promptOfFetching = ref<string>("")
+  const getPromptOfFetching = computed(() => promptOfFetching)
   function changePrompt(string: string) {
     promptOfFetching.value = string
   }
@@ -148,7 +149,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     useFetchingItem,
     useFetchingLiveData,
     itemsInQueue,
-    promptOfFetching,
+    getPromptOfFetching,
     changePrompt,
     changeItemsInQueue,
     liveDataSetInitialied,

@@ -11,7 +11,7 @@ import { useCoreDataStore } from "@/stores/coreData"
 import { useFetchingDataStore } from "@/stores/fetchData"
 import { storeToRefs } from "pinia"
 
-const promptOfFetching = useFetchingDataStore().promptOfFetching
+const promptOfFetching = useFetchingDataStore().getPromptOfFetching
 const items = storeToRefs(useCoreDataStore()).items
 /* console.log(items) */
 
