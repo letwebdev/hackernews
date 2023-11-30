@@ -39,7 +39,9 @@ const confirmLiveDataSetFetched = useFetchingDataStore().confirmLiveDataSetFetch
     </div>
   </header>
 
-  <RouterView />
+  <div class="view">
+    <RouterView />
+  </div>
 </template>
 
 <style lang="scss" scoped>
@@ -87,11 +89,18 @@ nav {
 
   nav {
     text-align: left;
-    margin-left: -1rem;
     font-size: 1rem;
 
     padding: 1rem 0;
     margin-top: 1rem;
+  }
+}
+@media (min-width: 2560px) {
+  nav {
+    margin-left: 200px;
+  }
+  div.view {
+    margin-left: 10%;
   }
 }
 </style>

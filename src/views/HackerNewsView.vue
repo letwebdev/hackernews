@@ -28,21 +28,25 @@ const largeScreen = computed(() => window.matchMedia("(max-width: 2560px)"))
   <nav>
     <ControlPanel class="controlPanel" />
   </nav>
-  <main>
-    <section class="settings">
-      <h1>
-        <button @click="fold">
-          Settings <span>{{ foldSign }}</span>
-        </button>
-      </h1>
-      <SettingItems class="settingItems" v-show="!folded" />
-    </section>
-    <ItemPost class="itemPost" v-for="item in items" :key="item.id" :item="item" />
+  <div class="wrapper">
+    <main>
+      <section class="settings">
+        <h1>
+          <button @click="fold">
+            Settings <span>{{ foldSign }}</span>
+          </button>
+        </h1>
+        <SettingItems class="settingItems" v-show="!folded" />
+      </section>
+      <ItemPost class="itemPost" v-for="item in items" :key="item.id" :item="item" />
+      <div>
+        {{ promptOfFetching }}
+      </div>
+    </main>
     <div>
-      {{ promptOfFetching }}
+      <DataCharts class="chart" v-if="largeScreen" />
     </div>
-  </main>
-  <DataCharts v-if="largeScreen" />
+  </div>
   <footer></footer>
   <NavigatingButtons />
 </template>
@@ -80,8 +84,20 @@ footer {
   }
 }
 @media (min-width: 2560px) {
+  nav {
+    top: 12%;
+    right: 12%;
+  }
   main {
-    max-width: 1200px;
+    margin-left: 2%;
+    width: 1000px;
+  }
+  div.wrapper {
+    display: flex;
+  }
+  .chart {
+    position: fixed;
+    top: 12%;
   }
 }
 </style>
