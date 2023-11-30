@@ -7,20 +7,13 @@ import { useFetchingDataStore } from "@/stores/fetchData"
 
 import { storeToRefs } from "pinia"
 
-import type { LiveData } from "@/libs/types"
-
 const settings = useSettingsStore().settings
-const coreData = useCoreDataStore()
 const coreDataRef = storeToRefs(useCoreDataStore())
 const items = coreDataRef.items
 const lists = coreDataRef.lists
-const baseURL: URL = coreData.baseURL
-const liveDataSet = coreData.liveDataSet
 const fetchLists = useFetchingDataStore().useFetchingLists
 const fetchList = useFetchingDataStore().useFetchingList
-const promptOfFetching = useFetchingDataStore().promptOfFetching
 const changePrompt = useFetchingDataStore().changePrompt
-const itemsInQueue = useFetchingDataStore().itemsInQueue
 const changeItemsInQueue = useFetchingDataStore().changeItemsInQueue
 
 function fetchSelectedLists() {
@@ -43,7 +36,6 @@ function fetchSelectedLists() {
     }
   }
   fetchList("maxitem")
-  /* console.log(liveDataSet) */
   //----
 })()
 

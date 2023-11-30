@@ -13,7 +13,6 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
   const coreData = useCoreDataStore()
   const coreDataRef = storeToRefs(useCoreDataStore())
   const items = coreDataRef.items
-  const lists = coreDataRef.lists
   const baseURL: URL = coreData.baseURL
 
   const liveDataSet = coreData.liveDataSet
