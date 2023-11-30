@@ -18,6 +18,7 @@ const baseURL: URL = coreData.baseURL
 const liveDataSet = coreData.liveDataSet
 const fetchLists = useFetchingDataStore().useFetchingLists
 const fetchList = useFetchingDataStore().useFetchingList
+const itemsInQueue = useFetchingDataStore().itemsInQueue
 
 const emit = defineEmits(["showPrompt", "clearPrompt"])
 
@@ -29,29 +30,12 @@ function fetchSelectedLists() {
   fetchLists(names)
 }
 
-async function fetchLiveData(listName: string = "topstories"): Promise<LiveData> {
-  try {
-    const listURL: URL = new URL(`${baseURL}/${listName}.json?print=pretty`)
-    const response = await fetch(listURL)
-    const liveData: LiveData = await response.json()
-    return liveData
-  } catch (error: any) {
-    console.log(`Error: ${error.message}`)
-  }
-}
-
 // Init
 ;(async () => {
   // Prefetch live data
   // TODO refresh live data when refresh()
   emit("showPrompt")
   for await (const list of lists.value) {
-    const liveData: LiveData = await fetchLiveData(list.name)
-    const elementOfLiveDataSet = {
-      listName: list.name,
-      liveData: liveData,
-    }
-    liveDataSet.push(elementOfLiveDataSet)
     if (list.name === "topstories") {
       fetchList(list.name)
       emit("clearPrompt")
@@ -62,7 +46,6 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
   //----
 })()
 
-let itemsInQueue: number = 0
 function fetchMore() {
   // Clear count
   itemsInQueue = 0

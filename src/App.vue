@@ -1,5 +1,28 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router"
+// Init
+import { useCoreDataStore } from "@/stores/coreData"
+import { useFetchingDataStore } from "@/stores/fetchData"
+
+import { storeToRefs } from "pinia"
+import type { LiveData } from "@/libs/types"
+const coreData = useCoreDataStore()
+const coreDataRef = storeToRefs(useCoreDataStore())
+const lists = coreDataRef.lists
+const liveDataSet = coreData.liveDataSet
+const fetchLiveData = useFetchingDataStore().useFetchingLiveData
+;(async () => {
+  // Prefetch live data
+  // TODO refresh live data when refresh()
+  for await (const list of lists.value) {
+    const liveData: LiveData = await fetchLiveData(list.name)
+    const elementOfLiveDataSet = {
+      listName: list.name,
+      liveData: liveData,
+    }
+    liveDataSet.push(elementOfLiveDataSet)
+  }
+})()
 </script>
 <template>
   <header>

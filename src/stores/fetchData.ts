@@ -115,7 +115,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
       .catch((error) => console.error(`Error fetching data: ${error.message}`))
   }
 
-  async function useFetchLiveData(listName: string = "topstories"): Promise<LiveData> {
+  async function useFetchingLiveData(listName: string = "topstories"): Promise<LiveData> {
     try {
       const listURL: URL = new URL(`${baseURL}/${listName}.json?print=pretty`)
       const response = await fetch(listURL)
@@ -134,7 +134,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     // TODO refresh live data when refresh()
     promptOfFetching.value = "Fetching selected lists..."
     for await (const list of lists.value) {
-      const liveData: LiveData = await useFetchLiveData(list.name)
+      const liveData: LiveData = await useFetchingLiveData(list.name)
       const elementOfLiveDataSet = {
         listName: list.name,
         liveData: liveData,
@@ -151,5 +151,5 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
   })()
 
   const itemsInQueue = ref<number>(0)
-  return { useFetchingList, useFetchingLists, useFetchingItem, itemsInQueue }
+  return { useFetchingList, useFetchingLists, useFetchingItem, useFetchingLiveData, itemsInQueue }
 })
