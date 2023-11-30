@@ -13,10 +13,15 @@ import DataCharts from "@/components/DataCharts.vue"
 
 <style>
 @media (min-width: 1024px) {
-  .about {
-    margin-top: 10%;
+  .charts {
+    margin: 2% 0 0 2%;
     display: block;
     align-items: center;
+  }
+}
+@media (min-width: 2560px) {
+  .charts {
+    margin-top: 4%;
   }
 }
 </style>

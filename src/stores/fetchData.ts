@@ -18,8 +18,8 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
 
   const liveDataSet = coreData.liveDataSet
   const itemTypesAndCounts = ref([
-    { type: "job", count: 0 },
     { type: "story", count: 0 },
+    { type: "job", count: 0 },
     { type: "comment", count: 0 },
     { type: "poll", count: 0 },
     { type: "pollopt", count: 0 },
