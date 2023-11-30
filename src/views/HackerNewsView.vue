@@ -21,7 +21,7 @@ const foldSign = computed(() => (folded.value ? "  ∨  " : "  ∧  "))
 function fold() {
   folded.value = !folded.value
 }
-const largeScreen = computed(() => window.matchMedia("(max-width: 2560px)"))
+const isLargeScreen = computed(() => window.matchMedia("(min-width: 2560px)").matches)
 // TODO Be able to drag controlPanel
 </script>
 <template>
@@ -44,7 +44,7 @@ const largeScreen = computed(() => window.matchMedia("(max-width: 2560px)"))
       </div>
     </main>
     <div>
-      <DataCharts class="chart" v-if="largeScreen" />
+      <DataCharts class="chart" v-if="isLargeScreen" />
     </div>
   </div>
   <footer></footer>
