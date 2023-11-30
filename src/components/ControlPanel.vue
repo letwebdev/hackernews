@@ -111,7 +111,7 @@ function fetchItem(id: number) {
       // Convert Unix time to readable time
       const unixTime = new Date(item.time * 1000)
       item.readableTime = `
-      ${unixTime.getFullYear()}-${unixTime.getMonth() + 1}-${unixTime.getDate()} 
+      ${unixTime.getFullYear()}-${unixTime.getMonth() + 1}-${unixTime.getDate()}
       ${unixTime.getHours()}:${unixTime.getMinutes()}
       `
       item.discuss = discussURL
@@ -137,7 +137,7 @@ async function fetchLiveData(listName: string = "topstories"): Promise<LiveData>
   // TODO refresh live data when refresh()
   emit("showPrompt")
   for await (const list of lists.value) {
-    const liveData = await fetchLiveData(list.name)
+    const liveData: LiveData = await fetchLiveData(list.name)
     const elementOfLiveDataSet = {
       listName: list.name,
       liveData: liveData,

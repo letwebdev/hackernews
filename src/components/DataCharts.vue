@@ -16,7 +16,14 @@ import type { Ref } from "vue"
 
 import type { EChartsOption } from "echarts"
 
+// Load data
+// TODO
 const lists = storeToRefs(useCoreDataStore()).lists
+setTimeout(() => {
+  const liveDataSet = useCoreDataStore().liveDataSet
+  const test = liveDataSet[0].listName
+  console.log(`--------------------${test}`)
+}, 5000)
 
 provide(THEME_KEY, "light")
 
