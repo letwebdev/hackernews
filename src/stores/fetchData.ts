@@ -9,17 +9,22 @@ import { defineStore } from "pinia"
 
 export const useFetchingDataStore = defineStore("fetchData", () => {
   const settings = useSettingsStore().settings
-  const items = storeToRefs(useCoreDataStore()).items
-  const lists = storeToRefs(useCoreDataStore()).lists
-  const liveDataSet = useCoreDataStore().liveDataSet
 
-  function useFetchLists(listNames: string[]) {
+  const coreData = useCoreDataStore()
+  const coreDataRef = storeToRefs(useCoreDataStore())
+  const items = coreDataRef.items
+  const lists = coreDataRef.lists
+  const baseURL: URL = coreData.baseURL
+
+  const liveDataSet = coreData.liveDataSet
+
+  function useFetchingLists(listNames: string[]) {
     listNames.forEach((listName: string) => {
-      useFetchList(listName)
+      useFetchingList(listName)
     })
   }
 
-  async function useFetchList(listName: string = "topstories") {
+  async function useFetchingList(listName: string = "topstories") {
     /* console.log(listName) */
     let liveDataToFetch
     for (const element of liveDataSet) {
@@ -32,7 +37,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     /* console.log(liveDataToFetch) */
     const itemIds = useGetItemIds(liveDataToFetch)
     itemIds.forEach((itemId: number) => {
-      useFetchItem(itemId)
+      useFetchingItem(itemId)
     })
   }
 
@@ -88,9 +93,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     return itemIds
   }
 
-  const baseURL: URL = new URL("https://hacker-news.firebaseio.com/v0")
-
-  function useFetchItem(id: number) {
+  function useFetchingItem(id: number) {
     itemsInQueue.value += 1
     if (itemsInQueue.value > settings.numberOfItemsFetchedEachTime.value) {
       return
@@ -138,15 +141,15 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
       }
       liveDataSet.push(elementOfLiveDataSet)
       if (list.name === "topstories") {
-        useFetchList(list.name)
+        useFetchingList(list.name)
         promptOfFetching.value = ""
       }
     }
-    useFetchList("maxitem")
+    useFetchingList("maxitem")
     /* console.log(liveDataSet) */
     //----
   })()
 
   const itemsInQueue = ref<number>(0)
-  return { useFetchList, useFetchLists, itemsInQueue: itemsInQueue }
+  return { useFetchingList, useFetchingLists, useFetchingItem, itemsInQueue }
 })
