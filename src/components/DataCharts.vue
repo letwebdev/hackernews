@@ -9,7 +9,7 @@ import { TitleComponent, TooltipComponent, LegendComponent } from "echarts/compo
 import type { EChartsOption } from "echarts"
 import VChart, { THEME_KEY } from "vue-echarts"
 
-import { ref, provide } from "vue"
+import { ref, provide, computed } from "vue"
 import type { Ref } from "vue"
 
 const itemTypesAndCounts = storeToRefs(useFetchingDataStore()).itemTypesAndCounts
@@ -19,7 +19,7 @@ const seriesData: object[] = []
 for (const [index, itemTypeAndCount] of itemTypesAndCounts.value.entries()) {
   const type: string = itemTypeAndCount.type
   legendData.push(type)
-  const count = itemTypesAndCounts.value[index].count
+  const count = computed(() => itemTypesAndCounts.value[index].count)
   seriesData.push({ value: count, name: type })
 }
 
