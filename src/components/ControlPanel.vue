@@ -11,7 +11,6 @@ const settings = useSettingsStore().settings
 const coreDataRef = storeToRefs(useCoreDataStore())
 const items = coreDataRef.items
 const lists = coreDataRef.lists
-const fetchData = useFetchingDataStore()
 const fetchLists = useFetchingDataStore().useFetchingLists
 const fetchList = useFetchingDataStore().useFetchingList
 const changePrompt = useFetchingDataStore().changePrompt
@@ -50,8 +49,7 @@ function fetchingListsAfterSelection() {
 changePrompt("Fetching selected lists...")
 // TODO refresh live data when refresh()
 let interValId: number | null = setInterval(() => {
-  console.log(getLiveDataSetInitializationState)
-  if (getLiveDataSetInitializationState) {
+  if (getLiveDataSetInitializationState.value) {
     fetchList(selected.value[0].name).then(() => changePrompt(""))
     fetchList("maxitem")
     if (interValId) {

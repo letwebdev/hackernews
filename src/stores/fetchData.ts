@@ -137,7 +137,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
   }
 
   const liveDataSetInitialied = ref<boolean>(false)
-  const getLiveDataSetInitializationState = computed(() => liveDataSetInitialied.value)
+  const getLiveDataSetInitializationState = computed(() => liveDataSetInitialied)
   function confirmLiveDataSetFetched() {
     liveDataSetInitialied.value = true
   }
