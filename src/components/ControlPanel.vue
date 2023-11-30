@@ -25,19 +25,11 @@ function fetchSelectedLists() {
 }
 
 // Init: Fetch stories
-;(async () => {
-  changePrompt("Fetching selected lists...")
-  // Prefetch live data
-  // TODO refresh live data when refresh()
-  for await (const list of lists.value) {
-    if (list.name === "topstories") {
-      fetchList(list.name)
-      changePrompt("")
-    }
-  }
-  fetchList("maxitem")
-  //----
-})()
+changePrompt("Fetching selected lists...")
+// Prefetch live data
+// TODO refresh live data when refresh()
+fetchList("topstories").then(() => changePrompt(""))
+fetchList("maxitem")
 
 function fetchMore() {
   // Clear count
