@@ -34,13 +34,13 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
       }
     }
     /* console.log(liveDataToFetch) */
-    const itemIds = useGetItemIds(liveDataToFetch)
+    const itemIds = useGettingItemIds(liveDataToFetch)
     itemIds.forEach((itemId: number) => {
       useFetchingItem(itemId)
     })
   }
 
-  function useGetItemIds(liveData: LiveData): number[] {
+  function useGettingItemIds(liveData: LiveData): number[] {
     console.log("liveData:")
     console.log(liveData)
     let itemIds: number[]

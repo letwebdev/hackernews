@@ -24,7 +24,7 @@ function fetchSelectedLists() {
   fetchLists(names)
 }
 
-// Init
+// Init: Fetch stories
 ;(async () => {
   changePrompt("Fetching selected lists...")
   // Prefetch live data
