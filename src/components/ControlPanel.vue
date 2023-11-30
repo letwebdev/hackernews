@@ -11,10 +11,12 @@ const settings = useSettingsStore().settings
 const coreDataRef = storeToRefs(useCoreDataStore())
 const items = coreDataRef.items
 const lists = coreDataRef.lists
+const fetchData = useFetchingDataStore()
 const fetchLists = useFetchingDataStore().useFetchingLists
 const fetchList = useFetchingDataStore().useFetchingList
 const changePrompt = useFetchingDataStore().changePrompt
 const changeItemsInQueue = useFetchingDataStore().changeItemsInQueue
+const getLiveDataSetInitializationState = useFetchingDataStore().getLiveDataSetInitializationState
 
 function fetchSelectedLists() {
   const names: string[] = []
@@ -23,13 +25,6 @@ function fetchSelectedLists() {
   })
   fetchLists(names)
 }
-
-// Init: Fetch stories
-changePrompt("Fetching selected lists...")
-// Prefetch live data
-// TODO refresh live data when refresh()
-fetchList("topstories").then(() => changePrompt(""))
-fetchList("maxitem")
 
 function fetchMore() {
   // Clear count
@@ -50,6 +45,21 @@ const descriptions = computed<string[]>(() => selected.value.map((option) => opt
 function fetchingListsAfterSelection() {
   settings.fetchingListsAfterSelection.value && fetchMore()
 }
+
+// Init: Fetch stories
+changePrompt("Fetching selected lists...")
+// TODO refresh live data when refresh()
+let interValId: number | null = setInterval(() => {
+  console.log(getLiveDataSetInitializationState)
+  if (getLiveDataSetInitializationState) {
+    fetchList(selected.value[0].name).then(() => changePrompt(""))
+    fetchList("maxitem")
+    if (interValId) {
+      clearInterval(interValId)
+      interValId = null
+    }
+  }
+}, 200)
 
 // TODO Onmounted
 window.addEventListener("scroll", () => {

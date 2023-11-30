@@ -6,6 +6,7 @@ import type { Item, LiveData } from "@/libs/types"
 import { ref } from "vue"
 
 import { defineStore } from "pinia"
+import { computed } from "@vue/reactivity"
 
 export const useFetchingDataStore = defineStore("fetchData", () => {
   const settings = useSettingsStore().settings
@@ -129,10 +130,18 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
   function changePrompt(string: string) {
     promptOfFetching.value = string
   }
+
   const itemsInQueue = ref<number>(0)
   function changeItemsInQueue(number: number) {
     itemsInQueue.value = number
   }
+
+  const liveDataSetInitialied = ref<boolean>(false)
+  const getLiveDataSetInitializationState = computed(() => liveDataSetInitialied.value)
+  function confirmLiveDataSetFetched() {
+    liveDataSetInitialied.value = true
+  }
+
   return {
     useFetchingList,
     useFetchingLists,
@@ -142,5 +151,8 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     promptOfFetching,
     changePrompt,
     changeItemsInQueue,
+    liveDataSetInitialied,
+    getLiveDataSetInitializationState,
+    confirmLiveDataSetFetched,
   }
 })

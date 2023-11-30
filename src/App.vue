@@ -11,10 +11,11 @@ const coreDataRef = storeToRefs(useCoreDataStore())
 const lists = coreDataRef.lists
 const liveDataSet = coreData.liveDataSet
 const fetchLiveData = useFetchingDataStore().useFetchingLiveData
+const confirmLiveDataSetFetched = useFetchingDataStore().confirmLiveDataSetFetched
 ;(async () => {
   // Prefetch live data
   // TODO refresh live data when refresh()
-  for await (const list of lists.value) {
+  for (const list of lists.value) {
     const liveData: LiveData = await fetchLiveData(list.name)
     const elementOfLiveDataSet = {
       listName: list.name,
@@ -22,7 +23,9 @@ const fetchLiveData = useFetchingDataStore().useFetchingLiveData
     }
     liveDataSet.push(elementOfLiveDataSet)
   }
-})()
+})().then(() => {
+  confirmLiveDataSetFetched()
+})
 </script>
 <template>
   <header>
