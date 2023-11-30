@@ -1,5 +1,31 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router"
+// Init
+import { useCoreDataStore } from "@/stores/coreData"
+import { useFetchingDataStore } from "@/stores/fetchData"
+
+import { storeToRefs } from "pinia"
+import type { LiveData } from "@/libs/types"
+const coreData = useCoreDataStore()
+const coreDataRef = storeToRefs(useCoreDataStore())
+const lists = coreDataRef.lists
+const liveDataSet = coreData.liveDataSet
+const fetchLiveData = useFetchingDataStore().useFetchingLiveData
+const confirmLiveDataSetFetched = useFetchingDataStore().confirmLiveDataSetFetched
+;(async () => {
+  // Prefetch live data
+  // TODO refresh live data when refresh()
+  for (const list of lists.value) {
+    const liveData: LiveData = await fetchLiveData(list.name)
+    const elementOfLiveDataSet = {
+      listName: list.name,
+      liveData: liveData,
+    }
+    liveDataSet.push(elementOfLiveDataSet)
+  }
+})().then(() => {
+  confirmLiveDataSetFetched()
+})
 </script>
 <template>
   <header>
@@ -7,6 +33,7 @@ import { RouterLink, RouterView } from "vue-router"
       <nav>
         <RouterLink to="/">Hacker News</RouterLink>
         <RouterLink to="/settings">Settings</RouterLink>
+        <RouterLink to="/charts">Charts</RouterLink>
         <RouterLink to="/about">About</RouterLink>
       </nav>
     </div>
@@ -17,6 +44,7 @@ import { RouterLink, RouterView } from "vue-router"
 
 <style lang="scss" scoped>
 header {
+  width: 170px;
   line-height: 1.5;
 }
 
@@ -43,7 +71,6 @@ nav {
     }
   }
 }
-
 @media (min-width: 1024px) {
   header {
     height: 70vh;

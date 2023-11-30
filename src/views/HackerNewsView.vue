@@ -1,6 +1,6 @@
 <script setup lang="ts">
 "use strict"
-import { computed, ref } from "vue"
+import { computed } from "vue"
 import ControlPanel from "@/components/ControlPanel.vue"
 import SettingItems from "@/components/SettingItems.vue"
 import NavigatingButtons from "@/components/NavigatingButtons.vue"
@@ -8,12 +8,12 @@ import ItemPost from "@/components/ItemPost.vue"
 import { useLocalStorage } from "@vueuse/core"
 
 import { useCoreDataStore } from "@/stores/coreData"
+import { useFetchingDataStore } from "@/stores/fetchData"
 import { storeToRefs } from "pinia"
 
+const promptOfFetching = useFetchingDataStore().getPromptOfFetching
 const items = storeToRefs(useCoreDataStore()).items
 /* console.log(items) */
-
-const promptForFetching = ref<string>("")
 
 const folded = useLocalStorage("folded", false)
 const foldSign = computed(() => (folded.value ? "  ∨  " : "  ∧  "))
@@ -24,11 +24,7 @@ function fold() {
 </script>
 <template>
   <nav>
-    <ControlPanel
-      class="controlPanel"
-      @show-prompt="promptForFetching = 'Fetching selected lists...'"
-      @clear-prompt="promptForFetching = ''"
-    />
+    <ControlPanel class="controlPanel" />
   </nav>
   <main>
     <section class="settings">
@@ -41,7 +37,7 @@ function fold() {
     </section>
     <ItemPost class="itemPost" v-for="item in items" :key="item.id" :item="item" />
     <div>
-      {{ promptForFetching }}
+      {{ promptOfFetching }}
     </div>
   </main>
   <NavigatingButtons />
