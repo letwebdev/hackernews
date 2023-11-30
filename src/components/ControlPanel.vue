@@ -48,7 +48,7 @@ function fetchingListsAfterSelection() {
 // Init: Fetch stories
 changePrompt("Fetching selected lists...")
 // TODO refresh live data when refresh()
-let interValId: number | null = setInterval(() => {
+let interValId: number | null = window.setInterval(() => {
   if (liveDataSetInitialied.value) {
     fetchList(selected.value[0].name).then(() => changePrompt(""))
     fetchList("maxitem")
