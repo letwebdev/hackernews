@@ -43,8 +43,8 @@ const isLargeScreen = computed(() => window.matchMedia("(min-width: 2560px)").ma
         {{ promptOfFetching }}
       </div>
     </main>
-    <div>
-      <DataCharts class="chart" v-if="isLargeScreen" />
+    <div class="wrapper" v-if="isLargeScreen">
+      <DataCharts class="chart" />
     </div>
   </div>
   <footer></footer>
@@ -81,6 +81,9 @@ footer {
   nav {
     position: fixed;
     right: 2%;
+  }
+  main {
+    max-width: 900px;
   }
 }
 @media (min-width: 2560px) {
