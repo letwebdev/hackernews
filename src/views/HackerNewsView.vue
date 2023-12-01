@@ -82,6 +82,9 @@ footer {
     position: fixed;
     right: 2%;
   }
+  main {
+    max-width: 900px;
+  }
 }
 @media (min-width: 2560px) {
   nav {
