@@ -40,7 +40,12 @@ const confirmLiveDataSetFetched = useFetchingDataStore().confirmLiveDataSetFetch
   </header>
 
   <div class="view">
-    <RouterView />
+    <!--<RouterView />-->
+    <router-view v-slot="{ Component }">
+      <keep-alive include="home">
+        <component :is="Component" />
+      </keep-alive>
+    </router-view>
   </div>
 </template>
 
