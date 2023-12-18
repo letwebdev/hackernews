@@ -52,6 +52,10 @@ li {
   /* Wrap "_", etc. in long link */
   /* break-all so that link won't in new line */
   word-break: break-all;
+  /* TODO
+  /* code { */
+  /*   word-break: break-all; */
+  /* } */
 }
 @media (max-width: 1024px) {
   h2 {
