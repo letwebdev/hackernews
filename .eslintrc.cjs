@@ -35,5 +35,9 @@ module.exports = {
      * @see https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-unresolved.md
      */
     "import/no-unresolved": 0,
+    "no-use-before-define": ["error", { functions: false }],
+    "no-param-reassign": ["error", { props: false }],
+    "no-restricted-syntax": 0,
+    "consistent-return": 0,
   },
 }
