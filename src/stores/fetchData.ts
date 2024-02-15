@@ -124,7 +124,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
       .catch((error) => console.error(`Error fetching data: ${error.message}`))
   }
 
-  async function useFetchingLiveData(listName: string = "topstories"): Promise<LiveData | void> {
+  async function useFetchingLiveData(listName: string = "topstories"): Promise<LiveData> {
     try {
       const listURL: URL = new URL(`${baseURL}/${listName}.json?print=pretty`)
       const response = await fetch(listURL)
