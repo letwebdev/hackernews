@@ -67,7 +67,7 @@ const option: Ref<EChartsOption> = ref({
 </template>
 <style scoped>
 .chart {
-  height: 400px;
   max-width: 600px;
+  height: 400px;
 }
 </style>

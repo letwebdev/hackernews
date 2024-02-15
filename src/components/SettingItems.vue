@@ -44,6 +44,7 @@ function reset() {
 button {
   max-width: 350px;
   border-radius: 5px;
+
   &:hover {
     cursor: pointer;
   }

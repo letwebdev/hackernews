@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import SettingItems from "@/components/SettingItems.vue"
 </script>
 <template>
@@ -10,11 +9,11 @@ import SettingItems from "@/components/SettingItems.vue"
 </template>
 
 <style scoped>
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .wrapper {
-    margin: 7% 0 0 5%;
     display: block;
     align-items: center;
+    margin: 7% 0 0 5%;
   }
 }
 </style>

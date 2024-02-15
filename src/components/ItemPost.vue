@@ -47,18 +47,21 @@ function displayingLink(item: Item): boolean {
 </template>
 <style scoped>
 h2 {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
+  color: hsl(160 100% 37% / 1);
   font-size: 110%;
+  text-decoration: none;
+  transition: 0.4s;
+
   &:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
+    background-color: hsl(160 100% 37% / 0.2);
     cursor: pointer;
   }
 }
+
 * {
   overflow-wrap: break-word;
 }
+
 li {
   /* Wrap "_", etc. in long link */
   /* break-all so that link won't in new line */
@@ -68,7 +71,8 @@ li {
   /*   word-break: break-all; */
   /* } */
 }
-@media (max-width: 1024px) {
+
+@media (width <= 1024px) {
   h2 {
     font-size: 110%;
   }

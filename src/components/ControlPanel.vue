@@ -118,64 +118,71 @@ window.addEventListener("scroll", () => {
 </template>
 <style scoped>
 h1 {
+  color: hsl(160 100% 37% / 1);
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
   transition: 0.4s;
 }
+
 section {
   display: flex;
-  flex-wrap: nowrap;
-  flex-direction: column;
+  flex-flow: column nowrap;
   width: 200px;
 }
+
 button {
   width: 120px;
-  margin: 5px auto;
   height: 4ex;
+  margin: 5px auto;
+  color: white;
+  font-weight: bold;
   background-image: linear-gradient(135deg, #00f059 60%, #42f0a5);
   border: none;
   border-radius: 5px;
-  font-weight: bold;
-  color: white;
 }
-@media (min-width: 1024px) {
+
+@media (width >= 1024px) {
   button {
     cursor: pointer;
+
     &:active {
       box-shadow: 2px 2px 5px #00ff00;
     }
   }
 
   select {
-    margin: 5% 0;
     max-width: 165px;
     height: 230px;
+    margin: 5% 0;
   }
 
   ul {
     display: none;
   }
 }
-@media (max-width: 1024px) {
+
+@media (width <= 1024px) {
   section {
     align-items: center;
     justify-content: center;
   }
+
   button {
     &.fetchMore {
-      width: 50px;
-      height: 40px;
       position: fixed;
       top: 30%;
       right: 0%;
+      width: 50px;
+      height: 40px;
     }
+
     &.refresh {
       margin: 0%;
     }
   }
+
   select {
-    max-width: 55%;
     float: left;
+    max-width: 55%;
   }
 }
 </style>

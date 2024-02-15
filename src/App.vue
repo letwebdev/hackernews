@@ -67,54 +67,60 @@ header {
 }
 
 nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 1rem;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  margin-top: 1rem;
+  font-size: 12px;
+  text-align: center;
 
   a {
     display: inline-block;
     padding: 0 1rem;
     border-left: 1px solid var(--color-border);
+
     &.router-link-exact-active {
       color: var(--color-text);
+
       &:hover {
         background-color: transparent;
       }
     }
+
     &:first-of-type {
       border: 0;
     }
   }
 }
-@media (min-width: 1024px) {
+
+@media (width >= 1024px) {
   header {
-    height: 70vh;
     display: flex;
-    place-items: center;
+    height: 70vh;
     padding-right: calc(var(--section-gap) / 8);
+    place-items: center;
+
     .wrapper {
       position: fixed;
       display: flex;
-      place-items: flex-start;
       flex-wrap: wrap;
+      place-items: flex-start;
     }
   }
 
   nav {
-    text-align: left;
-    font-size: 1rem;
-
-    padding: 1rem 0;
     margin-top: 1rem;
+    padding: 1rem 0;
+    font-size: 1rem;
+    text-align: left;
   }
 }
-@media (min-width: 2560px) {
+
+@media (width >= 2560px) {
   nav {
     margin-left: 200px;
   }
+
   div.view {
     margin-left: 10%;
   }

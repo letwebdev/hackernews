@@ -62,8 +62,9 @@ const isLargeScreen = computed(() => window.matchMedia("(min-width: 2560px)").ma
 </template>
 <style lang="scss" scoped>
 nav section {
-  margin: auto auto;
+  margin: auto;
 }
+
 footer {
   padding-bottom: 30%;
 }
@@ -72,42 +73,51 @@ footer {
   display: flex;
   flex-flow: column;
   margin: auto 5% 1% 4%;
+
   h1 button {
     span {
       cursor: pointer;
     }
-    color: hsla(160, 92%, 27%, 1);
-    border: none;
+
+    color: hsl(160 92% 27% / 1);
     background-color: transparent;
+    border: none;
   }
+
   .settingItems {
     :global(button:hover) {
-      color: hsla(160, 92%, 27%, 1);
-      background-color: hsla(160, 100%, 37%, 0.2);
+      color: hsl(160 92% 27% / 1);
+      background-color: hsl(160 100% 37% / 0.2);
     }
   }
 }
-@media (min-width: 1024px) {
+
+@media (width >= 1024px) {
   nav {
     position: fixed;
     right: 2%;
   }
+
   main {
     max-width: 900px;
   }
 }
-@media (min-width: 2560px) {
+
+@media (width >= 2560px) {
   nav {
     top: 12%;
     right: 12%;
   }
+
   main {
-    margin-left: 2%;
     width: 1000px;
+    margin-left: 2%;
   }
+
   div.wrapper {
     display: flex;
   }
+
   .chart {
     position: fixed;
     top: 12%;

@@ -8,11 +8,11 @@
 </template>
 
 <style>
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .about {
-    margin-top: 10%;
     display: block;
     align-items: center;
+    margin-top: 10%;
   }
 }
 </style>

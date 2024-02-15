@@ -29,17 +29,19 @@ function goToBottom() {
 </template>
 <style scoped>
 button {
-  width: 50px;
-  height: 40px;
-  border: none;
-  border-radius: 5px;
-  background-color: transparent;
-  cursor: pointer;
   position: fixed;
   right: 0%;
+  width: 50px;
+  height: 40px;
+  background-color: transparent;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+
   &.goToTop {
     top: 15%;
   }
+
   &.goToBottom {
     bottom: 25%;
   }
