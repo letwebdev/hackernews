@@ -1,16 +1,15 @@
 <script setup lang="ts">
-"use strict"
 import { computed } from "vue"
+import { useLocalStorage } from "@vueuse/core"
+import { storeToRefs } from "pinia"
 import ControlPanel from "@/components/ControlPanel.vue"
 import SettingItems from "@/components/SettingItems.vue"
 import NavigatingButtons from "@/components/NavigatingButtons.vue"
 import ItemPost from "@/components/ItemPost.vue"
 import DataCharts from "@/components/DataCharts.vue"
-import { useLocalStorage } from "@vueuse/core"
 
 import { useCoreDataStore } from "@/stores/coreData"
 import { useFetchingDataStore } from "@/stores/fetchData"
-import { storeToRefs } from "pinia"
 
 const promptOfFetching = useFetchingDataStore().getPromptOfFetching
 const items = storeToRefs(useCoreDataStore()).items
@@ -36,18 +35,29 @@ const isLargeScreen = computed(() => window.matchMedia("(min-width: 2560px)").ma
             Settings <span>{{ foldSign }}</span>
           </button>
         </h1>
-        <SettingItems class="settingItems" v-show="!folded" />
+        <SettingItems
+          v-show="!folded"
+          class="settingItems"
+        />
       </section>
-      <ItemPost class="itemPost" v-for="item in items" :key="item.id" :item="item" />
+      <ItemPost
+        v-for="item in items"
+        :key="item.id"
+        class="itemPost"
+        :item="item"
+      />
       <div>
         {{ promptOfFetching }}
       </div>
     </main>
-    <div class="wrapper" v-if="isLargeScreen">
+    <div
+      v-if="isLargeScreen"
+      class="wrapper"
+    >
       <DataCharts class="chart" />
     </div>
   </div>
-  <footer></footer>
+  <footer />
   <NavigatingButtons />
 </template>
 <style lang="scss" scoped>

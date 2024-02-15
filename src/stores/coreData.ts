@@ -1,6 +1,7 @@
 import { defineStore } from "pinia"
 import { ref } from "vue"
 import type { Items, Lists, LiveDataSet } from "@/libs/types"
+
 export const useCoreDataStore = defineStore("coreData", () => {
   const baseURL: URL = new URL("https://hacker-news.firebaseio.com/v0")
 

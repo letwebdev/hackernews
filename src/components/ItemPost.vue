@@ -1,9 +1,11 @@
 <script setup lang="ts">
-"use strict"
 import { useSettingsStore } from "@/stores/settings"
 import type { Item } from "@/libs/types"
+
 const settings = useSettingsStore().settings
-defineProps(["item"])
+defineProps<{
+  item: Item
+}>()
 function setUrl(item: Item) {
   return item.url ? item.url.toString() : item.discuss.toString()
 }
@@ -21,13 +23,22 @@ function displayingLink(item: Item): boolean {
       <a :href="setUrl(item)"> {{ item.title }}</a>
     </h2>
     <ul>
-      <p v-show="settings.displayingItemText.value" v-html="item.text"></p>
-      <li v-show="settings.displayingItemTime.value">time: {{ item.readableTime }}</li>
-      <li v-show="settings.displayingItemType.value">type: {{ item.type }}</li>
+      <p
+        v-show="settings.displayingItemText.value"
+        v-html="item.text"
+      />
+      <li v-show="settings.displayingItemTime.value">
+        time: {{ item.readableTime }}
+      </li>
+      <li v-show="settings.displayingItemType.value">
+        type: {{ item.type }}
+      </li>
       <li v-show="displayingLink(item)">
         link: <a :href="item.url">{{ item.url }}</a>
       </li>
-      <li v-show="settings.displayingItemId.value">id: {{ item.id }}</li>
+      <li v-show="settings.displayingItemId.value">
+        id: {{ item.id }}
+      </li>
       <li v-show="settings.displayingItemDiscuss.value">
         discuss: <a :href="item.discuss.toString()">{{ item.discuss }}</a>
       </li>

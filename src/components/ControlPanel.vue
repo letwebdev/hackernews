@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { computed, ref } from "vue"
 
+import { storeToRefs } from "pinia"
 import { useSettingsStore } from "@/stores/settings"
 import { useCoreDataStore } from "@/stores/coreData"
 import { useFetchingDataStore } from "@/stores/fetchData"
-
-import { storeToRefs } from "pinia"
 
 const settings = useSettingsStore().settings
 const coreDataRef = storeToRefs(useCoreDataStore())
@@ -17,6 +16,7 @@ const changePrompt = useFetchingDataStore().changePrompt
 const changeItemsInQueue = useFetchingDataStore().changeItemsInQueue
 const liveDataSetInitialied = useFetchingDataStore().getLiveDataSetInitializationState
 
+const selected = ref([{ name: "topstories", description: "Top stories" }])
 function fetchSelectedLists() {
   const names: string[] = []
   selected.value.forEach((list) => {
@@ -39,10 +39,11 @@ function clear() {
   items.value = []
 }
 
-const selected = ref([{ name: "topstories", description: "Top stories" }])
 const descriptions = computed<string[]>(() => selected.value.map((option) => option.description))
 function fetchingListsAfterSelection() {
-  settings.fetchingListsAfterSelection.value && fetchMore()
+  if (settings.fetchingListsAfterSelection.value) {
+    fetchMore()
+  }
 }
 
 // Init: Fetch stories
@@ -72,17 +73,32 @@ window.addEventListener("scroll", () => {
 <template>
   <section>
     <h1>Control Panel</h1>
-    <button @click="refresh" class="refresh">Refresh</button>
-    <button @click="clear" class="clear">Clear</button>
+    <button
+      class="refresh"
+      @click="refresh"
+    >
+      Refresh
+    </button>
+    <button
+      class="clear"
+      @click="clear"
+    >
+      Clear
+    </button>
     <ul>
       Selected:
-      <li v-for="description in descriptions" :key="description">{{ description }}</li>
+      <li
+        v-for="description in descriptions"
+        :key="description"
+      >
+        {{ description }}
+      </li>
     </ul>
     <select
       v-model="selected"
       multiple
-      v-on:change="fetchingListsAfterSelection"
       class="selectedLists"
+      @change="fetchingListsAfterSelection"
     >
       <option
         v-for="list in lists"
@@ -92,7 +108,12 @@ window.addEventListener("scroll", () => {
         {{ list.description }}
       </option>
     </select>
-    <button @click="fetchMore" class="fetchMore">Fetch more</button>
+    <button
+      class="fetchMore"
+      @click="fetchMore"
+    >
+      Fetch more
+    </button>
   </section>
 </template>
 <style scoped>

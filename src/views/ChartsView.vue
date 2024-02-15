@@ -1,13 +1,13 @@
 <script setup lang="ts">
-"use strict"
+
 import DataCharts from "@/components/DataCharts.vue"
 </script>
 <template>
   <div class="charts">
     <h1>Charts</h1>
-    <br />
+    <br>
     <DataCharts />
-    <br />
+    <br>
   </div>
 </template>
 

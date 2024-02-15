@@ -1,12 +1,9 @@
+import { storeToRefs, defineStore } from "pinia"
+import { ref, computed } from "vue"
 import { useSettingsStore } from "@/stores/settings"
 import { useCoreDataStore } from "@/stores/coreData"
-import { storeToRefs } from "pinia"
 import { generateRandomInteger, shuffleArray } from "@/libs/math"
 import type { Item, LiveData } from "@/libs/types"
-import { ref } from "vue"
-
-import { defineStore } from "pinia"
-import { computed } from "vue"
 
 export const useFetchingDataStore = defineStore("fetchData", () => {
   const settings = useSettingsStore().settings
@@ -15,6 +12,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
   const coreDataRef = storeToRefs(useCoreDataStore())
   const items = coreDataRef.items
   const baseURL: URL = coreData.baseURL
+  const itemsInQueue = ref<number>(0)
 
   const liveDataSet = coreData.liveDataSet
   const itemTypesAndCounts = ref([
@@ -52,14 +50,14 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     console.log(liveData)
     let itemIds: number[]
     if (typeof liveData === "number") {
-      console.log("Live data is currently largest item id: " + liveData)
+      console.log(`Live data is currently largest item id: ${liveData}`)
       itemIds = []
       const maxItemId: number = liveData
       for (let i = 0; i < settings.numberOfItemsFetchedEachTime.value; i++) {
         const randomItemId = generateRandomInteger(maxItemId)
         itemIds.push(randomItemId)
       }
-      console.log("Fetch generated random ids: " + itemIds)
+      console.log(`Fetch generated random ids: ${itemIds}`)
     } else if (typeof liveData === "object") {
       let itemIdsInLiveData: number[]
       if (Array.isArray(liveData)) {
@@ -126,7 +124,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
       .catch((error) => console.error(`Error fetching data: ${error.message}`))
   }
 
-  async function useFetchingLiveData(listName: string = "topstories"): Promise<LiveData> {
+  async function useFetchingLiveData(listName: string = "topstories"): Promise<LiveData | void> {
     try {
       const listURL: URL = new URL(`${baseURL}/${listName}.json?print=pretty`)
       const response = await fetch(listURL)
@@ -143,7 +141,6 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     promptOfFetching.value = string
   }
 
-  const itemsInQueue = ref<number>(0)
   function changeItemsInQueue(number: number) {
     itemsInQueue.value = number
   }

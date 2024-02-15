@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router"
 // Init
+import { storeToRefs } from "pinia"
 import { useCoreDataStore } from "@/stores/coreData"
 import { useFetchingDataStore } from "@/stores/fetchData"
 
-import { storeToRefs } from "pinia"
 import type { LiveData } from "@/libs/types"
+
 const coreData = useCoreDataStore()
 const coreDataRef = storeToRefs(useCoreDataStore())
 const lists = coreDataRef.lists
@@ -15,13 +16,20 @@ const confirmLiveDataSetFetched = useFetchingDataStore().confirmLiveDataSetFetch
 ;(async () => {
   // Prefetch live data
   // TODO refresh live data when refresh()
+  const liveDataPromises = []
   for (const list of lists.value) {
-    const liveData: LiveData = await fetchLiveData(list.name)
-    const elementOfLiveDataSet = {
-      listName: list.name,
-      liveData: liveData,
+    const liveDataPromise: Promise<LiveData> = fetchLiveData(list.name)
+    liveDataPromises.push(liveDataPromise)
+  }
+  const liveDataGroup = await Promise.all(liveDataPromises)
+  for (const liveData of liveDataGroup) {
+    for (const list of lists.value) {
+      const elementOfLiveDataSet = {
+        listName: list.name,
+        liveData,
+      }
+      liveDataSet.push(elementOfLiveDataSet)
     }
-    liveDataSet.push(elementOfLiveDataSet)
   }
 })().then(() => {
   confirmLiveDataSetFetched()
@@ -31,10 +39,18 @@ const confirmLiveDataSetFetched = useFetchingDataStore().confirmLiveDataSetFetch
   <header>
     <div class="wrapper">
       <nav>
-        <RouterLink to="/">Hacker News</RouterLink>
-        <RouterLink to="/settings">Settings</RouterLink>
-        <RouterLink to="/charts">Charts</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/">
+          Hacker News
+        </RouterLink>
+        <RouterLink to="/settings">
+          Settings
+        </RouterLink>
+        <RouterLink to="/charts">
+          Charts
+        </RouterLink>
+        <RouterLink to="/about">
+          About
+        </RouterLink>
       </nav>
     </div>
   </header>

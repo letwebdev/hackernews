@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia"
-import { useFetchingDataStore } from "@/stores/fetchData"
 
 import { use } from "echarts/core"
 import { CanvasRenderer } from "echarts/renderers"
@@ -11,13 +10,14 @@ import VChart, { THEME_KEY } from "vue-echarts"
 
 import { ref, provide, computed } from "vue"
 import type { Ref } from "vue"
+import { useFetchingDataStore } from "@/stores/fetchData"
 
 const itemTypesAndCounts = storeToRefs(useFetchingDataStore()).itemTypesAndCounts
 
 const legendData: string[] = []
 const seriesData: object[] = []
 for (const [index, itemTypeAndCount] of itemTypesAndCounts.value.entries()) {
-  const type: string = itemTypeAndCount.type
+  const type = itemTypeAndCount.type
   legendData.push(type)
   const count = computed(() => itemTypesAndCounts.value[index].count)
   seriesData.push({ value: count, name: type })
@@ -60,7 +60,10 @@ const option: Ref<EChartsOption> = ref({
 })
 </script>
 <template>
-  <v-chart class="chart" :option="option" />
+  <v-chart
+    class="chart"
+    :option="option"
+  />
 </template>
 <style scoped>
 .chart {

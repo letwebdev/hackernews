@@ -1,5 +1,6 @@
 import { CapacitorConfig } from "@capacitor/cli"
 import "dotenv/config"
+
 const config: CapacitorConfig = {
   appId: "github.letwebdev.hackernews",
   appName: "Hacker News",

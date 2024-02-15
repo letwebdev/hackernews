@@ -1,5 +1,5 @@
 <script setup lang="ts">
-"use strict"
+
 import SettingItems from "@/components/SettingItems.vue"
 </script>
 <template>
