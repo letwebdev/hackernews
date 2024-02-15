@@ -1,4 +1,15 @@
 {
-  "extends": ["stylelint-config-standard-scss", "stylelint-config-rational-order", "stylelint-config-standard-vue/scss"]
+  "extends": [
+    "stylelint-config-standard-scss",
+    "stylelint-config-rational-order",
+    "stylelint-config-standard-vue/scss"
+  ],
+  "rules": {
+    "alpha-value-notation": null,
+    "hue-degree-notation": null,
+    "selector-class-pattern": null,
+    "custom-property-empty-line-before": null,
+    "color-hex-length": "long",
+    "comment-empty-line-before": null
+  }
 }
-
