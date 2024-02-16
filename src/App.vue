@@ -68,8 +68,8 @@ header {
 
 nav {
   display: flex;
-  flex-direction: column;
   width: 100%;
+  flex-direction: column;
   margin-top: 1rem;
   font-size: 12px;
   text-align: center;
@@ -109,8 +109,8 @@ nav {
   }
 
   nav {
-    margin-top: 1rem;
     padding: 1rem 0;
+    margin-top: 1rem;
     font-size: 1rem;
     text-align: left;
   }

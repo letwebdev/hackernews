@@ -58,8 +58,8 @@
 
 body {
   margin-top: 1%;
+  background: var(--color-background);
   color: var(--color-text);
-  font-size: 22px;
   font-family:
     Inter,
     -apple-system,
@@ -73,14 +73,14 @@ body {
     "Droid Sans",
     "Helvetica Neue",
     sans-serif;
+  font-size: 22px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
-  background: var(--color-background);
+  text-rendering: optimizelegibility;
   transition:
     color 0.5s,
     background-color 0.5s;
-  text-rendering: optimizelegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 @media (width <= 1024px) {

@@ -125,19 +125,19 @@ h1 {
 
 section {
   display: flex;
-  flex-flow: column nowrap;
   width: 200px;
+  flex-flow: column nowrap;
 }
 
 button {
   width: 120px;
   height: 4ex;
-  margin: 5px auto;
-  color: white;
-  font-weight: bold;
-  background-image: linear-gradient(135deg, #00f059 60%, #42f0a5);
   border: none;
   border-radius: 5px;
+  margin: 5px auto;
+  background-image: linear-gradient(135deg, #00f059 60%, #42f0a5);
+  color: white;
+  font-weight: bold;
 }
 
 @media (width >= 1024px) {
@@ -181,8 +181,8 @@ button {
   }
 
   select {
-    float: left;
     max-width: 55%;
+    float: left;
   }
 }
 </style>

@@ -33,9 +33,9 @@ button {
   right: 0%;
   width: 50px;
   height: 40px;
-  background-color: transparent;
   border: none;
   border-radius: 5px;
+  background-color: transparent;
   cursor: pointer;
 
   &.goToTop {

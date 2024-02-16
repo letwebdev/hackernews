@@ -79,15 +79,15 @@ footer {
       cursor: pointer;
     }
 
-    color: hsl(160 92% 27% / 1);
-    background-color: transparent;
     border: none;
+    background-color: transparent;
+    color: hsl(160 92% 27% / 1);
   }
 
   .settingItems {
     :global(button:hover) {
-      color: hsl(160 92% 27% / 1);
       background-color: hsl(160 100% 37% / 0.2);
+      color: hsl(160 92% 27% / 1);
     }
   }
 }
