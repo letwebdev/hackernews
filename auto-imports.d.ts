@@ -21,7 +21,6 @@ declare global {
   const ToolboxComponent: typeof import('echarts/components')['ToolboxComponent']
   const TooltipComponent: typeof import('echarts/components')['TooltipComponent']
   const [alias]: typeof import('[package-name]')['[from]']
-  const [import-names]: typeof import('[package-name]')['[import-names]']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
   const afterAll: typeof import('vitest')['afterAll']
   const afterEach: typeof import('vitest')['afterEach']
