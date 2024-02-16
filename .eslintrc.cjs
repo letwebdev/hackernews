@@ -4,12 +4,16 @@ module.exports = {
   extends: [
     "eslint:recommended",
     "airbnb-base",
+
     "plugin:import/recommended",
     "plugin:import/typescript",
     "plugin:@typescript-eslint/recommended",
+
     "@vue/eslint-config-prettier/skip-formatting",
     "@vue/eslint-config-typescript",
     "plugin:vue/vue3-recommended",
+
+    "@unocss",
   ],
   settings: {
     "import/parsers": {
