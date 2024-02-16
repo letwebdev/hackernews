@@ -1,5 +1,3 @@
-import { defineStore } from "pinia"
-import { ref } from "vue"
 import type { Items, Lists, LiveDataSet } from "@/libs/types"
 
 export const useCoreDataStore = defineStore("coreData", () => {
@@ -16,7 +14,7 @@ export const useCoreDataStore = defineStore("coreData", () => {
     // Current largest item id
     { name: "maxitem", description: "any" },
     { name: "updates", description: "Changed items" },
-  ])
+  ] as const)
   const liveDataSet: LiveDataSet = []
   return { baseURL, items, lists, liveDataSet }
 })

@@ -1,5 +1,3 @@
-import { storeToRefs, defineStore } from "pinia"
-import { ref, computed } from "vue"
 import { useSettingsStore } from "@/stores/settings"
 import { useCoreDataStore } from "@/stores/coreData"
 import { generateRandomInteger, shuffleArray } from "@/libs/math"
@@ -15,6 +13,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
   const itemsInQueue = ref<number>(0)
 
   const liveDataSet = coreData.liveDataSet
+
   const itemTypesAndCounts = ref([
     { type: "story", count: 0 },
     { type: "job", count: 0 },
@@ -22,8 +21,9 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     { type: "poll", count: 0 },
     { type: "pollopt", count: 0 },
   ])
+
   function useFetchingLists(listNames: string[]) {
-    listNames.forEach((listName: string) => {
+    listNames.forEach((listName) => {
       useFetchingList(listName)
     })
   }
