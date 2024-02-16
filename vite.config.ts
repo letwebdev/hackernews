@@ -15,7 +15,39 @@ export default defineConfig({
     vue(),
     vueJsx(),
     AutoImport({
-      /* options */
+      imports: [
+        "vue",
+        "vue-router",
+        "@vueuse/core",
+        "pinia",
+        "vitest",
+        {
+          "echarts/core": ["use", "graphic"],
+          "echarts/renderers": ["CanvasRenderer"],
+          "echarts/charts": ["BarChart", "PieChart", "LineChart", "RadarChart", "GaugeChart"],
+          "echarts/components": [
+            "DatasetComponent",
+            "DataZoomComponent",
+            "GridComponent",
+            "LegendComponent",
+            "MarkLineComponent",
+            "TitleComponent",
+            "ToolboxComponent",
+            "TooltipComponent",
+          ],
+        },
+      ],
+      // Auto import for module exports under directories
+      // by default it only scan one level of modules under the directory
+      dirs: [
+        // './composables' // only root modules
+        // './composables/**', // all nested modules
+      ],
+      // Auto import inside Vue template
+      vueTemplate: true,
+      // Custom resolvers, compatible with `unplugin-vue-components`
+      resolvers: [],
+      eslintrc: { enabled: true },
     }),
     UnoCSS(),
     electron({
