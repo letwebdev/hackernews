@@ -7,13 +7,3 @@ import SettingItems from "@/components/SettingItems.vue"
     <SettingItems />
   </main>
 </template>
-
-<style scoped>
-@media (width >= 1024px) {
-  .wrapper {
-    display: block;
-    align-items: center;
-    margin: 7% 0 0 5%;
-  }
-}
-</style>

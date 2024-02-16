@@ -10,8 +10,6 @@
 <style>
 @media (width >= 1024px) {
   .about {
-    display: block;
-    align-items: center;
     margin-top: 10%;
   }
 }

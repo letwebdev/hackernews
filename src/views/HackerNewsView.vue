@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { computed } from "vue"
-import { useLocalStorage } from "@vueuse/core"
-import { storeToRefs } from "pinia"
 import ControlPanel from "@/components/ControlPanel.vue"
 import SettingItems from "@/components/SettingItems.vue"
 import NavigatingButtons from "@/components/NavigatingButtons.vue"
@@ -20,6 +17,7 @@ const foldSign = computed(() => (folded.value ? "  ∨  " : "  ∧  "))
 function fold() {
   folded.value = !folded.value
 }
+
 const isLargeScreen = computed(() => window.matchMedia("(min-width: 2560px)").matches)
 // TODO Be able to drag controlPanel
 </script>
@@ -27,6 +25,7 @@ const isLargeScreen = computed(() => window.matchMedia("(min-width: 2560px)").ma
   <nav>
     <ControlPanel class="controlPanel" />
   </nav>
+
   <div class="wrapper">
     <main>
       <section class="settings">
@@ -40,12 +39,14 @@ const isLargeScreen = computed(() => window.matchMedia("(min-width: 2560px)").ma
           class="settingItems"
         />
       </section>
+
       <ItemPost
         v-for="item in items"
         :key="item.id"
-        class="itemPost"
         :item="item"
+        class="itemPost"
       />
+
       <div>
         {{ promptOfFetching }}
       </div>
@@ -57,7 +58,7 @@ const isLargeScreen = computed(() => window.matchMedia("(min-width: 2560px)").ma
       <DataCharts class="chart" />
     </div>
   </div>
-  <footer />
+  <footer class="pb-30%" />
   <NavigatingButtons />
 </template>
 <style lang="scss" scoped>
@@ -65,13 +66,7 @@ nav section {
   margin: auto;
 }
 
-footer {
-  padding-bottom: 30%;
-}
-
 .settings {
-  display: flex;
-  flex-flow: column;
   margin: auto 5% 1% 4%;
 
   h1 button {
