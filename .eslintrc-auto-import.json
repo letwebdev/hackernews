@@ -313,6 +313,22 @@
     "watchThrottled": true,
     "watchTriggerable": true,
     "watchWithFilter": true,
-    "whenever": true
+    "whenever": true,
+    "BarChart": true,
+    "CanvasRenderer": true,
+    "DataZoomComponent": true,
+    "DatasetComponent": true,
+    "GaugeChart": true,
+    "GridComponent": true,
+    "LegendComponent": true,
+    "LineChart": true,
+    "MarkLineComponent": true,
+    "PieChart": true,
+    "RadarChart": true,
+    "TitleComponent": true,
+    "ToolboxComponent": true,
+    "TooltipComponent": true,
+    "graphic": true,
+    "use": true
   }
 }

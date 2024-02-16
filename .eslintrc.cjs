@@ -13,6 +13,7 @@ module.exports = {
     "@vue/eslint-config-typescript",
     "plugin:vue/vue3-recommended",
 
+    "./.eslintrc-auto-import.json",
     "@unocss",
   ],
   settings: {
@@ -44,4 +45,5 @@ module.exports = {
     "no-restricted-syntax": 0,
     "consistent-return": 0,
   },
+  ignorePatterns: ["auto-imports.d.ts"],
 }
