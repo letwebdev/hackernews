@@ -14,18 +14,20 @@ function goToBottom() {
 // TODO Add "Go back to current position" button
 </script>
 <template>
-  <button
-    class="goToTop"
-    @click="goToTop"
-  >
-    🔝
-  </button>
-  <button
-    class="goToBottom"
-    @click="goToBottom"
-  >
-    ↓
-  </button>
+  <section class="navigatingButtons">
+    <button
+      class="goToTop"
+      @click="goToTop"
+    >
+      🔝
+    </button>
+    <button
+      class="goToBottom"
+      @click="goToBottom"
+    >
+      ↓
+    </button>
+  </section>
 </template>
 <style scoped>
 button {

@@ -30,6 +30,7 @@ function fetchMore() {
   changeItemsInQueue(0)
   fetchSelectedLists()
 }
+
 function refresh() {
   clear()
   fetchMore()
@@ -40,7 +41,8 @@ function clear() {
 }
 
 const descriptions = computed<string[]>(() => selected.value.map((option) => option.description))
-function fetchingListsAfterSelection() {
+
+function fetchListsAfterSelection() {
   if (settings.fetchingListsAfterSelection.value) {
     fetchMore()
   }
@@ -61,12 +63,14 @@ let interValId: number | null = window.setInterval(() => {
 }, 200)
 
 // TODO Onmounted
+function scrolledToBottom(): boolean {
+  return window.innerHeight + Math.round(window.scrollY) + 1 >= document.body.offsetHeight
+}
 window.addEventListener("scroll", () => {
-  if (settings.automaticallyFetchingMoreWhenScrollingToTheBottom.value === false) {
-    return
-  }
-  if (window.innerHeight + Math.round(window.scrollY) + 1 >= document.body.offsetHeight) {
-    fetchMore()
+  if (settings.automaticallyFetchingMoreWhenScrollingToTheBottom.value) {
+    if (scrolledToBottom()) {
+      fetchMore()
+    }
   }
 })
 </script>
@@ -98,7 +102,7 @@ window.addEventListener("scroll", () => {
       v-model="selected"
       multiple
       class="selectedLists"
-      @change="fetchingListsAfterSelection"
+      @change="fetchListsAfterSelection"
     >
       <option
         v-for="list in lists"
