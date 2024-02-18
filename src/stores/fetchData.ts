@@ -9,7 +9,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
   const coreData = useCoreDataStore()
   const coreDataRef = storeToRefs(useCoreDataStore())
   const items = coreDataRef.items
-  const baseURL: URL = coreData.baseURL
+  const baseUrl: URL = coreData.baseUrl
   const itemsInQueue = ref<number>(0)
 
   const liveDataSet = coreData.liveDataSet
@@ -103,13 +103,13 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     if (itemsInQueue.value > settings.numberOfItemsFetchedEachTime.value) {
       return
     }
-    const itemURL: URL = new URL(`${baseURL.href}/item/${id}.json?print=pretty`)
-    const discussURL: URL = new URL(`https://news.ycombinator.com/item?id=${id}`)
-    fetch(itemURL)
+    const itemUrl: URL = new URL(`${baseUrl.href}/item/${id}.json?print=pretty`)
+    const discussUrl: URL = new URL(`https://news.ycombinator.com/item?id=${id}`)
+    fetch(itemUrl)
       .then((response): Promise<Item> => response.json())
       .then((item) => {
         item.readableTime = convertUnixTimeStampToReadableTime(item.time)
-        item.discuss = discussURL
+        item.discuss = discussUrl
         items.value.push(item)
         updateCount(item)
       })
@@ -132,8 +132,8 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
 
   async function useFetchingLiveData(listName: string = "topstories"): Promise<LiveData> {
     try {
-      const listURL: URL = new URL(`${baseURL.href}/${listName}.json?print=pretty`)
-      const response = await fetch(listURL)
+      const listUrl: URL = new URL(`${baseUrl.href}/${listName}.json?print=pretty`)
+      const response = await fetch(listUrl)
       const liveData: LiveData = await response.json()
       return liveData
     } catch (error: any) {

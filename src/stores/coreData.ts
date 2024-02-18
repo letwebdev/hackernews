@@ -1,10 +1,10 @@
 import type { Items, Lists, LiveDataSet } from "@/types/hackerNews"
 
 export const useCoreDataStore = defineStore("coreData", () => {
-  const baseURL: URL = new URL("https://hacker-news.firebaseio.com/v0")
+  const baseUrl: URL = new URL("https://hacker-news.firebaseio.com/v0")
 
   const items = ref<Items>([])
-  const lists = ref<Lists>([
+  const lists = ref([
     { name: "topstories", description: "Top stories" },
     { name: "newstories", description: "New stories" },
     { name: "beststories", description: "Best stories" },
@@ -14,7 +14,7 @@ export const useCoreDataStore = defineStore("coreData", () => {
     // Current largest item id
     { name: "maxitem", description: "any" },
     { name: "updates", description: "Changed items" },
-  ] as const)
+  ] as const) satisfies Ref<Lists>
   const liveDataSet: LiveDataSet = []
-  return { baseURL, items, lists, liveDataSet }
+  return { baseUrl, items, lists, liveDataSet }
 })
