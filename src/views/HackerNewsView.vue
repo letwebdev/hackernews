@@ -22,9 +22,7 @@ const isLargeScreen = computed(() => window.matchMedia("(min-width: 2560px)").ma
 // TODO Be able to drag controlPanel
 </script>
 <template>
-  <nav>
-    <ControlPanel class="controlPanel" />
-  </nav>
+  <ControlPanel class="controlPanel" />
 
   <div class="wrapper">
     <main>
@@ -62,10 +60,6 @@ const isLargeScreen = computed(() => window.matchMedia("(min-width: 2560px)").ma
   <NavigatingButtons />
 </template>
 <style lang="scss" scoped>
-nav section {
-  margin: auto;
-}
-
 .settings {
   margin: auto 5% 1% 4%;
 
@@ -88,7 +82,7 @@ nav section {
 }
 
 @media (width >= 1024px) {
-  nav {
+  .controlPanel {
     position: fixed;
     right: 2%;
   }
@@ -99,7 +93,7 @@ nav section {
 }
 
 @media (width >= 2560px) {
-  nav {
+  .controlPanel {
     top: 12%;
     right: 12%;
   }

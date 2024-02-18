@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { computed, ref } from "vue"
-
-import { storeToRefs } from "pinia"
 import { useSettingsStore } from "@/stores/settings"
 import { useCoreDataStore } from "@/stores/coreData"
 import { useFetchingDataStore } from "@/stores/fetchData"
@@ -18,11 +15,11 @@ const liveDataSetInitialied = useFetchingDataStore().getLiveDataSetInitializatio
 
 const selected = ref([{ name: "topstories", description: "Top stories" }])
 function fetchSelectedLists() {
-  const names: string[] = []
+  const listNames: string[] = []
   selected.value.forEach((list) => {
-    names.push(list.name)
+    listNames.push(list.name)
   })
-  fetchLists(names)
+  fetchLists(listNames)
 }
 
 function fetchMore() {
@@ -62,7 +59,6 @@ let interValId: number | null = window.setInterval(() => {
   }
 }, 200)
 
-// TODO Onmounted
 function scrolledToBottom(): boolean {
   return window.innerHeight + Math.round(window.scrollY) + 1 >= document.body.offsetHeight
 }
@@ -131,6 +127,7 @@ section {
   display: flex;
   width: 200px;
   flex-flow: column nowrap;
+  margin: auto;
 }
 
 button {
