@@ -108,31 +108,36 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     fetch(itemURL)
       .then((response): Promise<Item> => response.json())
       .then((item) => {
-        // Convert Unix time to readable time
-        const unixTime = new Date(item.time * 1000)
-        item.readableTime = `
-      ${unixTime.getFullYear()}-${unixTime.getMonth() + 1}-${unixTime.getDate()}
-      ${unixTime.getHours()}:${unixTime.getMinutes()}
-      `
+        item.readableTime = convertUnixTimeStampToReadableTime(item.time)
         item.discuss = discussURL
         items.value.push(item)
-        // Update count
-        for (const itemTypeAndCount of itemTypesAndCounts.value)
-          if (item.type === itemTypeAndCount.type) {
-            itemTypeAndCount.count++
-          }
+        updateCount(item)
       })
       .catch((error) => console.error(`Error fetching data: ${error.message}`))
+  }
+  function convertUnixTimeStampToReadableTime(unixTimeStampInSecond: number) {
+    const readableTime = new Date(unixTimeStampInSecond * 1000)
+    const readableTimeFormatted = `
+           ${readableTime.getFullYear()}-${readableTime.getMonth() + 1}-${readableTime.getDate()}
+           ${readableTime.getHours()}:${readableTime.getMinutes()}
+           `
+    return readableTimeFormatted
+  }
+  function updateCount(item: Item) {
+    for (const itemTypeAndCount of itemTypesAndCounts.value)
+      if (item.type === itemTypeAndCount.type) {
+        itemTypeAndCount.count++
+      }
   }
 
   async function useFetchingLiveData(listName: string = "topstories"): Promise<LiveData> {
     try {
-      const listURL: URL = new URL(`${baseURL}/${listName}.json?print=pretty`)
+      const listURL: URL = new URL(`${baseURL.href}/${listName}.json?print=pretty`)
       const response = await fetch(listURL)
       const liveData: LiveData = await response.json()
       return liveData
     } catch (error: any) {
-      console.log(`Error: ${error.message}`)
+      console.error(`Error: ${error.message}`)
     }
   }
 
@@ -146,7 +151,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     itemsInQueue.value = number
   }
 
-  const liveDataSetInitialied = ref<boolean>(false)
+  const liveDataSetInitialied = ref(false)
   const getLiveDataSetInitializationState = computed(() => liveDataSetInitialied)
   function confirmLiveDataSetFetched() {
     liveDataSetInitialied.value = true
