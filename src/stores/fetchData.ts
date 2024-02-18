@@ -53,38 +53,40 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     console.log(`Generated random ids: ${itemIds}`)
     return itemIds
   }
+
   function useGettingItemIds(liveData: LiveData): number[] {
-    console.log("liveData:")
-    console.log(liveData)
+    console.log("liveData:", liveData)
     let itemIds: number[]
+
     if (typeof liveData === "number") {
       console.log(`Live data is currently largest item id: ${liveData}, will fetch item ids generated randomly`)
-      const maximumItemId = liveData
-      itemIds = generatedRandomItemIds(maximumItemId)
+      itemIds = generatedRandomItemIds(liveData)
     } else if (typeof liveData === "object") {
-      let itemIdsInLiveData: number[]
-
-      if (Array.isArray(liveData)) {
-        console.log("Live data is an array ")
-        itemIdsInLiveData = liveData
-      } else {
-        console.log("Live data is changed items ")
-        itemIdsInLiveData = liveData.items
-      }
-
-      if (settings.fetchingRandomly.value) {
-        itemIds = shuffleArray(itemIdsInLiveData)
-      } else {
-        itemIds = [...itemIdsInLiveData]
-      }
+      itemIds = extractItemIdsFromLiveData(liveData)
       removeduplicateItemIds(liveData)
     } else {
-      console.error(`Unknown live data type:${JSON.stringify(liveData)}`)
-      return [1]
+      console.error("Unknown live data type:", liveData)
+      itemIds = [1]
     }
+
     return itemIds
   }
 
+  function extractItemIdsFromLiveData(liveData: Extract<LiveData, number[] | object>): number[] {
+    let itemIds: number[]
+    if (Array.isArray(liveData)) {
+      itemIds = liveData
+    } else {
+      itemIds = liveData.items
+    }
+
+    if (settings.fetchingRandomly.value) {
+      itemIds = shuffleArray(itemIds)
+    } else {
+      itemIds = [...itemIds]
+    }
+    return itemIds
+  }
   function removeduplicateItemIds(liveData: Extract<LiveData, number[] | object>) {
     for (const element of liveDataSet) {
       if (element.liveData === liveData) {
