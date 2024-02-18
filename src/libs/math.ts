@@ -1,8 +1,7 @@
-
 export function generateRandomInteger(max: number, min = 1): number {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
-export function shuffleArray(arrayToShuffle: any[]): any[] {
+export function shuffleArray<T>(arrayToShuffle: T[]): T[] {
   // Fisher–Yates shuffle
   const array = arrayToShuffle
   let currentIndex = array.length
