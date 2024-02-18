@@ -65,7 +65,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
         console.log("Live data is an array ")
         itemIdsInLiveData = liveData
       } else {
-        console.log("Live data is a non-array object ")
+        console.log("Live data is changed items ")
         itemIdsInLiveData = liveData.items
       }
       if (settings.fetchingRandomly.value) {
