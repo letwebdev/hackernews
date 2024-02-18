@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useSettingsStore } from "@/stores/settings"
-import type { Item } from "@/libs/types"
+import type { Item } from "@/types/hackerNews"
 
 const settings = useSettingsStore().settings
 defineProps<{

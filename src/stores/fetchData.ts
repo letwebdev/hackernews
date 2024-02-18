@@ -1,7 +1,7 @@
 import { useSettingsStore } from "@/stores/settings"
 import { useCoreDataStore } from "@/stores/coreData"
 import { generateRandomInteger, shuffleArray } from "@/libs/math"
-import type { Item, LiveData } from "@/libs/types"
+import type { Item, LiveData } from "@/types/hackerNews"
 
 export const useFetchingDataStore = defineStore("fetchData", () => {
   const settings = useSettingsStore().settings

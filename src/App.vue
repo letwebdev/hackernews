@@ -5,7 +5,7 @@ import { storeToRefs } from "pinia"
 import { useCoreDataStore } from "@/stores/coreData"
 import { useFetchingDataStore } from "@/stores/fetchData"
 
-import type { LiveData } from "@/libs/types"
+import type { LiveData } from "@/types/hackerNews"
 
 const coreData = useCoreDataStore()
 const coreDataRef = storeToRefs(useCoreDataStore())
