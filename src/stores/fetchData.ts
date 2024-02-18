@@ -63,6 +63,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
       itemIds = generatedRandomItemIds(maximumItemId)
     } else if (typeof liveData === "object") {
       let itemIdsInLiveData: number[]
+
       if (Array.isArray(liveData)) {
         console.log("Live data is an array ")
         itemIdsInLiveData = liveData
@@ -70,34 +71,36 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
         console.log("Live data is changed items ")
         itemIdsInLiveData = liveData.items
       }
+
       if (settings.fetchingRandomly.value) {
         itemIds = shuffleArray(itemIdsInLiveData)
       } else {
         itemIds = [...itemIdsInLiveData]
       }
-      // Remove the ids of fetched items to prevent duplication
-      for (const element of liveDataSet) {
-        /* console.log(element) */
-        if (element.liveData === liveData) {
-          const start = settings.numberOfItemsFetchedEachTime.value
-          if (Array.isArray(element.liveData)) {
-            const end = element.liveData.length - 1
-            element.liveData = element.liveData.splice(start, end)
-            console.log(element.liveData)
-          } else {
-            const end = element.liveData.items.length - 1
-            element.liveData.items = element.liveData.items.splice(start, end)
-            console.log(element.liveData.items)
-          }
-          break
-        }
-      }
+      removeduplicateItemIds(liveData)
     } else {
-      console.log("Unknown live data type:")
-      console.log(liveData)
+      console.error(`Unknown live data type:${JSON.stringify(liveData)}`)
       return [1]
     }
     return itemIds
+  }
+
+  function removeduplicateItemIds(liveData: Extract<LiveData, number[] | object>) {
+    for (const element of liveDataSet) {
+      if (element.liveData === liveData) {
+        const start = settings.numberOfItemsFetchedEachTime.value
+        if (Array.isArray(element.liveData)) {
+          const end = element.liveData.length - 1
+          element.liveData = element.liveData.splice(start, end)
+          console.log(element.liveData)
+        } else {
+          const end = element.liveData.items.length - 1
+          element.liveData.items = element.liveData.items.splice(start, end)
+          console.log(element.liveData.items)
+        }
+        break
+      }
+    }
   }
 
   function useFetchingItem(id: number) {
