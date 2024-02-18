@@ -30,7 +30,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
 
   async function useFetchingList(listName: string = "topstories") {
     /* console.log(listName) */
-    let liveDataToFetch
+    let liveDataToFetch: LiveData
     for (const element of liveDataSet) {
       /* console.log(element) */
       if (element.listName === listName) {
@@ -40,11 +40,12 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     }
     /* console.log(liveDataToFetch) */
     const itemIds = useGettingItemIds(liveDataToFetch)
-    itemIds.forEach((itemId: number) => {
+    itemIds.forEach((itemId) => {
       useFetchingItem(itemId)
     })
   }
 
+  // TODO refactor
   function useGettingItemIds(liveData: LiveData): number[] {
     console.log("liveData:")
     console.log(liveData)
@@ -52,9 +53,9 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     if (typeof liveData === "number") {
       console.log(`Live data is currently largest item id: ${liveData}`)
       itemIds = []
-      const maxItemId: number = liveData
+      const maximumItemId: number = liveData
       for (let i = 0; i < settings.numberOfItemsFetchedEachTime.value; i++) {
-        const randomItemId = generateRandomInteger(maxItemId)
+        const randomItemId = generateRandomInteger(maximumItemId)
         itemIds.push(randomItemId)
       }
       console.log(`Fetch generated random ids: ${itemIds}`)
@@ -90,7 +91,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
         }
       }
     } else {
-      console.log("Unknwon live data type:")
+      console.log("Unknown live data type:")
       console.log(liveData)
       return [1]
     }
@@ -102,11 +103,11 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     if (itemsInQueue.value > settings.numberOfItemsFetchedEachTime.value) {
       return
     }
-    const itemURL: URL = new URL(`${baseURL}/item/${id}.json?print=pretty`)
+    const itemURL: URL = new URL(`${baseURL.href}/item/${id}.json?print=pretty`)
     const discussURL: URL = new URL(`https://news.ycombinator.com/item?id=${id}`)
     fetch(itemURL)
-      .then((response) => response.json())
-      .then((item: Item) => {
+      .then((response): Promise<Item> => response.json())
+      .then((item) => {
         // Convert Unix time to readable time
         const unixTime = new Date(item.time * 1000)
         item.readableTime = `
@@ -116,9 +117,9 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
         item.discuss = discussURL
         items.value.push(item)
         // Update count
-        for (const itemTypeAndAccount of itemTypesAndCounts.value)
-          if (item.type === itemTypeAndAccount.type) {
-            itemTypeAndAccount.count++
+        for (const itemTypeAndCount of itemTypesAndCounts.value)
+          if (item.type === itemTypeAndCount.type) {
+            itemTypeAndCount.count++
           }
       })
       .catch((error) => console.error(`Error fetching data: ${error.message}`))
