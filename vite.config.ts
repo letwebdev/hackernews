@@ -1,11 +1,13 @@
 import { fileURLToPath, URL } from "node:url"
 
-import { defineConfig } from "vite"
 import vue from "@vitejs/plugin-vue"
+import { defineConfig } from "vite"
 import vueJsx from "@vitejs/plugin-vue-jsx"
 
 import AutoImport from "unplugin-auto-import/vite"
+
 import UnoCSS from "unocss/vite"
+import vuetify from "vite-plugin-vuetify"
 
 import electron from "vite-plugin-electron"
 
@@ -14,6 +16,7 @@ export default defineConfig({
   plugins: [
     vue(),
     vueJsx(),
+
     AutoImport({
       imports: [
         "vue",
@@ -49,7 +52,9 @@ export default defineConfig({
       resolvers: [],
       eslintrc: { enabled: true },
     }),
+
     UnoCSS(),
+    vuetify(),
     electron({
       onstart(args) {
         if (process.env.VITE_LAUNCHING_ELECTRON) {
