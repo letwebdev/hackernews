@@ -85,15 +85,19 @@ window.addEventListener("scroll", () => {
     >
       Clear
     </button>
-    <ul>
-      Selected:
-      <li
-        v-for="description in descriptions"
-        :key="description"
-      >
-        {{ description }}
-      </li>
-    </ul>
+
+    <section class="promptForSmallScreen">
+      <h2>Selected:</h2>
+      <ul>
+        <li
+          v-for="description in descriptions"
+          :key="description"
+        >
+          {{ description }}
+        </li>
+      </ul>
+    </section>
+
     <select
       v-model="selected"
       multiple
@@ -156,7 +160,7 @@ button {
     margin: 5% 0;
   }
 
-  ul {
+  .promptForSmallScreen {
     display: none;
   }
 }
