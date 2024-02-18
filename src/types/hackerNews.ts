@@ -24,7 +24,8 @@ interface LiveDataOfChangedItems {
   items: number[]
   profiles: string[]
 }
-export type LiveData = number[] | LiveDataOfChangedItems | undefined
+type maximumItemId = number
+export type LiveData = number[] | maximumItemId | LiveDataOfChangedItems | undefined
 export interface ElementOfLiveDataSet {
   listName: string
   liveData: LiveData

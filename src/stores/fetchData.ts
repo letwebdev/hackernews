@@ -29,10 +29,8 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
   }
 
   async function useFetchingList(listName: string = "topstories") {
-    /* console.log(listName) */
     let liveDataToFetch: LiveData
     for (const element of liveDataSet) {
-      /* console.log(element) */
       if (element.listName === listName) {
         liveDataToFetch = element.liveData
         break
@@ -46,19 +44,23 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
   }
 
   // TODO refactor
+  function generatedRandomItemIds(maximumItemId: number) {
+    const itemIds: number[] = []
+    for (let i = 0; i < settings.numberOfItemsFetchedEachTime.value; i++) {
+      const randomItemId = generateRandomInteger(maximumItemId)
+      itemIds.push(randomItemId)
+    }
+    console.log(`Generated random ids: ${itemIds}`)
+    return itemIds
+  }
   function useGettingItemIds(liveData: LiveData): number[] {
     console.log("liveData:")
     console.log(liveData)
     let itemIds: number[]
     if (typeof liveData === "number") {
-      console.log(`Live data is currently largest item id: ${liveData}`)
-      itemIds = []
-      const maximumItemId: number = liveData
-      for (let i = 0; i < settings.numberOfItemsFetchedEachTime.value; i++) {
-        const randomItemId = generateRandomInteger(maximumItemId)
-        itemIds.push(randomItemId)
-      }
-      console.log(`Fetch generated random ids: ${itemIds}`)
+      console.log(`Live data is currently largest item id: ${liveData}, will fetch item ids generated randomly`)
+      const maximumItemId = liveData
+      itemIds = generatedRandomItemIds(maximumItemId)
     } else if (typeof liveData === "object") {
       let itemIdsInLiveData: number[]
       if (Array.isArray(liveData)) {
