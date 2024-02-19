@@ -43,17 +43,6 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     })
   }
 
-  // TODO refactor
-  function generatedRandomItemIds(maximumItemId: number) {
-    const itemIds: number[] = []
-    for (let i = 0; i < settings.numberOfItemsFetchedEachTime.value; i++) {
-      const randomItemId = generateRandomInteger(maximumItemId)
-      itemIds.push(randomItemId)
-    }
-    console.log(`Generated random ids: ${itemIds}`)
-    return itemIds
-  }
-
   function useGettingItemIds(liveData: LiveData): number[] {
     console.log("liveData:", liveData)
     let itemIds: number[]
@@ -69,6 +58,16 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
       itemIds = [1]
     }
 
+    return itemIds
+  }
+
+  function generatedRandomItemIds(maximumItemId: number) {
+    const itemIds: number[] = []
+    for (let i = 0; i < settings.numberOfItemsFetchedEachTime.value; i++) {
+      const randomItemId = generateRandomInteger(maximumItemId)
+      itemIds.push(randomItemId)
+    }
+    console.log(`Generated random ids: ${itemIds}`)
     return itemIds
   }
 
