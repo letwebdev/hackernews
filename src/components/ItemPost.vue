@@ -22,28 +22,37 @@ function displayingLink(item: Item): boolean {
     <h2 v-show="settings.displayingItemTitle.value">
       <a :href="titleUrl(item)"> {{ item.title }}</a>
     </h2>
-    <ul>
-      <p
-        v-if="settings.displayingItemText.value"
-        v-html="item.text"
-      />
-      <li v-if="settings.displayingItemTime.value">
-        time: {{ item.readableTime }}
-      </li>
-      <li v-if="settings.displayingItemType.value">
-        type: {{ item.type }}
-      </li>
+    <p
+      v-if="settings.displayingItemText.value"
+      v-html="item.text"
+    />
+    <ul class="list-none">
       <li v-if="displayingLink(item)">
         link: <a :href="item.url">{{ item.url }}</a>
       </li>
-      <li v-if="settings.displayingItemId.value">
-        id: {{ item.id }}
-      </li>
-      <li v-if="settings.displayingItemDiscuss.value">
-        discuss: <a :href="item.discuss.href">{{ item.discuss.href }}</a>
-      </li>
+      <div class="grid grid-cols-3">
+        <li v-if="settings.displayingItemType.value">
+          type: {{ item.type }}
+        </li>
+        <li v-if="settings.displayingItemId.value">
+          id:
+          <a :href="item.discuss.href">
+            {{ item.id }}
+            <v-tooltip
+              activator="parent"
+              location="top"
+            >Go to discuss</v-tooltip></a>
+        </li>
+        <li v-if="settings.displayingItemTime.value">
+          time: {{ item.readableTime }}
+        </li>
+      </div>
     </ul>
   </article>
+  <v-divider
+    thickness="2px"
+    class="mb-3px mt-2px"
+  />
 </template>
 <style scoped>
 * {

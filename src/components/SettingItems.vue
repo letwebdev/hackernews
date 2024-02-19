@@ -3,9 +3,6 @@ import { useSettingsStore } from "@/stores/settings"
 
 const settings = useSettingsStore().settings
 /* console.log(settings) */
-function toggle(property: { value: boolean; [key: string]: any }) {
-  property.value = !property.value
-}
 function reset() {
   localStorage.removeItem("settings")
   // BUG have to refresh to make reset() take effect
@@ -32,9 +29,8 @@ function reset() {
             <v-slider
               v-else
               v-model="property.value"
-              
               hide-details
-              thumb-label 
+              thumb-label
               track-color="indigo"
               color="indigo"
               min="1"
