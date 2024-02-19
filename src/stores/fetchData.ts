@@ -22,13 +22,13 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     { type: "pollopt", count: 0 },
   ])
 
-  function useFetchingLists(listNames: string[]) {
+  function fetchLists(listNames: string[]) {
     listNames.forEach((listName) => {
-      useFetchingList(listName)
+      fetchList(listName)
     })
   }
 
-  async function useFetchingList(listName: string = "topstories") {
+  async function fetchList(listName: string = "topstories") {
     let liveDataToFetch: LiveData
     for (const element of liveDataSet) {
       if (element.listName === listName) {
@@ -37,13 +37,13 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
       }
     }
     /* console.log(liveDataToFetch) */
-    const itemIds = useGettingItemIds(liveDataToFetch)
+    const itemIds = getItemIds(liveDataToFetch)
     itemIds.forEach((itemId) => {
-      useFetchingItem(itemId)
+      fetchItem(itemId)
     })
   }
 
-  function useGettingItemIds(liveData: LiveData): number[] {
+  function getItemIds(liveData: LiveData): number[] {
     console.log("liveData:", liveData)
     let itemIds: number[]
 
@@ -104,7 +104,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     }
   }
 
-  function useFetchingItem(id: number) {
+  function fetchItem(id: number) {
     itemsInQueue.value += 1
     if (itemsInQueue.value > settings.numberOfItemsFetchedEachTime.value) {
       return
@@ -136,7 +136,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
       }
   }
 
-  async function useFetchingLiveData(listName: string = "topstories"): Promise<LiveData> {
+  async function fetchLiveData(listName: string = "topstories"): Promise<LiveData> {
     try {
       const listUrl: URL = new URL(`${baseUrl.href}/${listName}.json?print=pretty`)
       const response = await fetch(listUrl)
@@ -164,10 +164,10 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
   }
 
   return {
-    useFetchingList,
-    useFetchingLists,
-    useFetchingItem,
-    useFetchingLiveData,
+    fetchList,
+    fetchLists,
+    fetchItem,
+    fetchLiveData,
     itemsInQueue,
     getPromptOfFetching,
     changePrompt,

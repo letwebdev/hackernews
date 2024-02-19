@@ -11,7 +11,7 @@ const coreData = useCoreDataStore()
 const coreDataRef = storeToRefs(useCoreDataStore())
 const lists = coreDataRef.lists
 const liveDataSet = coreData.liveDataSet
-const fetchLiveData = useFetchingDataStore().useFetchingLiveData
+const fetchLiveData = useFetchingDataStore().fetchLiveData
 const confirmLiveDataSetFetched = useFetchingDataStore().confirmLiveDataSetFetched
 ;(async () => {
   // Prefetch live data
