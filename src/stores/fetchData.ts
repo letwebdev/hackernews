@@ -38,9 +38,14 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     }
     /* console.log(liveDataToFetch) */
     const itemIds = getItemIds(liveDataToFetch)
-    itemIds.forEach((itemId) => {
+    for (const itemId of itemIds) {
       fetchItem(itemId)
-    })
+
+      itemsInQueue.value += 1
+      if (itemsInQueue.value > settings.numberOfItemsFetchedEachTime.value) {
+        break
+      }
+    }
   }
 
   function getItemIds(liveData: LiveData): number[] {
@@ -103,10 +108,6 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
   }
 
   function fetchItem(id: number) {
-    itemsInQueue.value += 1
-    if (itemsInQueue.value > settings.numberOfItemsFetchedEachTime.value) {
-      return
-    }
     const itemUrl: URL = new URL(`${baseUrl.href}/item/${id}.json?print=pretty`)
     const discussUrl: URL = new URL(`https://news.ycombinator.com/item?id=${id}`)
     fetch(itemUrl)
