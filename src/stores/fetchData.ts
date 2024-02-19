@@ -1,6 +1,7 @@
 import { useSettingsStore } from "@/stores/settings"
 import { useCoreDataStore } from "@/stores/coreData"
 import { generateRandomInteger, shuffleArray } from "@/libs/math"
+import { convertUnixTimeStampToReadableTime } from "@/libs/formatter"
 import type { Item, LiveData } from "@/types/hackerNews"
 
 export const useFetchingDataStore = defineStore("fetchData", () => {
@@ -27,7 +28,6 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
       fetchList(listName)
     })
   }
-
   async function fetchList(listName: string = "topstories") {
     let liveDataToFetch: LiveData
     for (const element of liveDataSet) {
@@ -81,24 +81,22 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
 
     if (settings.fetchingRandomly.value) {
       itemIds = shuffleArray(itemIds)
-    } else {
-      itemIds = [...itemIds]
     }
+
     return itemIds
   }
   function removeduplicateItemIds(liveData: Extract<LiveData, number[] | object>) {
+    const start = settings.numberOfItemsFetchedEachTime.value
     for (const element of liveDataSet) {
       if (element.liveData === liveData) {
-        const start = settings.numberOfItemsFetchedEachTime.value
+        let itemIds: number[]
         if (Array.isArray(element.liveData)) {
-          const end = element.liveData.length - 1
-          element.liveData = element.liveData.splice(start, end)
-          console.log(element.liveData)
+          itemIds = element.liveData
         } else {
-          const end = element.liveData.items.length - 1
-          element.liveData.items = element.liveData.items.splice(start, end)
-          console.log(element.liveData.items)
+          itemIds = element.liveData.items
         }
+        const end = itemIds.length - 1
+        itemIds = itemIds.splice(start, end)
         break
       }
     }
@@ -120,14 +118,6 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
         updateCount(item)
       })
       .catch((error) => console.error(`Error fetching data: ${error.message}`))
-  }
-  function convertUnixTimeStampToReadableTime(unixTimeStampInSecond: number) {
-    const readableTime = new Date(unixTimeStampInSecond * 1000)
-    const readableTimeFormatted = `
-           ${readableTime.getFullYear()}-${readableTime.getMonth() + 1}-${readableTime.getDate()}
-           ${readableTime.getHours()}:${readableTime.getMinutes()}
-           `
-    return readableTimeFormatted
   }
   function updateCount(item: Item) {
     for (const itemTypeAndCount of itemTypesAndCounts.value)
