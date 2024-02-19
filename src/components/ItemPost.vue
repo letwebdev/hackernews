@@ -6,8 +6,8 @@ const settings = useSettingsStore().settings
 defineProps<{
   item: Item
 }>()
-function setUrl(item: Item) {
-  return item.url ? item.url.toString() : item.discuss.toString()
+function titleUrl(item: Item) {
+  return item.url ? item.url : item.discuss.href
 }
 function displayingLink(item: Item): boolean {
   return (
@@ -20,32 +20,36 @@ function displayingLink(item: Item): boolean {
 <template>
   <article>
     <h2 v-show="settings.displayingItemTitle.value">
-      <a :href="setUrl(item)"> {{ item.title }}</a>
+      <a :href="titleUrl(item)"> {{ item.title }}</a>
     </h2>
     <ul>
       <p
-        v-show="settings.displayingItemText.value"
+        v-if="settings.displayingItemText.value"
         v-html="item.text"
       />
-      <li v-show="settings.displayingItemTime.value">
+      <li v-if="settings.displayingItemTime.value">
         time: {{ item.readableTime }}
       </li>
-      <li v-show="settings.displayingItemType.value">
+      <li v-if="settings.displayingItemType.value">
         type: {{ item.type }}
       </li>
-      <li v-show="displayingLink(item)">
+      <li v-if="displayingLink(item)">
         link: <a :href="item.url">{{ item.url }}</a>
       </li>
-      <li v-show="settings.displayingItemId.value">
+      <li v-if="settings.displayingItemId.value">
         id: {{ item.id }}
       </li>
-      <li v-show="settings.displayingItemDiscuss.value">
-        discuss: <a :href="item.discuss.toString()">{{ item.discuss }}</a>
+      <li v-if="settings.displayingItemDiscuss.value">
+        discuss: <a :href="item.discuss.href">{{ item.discuss.href }}</a>
       </li>
     </ul>
   </article>
 </template>
 <style scoped>
+* {
+  overflow-wrap: break-word;
+}
+
 h2 {
   color: hsl(160 100% 37% / 1);
   font-size: 110%;
@@ -58,23 +62,9 @@ h2 {
   }
 }
 
-* {
-  overflow-wrap: break-word;
-}
-
 li {
   /* Wrap "_", etc. in long link */
   /* break-all so that link won't in new line */
   word-break: break-all;
-  /* TODO
-  /* code { */
-  /*   word-break: break-all; */
-  /* } */
-}
-
-@media (width <= 1024px) {
-  h2 {
-    font-size: 110%;
-  }
 }
 </style>
