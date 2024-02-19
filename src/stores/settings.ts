@@ -16,6 +16,7 @@ export const useSettingsStore = defineStore("settings", () => {
       description: "Fetching randomly" as const,
       value: false,
     }
+
     displayingItemTitle = {
       description: "Displaying item title" as const,
       value: true,
@@ -24,22 +25,24 @@ export const useSettingsStore = defineStore("settings", () => {
       description: "Displaying text part of an item(if any)" as const,
       value: true,
     }
-    displayingItemTime = {
-      description: "Displaying posted time" as const,
-      value: true,
-    }
-    displayingItemType = {
-      description: "Displaying item type" as const,
-      value: true,
-    }
     displayingItemLink = {
       description: "Displaying item link" as const,
+      value: true,
+    }
+
+    displayingItemType = {
+      description: "Displaying item type" as const,
       value: true,
     }
     displayingItemId = {
       description: "Displaying item id" as const,
       value: true,
     }
+    displayingItemTime = {
+      description: "Displaying posted time" as const,
+      value: true,
+    }
+
     automaticallyFetchingMoreWhenScrollingToTheBottom = {
       description: "Automatically fetching more when scrolling to the bottom" as const,
       value: true,
