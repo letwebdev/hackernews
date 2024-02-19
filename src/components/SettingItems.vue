@@ -3,12 +3,12 @@ import { useSettingsStore } from "@/stores/settings"
 
 const settings = useSettingsStore().settings
 /* console.log(settings) */
-function toggle(property: { value: boolean }) {
+function toggle(property: { value: boolean; [key: string]: any }) {
   property.value = !property.value
 }
 function reset() {
   localStorage.removeItem("settings")
-  // BUG: have to refresh to make reset() take effect
+  // BUG have to refresh to make reset() take effect
   window.location.reload()
 }
 </script>
@@ -40,13 +40,3 @@ function reset() {
     </button>
   </div>
 </template>
-<style scoped>
-button {
-  max-width: 350px;
-  border-radius: 5px;
-
-  &:hover {
-    cursor: pointer;
-  }
-}
-</style>
