@@ -42,7 +42,6 @@ const isLargeScreen = computed(() => window.matchMedia("(min-width: 2560px)").ma
         v-for="item in items"
         :key="item.id"
         :item="item"
-        class="itemPost"
       />
 
       <div>
