@@ -72,13 +72,6 @@ const isLargeScreen = computed(() => window.matchMedia("(min-width: 2560px)").ma
     background-color: transparent;
     color: hsl(160 92% 27% / 1);
   }
-
-  .settingItems {
-    :global(button:hover) {
-      background-color: hsl(160 100% 37% / 0.2);
-      color: hsl(160 92% 27% / 1);
-    }
-  }
 }
 
 @media (width >= 1024px) {
