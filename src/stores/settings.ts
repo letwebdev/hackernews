@@ -1,7 +1,7 @@
 export const useSettingsStore = defineStore("settings", () => {
   class Settings {
     numberOfItemsFetchedEachTime = {
-      description: "Number of items fetched each time" as const,
+      description: "Number of items to fetch each time" as const,
       value: 20,
     }
     maximumLinkLengthToDisplay = {
