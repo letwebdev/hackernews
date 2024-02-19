@@ -20,7 +20,12 @@ function displayingLink(item: Item): boolean {
 <template>
   <article>
     <h2 v-show="settings.displayingItemTitle.value">
-      <a :href="titleUrl(item)"> {{ item.title }}</a>
+      <a
+        :href="titleUrl(item)"
+        class="flex items-center"
+      >
+        <div class="i-mdi-web mr-2px" />
+        {{ item.title }}</a>
     </h2>
     <p
       v-if="settings.displayingItemText.value"
