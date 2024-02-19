@@ -11,41 +11,25 @@ function goToBottom() {
     behavior: "smooth",
   })
 }
-// TODO Add "Go back to current position" button
+// TODO Add "Go back to previous position" button
 </script>
 <template>
   <section class="navigatingButtons">
     <button
-      class="goToTop"
+      class="top-15% i-mdi-arrow-collapse-up"
       @click="goToTop"
-    >
-      🔝
-    </button>
+    />
     <button
-      class="goToBottom"
+      class="bottom-25% i-mdi-arrow-collapse-down"
       @click="goToBottom"
-    >
-      ↓
-    </button>
+    />
   </section>
 </template>
 <style scoped>
 button {
   position: fixed;
-  right: 0%;
+  right: 0;
   width: 50px;
-  height: 40px;
-  border: none;
-  border-radius: 5px;
-  background-color: transparent;
   cursor: pointer;
-
-  &.goToTop {
-    top: 15%;
-  }
-
-  &.goToBottom {
-    bottom: 25%;
-  }
 }
 </style>
