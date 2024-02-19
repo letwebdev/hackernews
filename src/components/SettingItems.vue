@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { useSettingsStore } from "@/stores/settings"
 
-const settings = useSettingsStore().settings
-/* console.log(settings) */
+const settings = storeToRefs(useSettingsStore()).settings
+const settingOperations = useSettingsStore().settingOperations
 function reset() {
-  localStorage.removeItem("settings")
-  // BUG have to refresh to make reset() take effect
-  window.location.reload()
+  settingOperations.reset()
 }
 </script>
 <template>
@@ -60,7 +58,7 @@ function reset() {
       class="text-none"
       @click="reset"
     >
-      Reset and reload current page
+      Reset
     </v-btn>
   </div>
 </template>

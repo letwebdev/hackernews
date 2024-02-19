@@ -40,15 +40,10 @@ export const useSettingsStore = defineStore("settings", () => {
       description: "Displaying item id" as const,
       value: true,
     }
-    displayingItemDiscuss = {
-      description: "Displaying discuss link" as const,
-      value: true,
-    }
     automaticallyFetchingMoreWhenScrollingToTheBottom = {
       description: "Automatically fetching more when scrolling to the bottom" as const,
       value: true,
     }
-    // TODO No longer need to delete old localstorage when adding new setting items
     /* TODO history
      history = {
        description: "Recording history",
@@ -57,5 +52,10 @@ export const useSettingsStore = defineStore("settings", () => {
          */
   }
   const settings = useLocalStorage("settings", new Settings())
-  return { Settings, settings }
+  const settingOperations = {
+    reset() {
+      settings.value = new Settings()
+    },
+  }
+  return { settings, settingOperations }
 })
