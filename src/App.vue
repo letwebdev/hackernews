@@ -93,6 +93,13 @@ nav {
   }
 }
 
+.view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 @media (width >= 1024px) {
   header {
     display: flex;
@@ -113,6 +120,11 @@ nav {
     margin-top: 1rem;
     font-size: 1rem;
     text-align: left;
+  }
+
+  .view {
+    align-items: normal;
+    justify-content: normal;
   }
 }
 

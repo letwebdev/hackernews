@@ -1,8 +1,12 @@
 @import "./base.css";
 
 #app {
+  display: flex;
   width: 100%;
   max-width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   padding: 2rem 0.4rem 0;
   font-weight: normal;
 }
@@ -25,6 +29,8 @@ a {
 
   #app {
     display: grid;
+    align-items: normal;
+    justify-content: normal;
     padding: 0 0.7rem 0 1.7rem;
     grid-template-columns: 0.25fr 2fr;
   }
