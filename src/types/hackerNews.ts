@@ -1,9 +1,9 @@
 export interface Item {
   readonly by: string
   readonly id: number
-  readonly poll: number
-  readonly score: number
-  readonly text: string
+  readonly poll?: number
+  readonly score?: number
+  readonly text?: string
   readonly time: number
   readonly type: string
   readonly url?: string
