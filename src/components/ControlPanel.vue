@@ -9,7 +9,7 @@ const coreDataRef = storeToRefs(useCoreDataStore())
 const { items, lists } = coreDataRef
 const fetchingData = useFetchingDataStore()
 const { fetchLists, fetchList, changePrompt, changeItemsInQueue } = fetchingData
-const liveDataSetInitialied = useFetchingDataStore().getLiveDataSetInitializationState
+const liveDataCacheInitialied = useFetchingDataStore().getLiveDataCacheInitializationState
 
 const selected = ref<ListName[]>(["topstories"])
 
@@ -40,7 +40,7 @@ function fetchListsAfterSelection() {
 changePrompt("Fetching selected lists...")
 // TODO refresh live data when refresh()
 let interValId: number | null = window.setInterval(() => {
-  if (liveDataSetInitialied.value) {
+  if (liveDataCacheInitialied.value) {
     fetchList(selected.value[0]).then(() => {
       changePrompt("")
     })

@@ -11,9 +11,9 @@ import type { LiveData } from "@/types/hackerNews"
 const coreDataRef = storeToRefs(useCoreDataStore())
 const lists = coreDataRef.lists
 const liveDataStore = useLiveDataStore()
-const liveDataSet = liveDataStore.liveDataSet
+const liveDataCache = liveDataStore.liveDataCache
 const fetchLiveData = useFetchingDataStore().fetchLiveData
-const confirmLiveDataSetFetched = useFetchingDataStore().confirmLiveDataSetFetched
+const confirmLiveDataCacheFetched = useFetchingDataStore().confirmLiveDataCacheFetched
 ;(async () => {
   // Prefetch live data
   // TODO refresh live data when refresh()
@@ -25,15 +25,15 @@ const confirmLiveDataSetFetched = useFetchingDataStore().confirmLiveDataSetFetch
   const liveDataGroup = await Promise.all(liveDataPromises)
   for (const liveData of liveDataGroup) {
     for (const list of lists.value) {
-      const elementOfLiveDataSet = {
+      const liveDataCacheItem = {
         listName: list.name,
         liveData,
       }
-      liveDataSet.push(elementOfLiveDataSet)
+      liveDataCache.push(liveDataCacheItem)
     }
   }
 })().then(() => {
-  confirmLiveDataSetFetched()
+  confirmLiveDataCacheFetched()
 })
 </script>
 <template>

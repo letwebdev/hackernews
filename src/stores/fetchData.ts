@@ -15,7 +15,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
 
   const liveDatastore = useLiveDataStore()
 
-  const liveDataSet = liveDatastore.liveDataSet
+  const liveDataCache = liveDatastore.liveDataCache
 
   const itemTypesAndCounts = ref([
     { type: "story", count: 0 },
@@ -32,7 +32,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
   }
   async function fetchList(listName: ListName = "topstories") {
     let liveDataToFetch: LiveData
-    for (const element of liveDataSet) {
+    for (const element of liveDataCache) {
       if (element.listName === listName) {
         liveDataToFetch = element.liveData
         break
@@ -96,7 +96,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     let deleteCount = settings.numberOfItemsFetchedEachTime.value
     let itemIds: number[] = []
 
-    for (const element of liveDataSet) {
+    for (const element of liveDataCache) {
       if (element.liveData === liveData) {
         if (Array.isArray(element.liveData)) {
           itemIds = element.liveData
@@ -150,10 +150,10 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     itemsInQueue.value = number
   }
 
-  const liveDataSetInitialied = ref(false)
-  const getLiveDataSetInitializationState = computed(() => liveDataSetInitialied)
-  function confirmLiveDataSetFetched() {
-    liveDataSetInitialied.value = true
+  const liveDataCacheInitialied = ref(false)
+  const getLiveDataCacheInitializationState = computed(() => liveDataCacheInitialied)
+  function confirmLiveDataCacheFetched() {
+    liveDataCacheInitialied.value = true
   }
 
   return {
@@ -165,9 +165,9 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     getPromptOfFetching,
     changePrompt,
     changeItemsInQueue,
-    liveDataSetInitialied,
-    getLiveDataSetInitializationState,
-    confirmLiveDataSetFetched,
+    liveDataCacheInitialied,
+    getLiveDataCacheInitializationState,
+    confirmLiveDataCacheFetched,
     itemTypesAndCounts,
   }
 })

@@ -37,8 +37,8 @@ type maximumItemId = number
 
 export type LiveData = number[] | maximumItemId | LiveDataOfChangedItems | undefined
 
-export interface ElementOfLiveDataSet {
+export interface ElementOfLiveDataCache {
   listName: ListName
   liveData: LiveData
 }
-export type LiveDataSet = ElementOfLiveDataSet[]
+export type LiveDataCache = ElementOfLiveDataCache[]
