@@ -2,6 +2,7 @@ import { useSettingsStore } from "@/stores/settings"
 import { useCoreDataStore } from "@/stores/coreData"
 import { generateRandomInteger, shuffleArray } from "@/libs/math"
 import type { Item, LiveData, ListName } from "@/types/hackerNews"
+import { useLiveDataStore } from "@/stores/liveData"
 
 export const useFetchingDataStore = defineStore("fetchData", () => {
   const settings = useSettingsStore().settings
@@ -12,7 +13,9 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
   const baseUrl: URL = coreData.baseUrl
   const itemsInQueue = ref<number>(0)
 
-  const liveDataSet = coreData.liveDataSet
+  const liveDatastore = useLiveDataStore()
+
+  const liveDataSet = liveDatastore.liveDataSet
 
   const itemTypesAndCounts = ref([
     { type: "story", count: 0 },

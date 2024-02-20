@@ -1,6 +1,7 @@
-import type { LiveData } from "@/types/hackerNews"
+import type { LiveData, LiveDataSet } from "@/types/hackerNews"
 
 export const useLiveDataStore = defineStore("liveData", () => {
   const liveData: LiveData = []
-  return { liveData }
+  const liveDataSet: LiveDataSet = []
+  return { liveData, liveDataSet }
 })

@@ -1,4 +1,4 @@
-import type { Items, Lists, LiveDataSet } from "@/types/hackerNews"
+import type { Items, Lists } from "@/types/hackerNews"
 
 export const useCoreDataStore = defineStore("coreData", () => {
   const baseUrl: URL = new URL("https://hacker-news.firebaseio.com/v0")
@@ -16,6 +16,5 @@ export const useCoreDataStore = defineStore("coreData", () => {
     { name: "updates", description: "Changed items" },
   ] as const satisfies Lists)
 
-  const liveDataSet: LiveDataSet = []
-  return { baseUrl, items, lists, liveDataSet }
+  return { baseUrl, items, lists }
 })

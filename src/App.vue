@@ -4,13 +4,14 @@ import { RouterLink, RouterView } from "vue-router"
 import { storeToRefs } from "pinia"
 import { useCoreDataStore } from "@/stores/coreData"
 import { useFetchingDataStore } from "@/stores/fetchData"
+import { useLiveDataStore } from "@/stores/liveData"
 
 import type { LiveData } from "@/types/hackerNews"
 
-const coreData = useCoreDataStore()
 const coreDataRef = storeToRefs(useCoreDataStore())
 const lists = coreDataRef.lists
-const liveDataSet = coreData.liveDataSet
+const liveDataStore = useLiveDataStore()
+const liveDataSet = liveDataStore.liveDataSet
 const fetchLiveData = useFetchingDataStore().fetchLiveData
 const confirmLiveDataSetFetched = useFetchingDataStore().confirmLiveDataSetFetched
 ;(async () => {

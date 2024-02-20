@@ -34,7 +34,9 @@ interface LiveDataOfChangedItems {
   profiles: string[]
 }
 type maximumItemId = number
+
 export type LiveData = number[] | maximumItemId | LiveDataOfChangedItems | undefined
+
 export interface ElementOfLiveDataSet {
   listName: ListName
   liveData: LiveData
