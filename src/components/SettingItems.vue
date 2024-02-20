@@ -62,8 +62,12 @@ function reset() {
     </v-btn>
   </div>
 </template>
-<style>
-.settingItems .v-btn {
-  letter-spacing: 0.03em;
+<style lang="scss">
+.settingItems {
+  max-width: 850px;
+
+  .v-btn {
+    letter-spacing: 0.03em;
+  }
 }
 </style>

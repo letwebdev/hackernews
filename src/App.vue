@@ -37,22 +37,20 @@ const confirmLiveDataSetFetched = useFetchingDataStore().confirmLiveDataSetFetch
 </script>
 <template>
   <header>
-    <div class="wrapper">
-      <nav>
-        <RouterLink to="/">
-          Hacker News
-        </RouterLink>
-        <RouterLink to="/settings">
-          Settings
-        </RouterLink>
-        <RouterLink to="/charts">
-          Charts
-        </RouterLink>
-        <RouterLink to="/about">
-          About
-        </RouterLink>
-      </nav>
-    </div>
+    <nav>
+      <RouterLink to="/">
+        Hacker News
+      </RouterLink>
+      <RouterLink to="/settings">
+        Settings
+      </RouterLink>
+      <RouterLink to="/charts">
+        Charts
+      </RouterLink>
+      <RouterLink to="/about">
+        About
+      </RouterLink>
+    </nav>
   </header>
 
   <div class="view">
@@ -62,33 +60,28 @@ const confirmLiveDataSetFetched = useFetchingDataStore().confirmLiveDataSetFetch
 
 <style lang="scss" scoped>
 header {
-  width: 170px;
   line-height: 1.5;
 }
 
 nav {
   display: flex;
-  width: 100%;
+  width: fit-content;
   flex-direction: column;
-  margin-top: 1rem;
+  justify-content: center;
   font-size: 12px;
-  text-align: center;
 
   a {
     display: inline-block;
     padding: 0 1rem;
     border-left: 1px solid var(--color-border);
+    text-decoration: none;
 
-    &.router-link-exact-active {
-      color: var(--color-text);
-
-      &:hover {
-        background-color: transparent;
-      }
+    &:hover {
+      text-decoration: underline;
     }
 
-    &:first-of-type {
-      border: 0;
+    &.router-link-exact-active {
+      background-color: rgb(44 62 80 / 4%);
     }
   }
 }
@@ -104,22 +97,13 @@ nav {
   header {
     display: flex;
     height: 70vh;
-    padding-right: calc(var(--section-gap) / 8);
-    place-items: center;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: calc(var(--section-gap) / 4);
 
-    .wrapper {
+    nav {
       position: fixed;
-      display: flex;
-      flex-wrap: wrap;
-      place-items: flex-start;
     }
-  }
-
-  nav {
-    padding: 1rem 0;
-    margin-top: 1rem;
-    font-size: 1rem;
-    text-align: left;
   }
 
   .view {
