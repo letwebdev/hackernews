@@ -62,7 +62,7 @@ const isLargeScreen = computed(() => window.matchMedia("(min-width: 2560px)").ma
 @media (width >= 1024px) {
   .controlPanel {
     position: fixed;
-    right: 2%;
+    right: 4%;
   }
 
   main {

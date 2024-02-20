@@ -75,18 +75,21 @@ window.addEventListener("scroll", () => {
 <template>
   <section>
     <h1>Control Panel</h1>
-    <button
-      class="refresh"
+    <v-btn
+      class="text-none"
+      color="indigo"
       @click="refresh"
     >
       Refresh
-    </button>
-    <button
-      class="clear"
+    </v-btn>
+    <v-btn
+      variant="tonal"
+      color="indigo"
+      class="text-none"
       @click="clear"
     >
       Clear
-    </button>
+    </v-btn>
 
     <section class="promptForSmallScreen">
       <h2>Selected:</h2>
@@ -114,82 +117,38 @@ window.addEventListener("scroll", () => {
         {{ list.description }}
       </option>
     </select>
-    <button
-      class="fetchMore"
+    <v-btn
+      color="indigo"
+      class="text-none"
       @click="fetchMore"
     >
       Fetch more
-    </button>
+    </v-btn>
   </section>
 </template>
 <style scoped>
-h1 {
-  color: hsl(160 100% 37% / 1);
-  text-decoration: none;
-  transition: 0.4s;
-}
-
 section {
   display: flex;
   width: 200px;
   flex-flow: column nowrap;
-  margin: auto;
+  align-items: center;
+  justify-content: center;
+  row-gap: 10px;
 }
 
-button {
-  width: 120px;
-  height: 4ex;
-  border: none;
-  border-radius: 5px;
-  margin: 5px auto;
-  background-image: linear-gradient(135deg, #00f059 60%, #42f0a5);
-  color: white;
-  font-weight: bold;
+select {
+  max-width: 55%;
 }
 
 @media (width >= 1024px) {
-  button {
-    cursor: pointer;
-
-    &:active {
-      box-shadow: 2px 2px 5px #00ff00;
-    }
-  }
-
   select {
-    max-width: 165px;
-    height: 230px;
+    min-width: 175px;
+    min-height: 240px;
     margin: 5% 0;
   }
 
   .promptForSmallScreen {
     display: none;
-  }
-}
-
-@media (width <= 1024px) {
-  section {
-    align-items: center;
-    justify-content: center;
-  }
-
-  button {
-    &.fetchMore {
-      position: fixed;
-      top: 30%;
-      right: 0%;
-      width: 50px;
-      height: 40px;
-    }
-
-    &.refresh {
-      margin: 0%;
-    }
-  }
-
-  select {
-    max-width: 55%;
-    float: left;
   }
 }
 </style>
