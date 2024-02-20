@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { isElementAccessExpression } from "typescript"
 import { useSettingsStore } from "@/stores/settings"
 import { useCoreDataStore } from "@/stores/coreData"
 import { useFetchingDataStore } from "@/stores/fetchData"
@@ -13,11 +14,11 @@ const changePrompt = useFetchingDataStore().changePrompt
 const changeItemsInQueue = useFetchingDataStore().changeItemsInQueue
 const liveDataSetInitialied = useFetchingDataStore().getLiveDataSetInitializationState
 
-const selected = ref([{ name: "topstories", description: "Top stories" }])
+const selected = ref(["topstories"])
 function fetchSelectedLists() {
   const listNames: string[] = []
-  selected.value.forEach((list) => {
-    listNames.push(list.name)
+  selected.value.forEach((listName) => {
+    listNames.push(listName)
   })
   fetchLists(listNames)
 }
@@ -37,7 +38,16 @@ function clear() {
   items.value = []
 }
 
-const descriptions = computed<string[]>(() => selected.value.map((option) => option.description))
+const descriptions = computed<string[]>(() => {
+  return selected.value.map((listName) => {
+    for (const list of lists.value) {
+      if (listName === list.name) {
+        return list.description
+      }
+    }
+    return undefined as never
+  })
+})
 
 function fetchListsAfterSelection() {
   if (settings.fetchingListsAfterSelection.value) {
@@ -50,7 +60,7 @@ changePrompt("Fetching selected lists...")
 // TODO refresh live data when refresh()
 let interValId: number | null = window.setInterval(() => {
   if (liveDataSetInitialied.value) {
-    fetchList(selected.value[0].name).then(() => {
+    fetchList(selected.value[0]).then(() => {
       changePrompt("")
     })
     fetchList("maxitem")
@@ -112,7 +122,7 @@ window.addEventListener("scroll", () => {
       <option
         v-for="list in lists"
         :key="list.name"
-        :value="{ description: list.description, name: list.name }"
+        :value="list.name"
       >
         {{ list.description }}
       </option>
