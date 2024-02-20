@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { isElementAccessExpression } from "typescript"
 import { useSettingsStore } from "@/stores/settings"
 import { useCoreDataStore } from "@/stores/coreData"
 import { useFetchingDataStore } from "@/stores/fetchData"
@@ -37,17 +36,6 @@ function clear() {
   // Clear displayed items
   items.value = []
 }
-
-const descriptions = computed<string[]>(() => {
-  return selected.value.map((listName) => {
-    for (const list of lists.value) {
-      if (listName === list.name) {
-        return list.description
-      }
-    }
-    return undefined as never
-  })
-})
 
 function fetchListsAfterSelection() {
   if (settings.fetchingListsAfterSelection.value) {
