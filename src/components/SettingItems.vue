@@ -8,13 +8,13 @@ function reset() {
 }
 </script>
 <template>
-  <div>
+  <div class="settingItems">
     <menu>
       <template
         v-for="(property, _index) in settings"
         :key="_index"
       >
-        <li class="flex list-none items-center justify-between">
+        <li class="flex list-none items-center justify-between <lg:block">
           <v-btn
             v-if="typeof property.value === 'boolean'"
             class="text-none my-5px"
@@ -28,9 +28,8 @@ function reset() {
             <label>{{ property.description }}:</label>
             <v-slider
               v-model="property.value"
-              
               thumb-label
-              hide-details 
+              hide-details
               track-color="indigo"
               color="indigo"
               min="1"
@@ -63,3 +62,8 @@ function reset() {
     </v-btn>
   </div>
 </template>
+<style>
+.settingItems .v-btn {
+  letter-spacing: 0.03em;
+}
+</style>
