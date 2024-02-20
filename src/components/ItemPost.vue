@@ -46,10 +46,10 @@ function displayingLink(item: Item): boolean {
       </li>
       <div class="grid grid-cols-3 max-w-700px">
         <li v-if="settings.displayingItemType.value">
-          type: {{ item.type }}
+          <label>type:</label> {{ item.type }}
         </li>
         <li v-if="settings.displayingItemId.value">
-          id:
+          <label>id:</label>
           <v-btn
             class="text-none whitespace-normal !items-center"
             variant="plain"
@@ -65,7 +65,7 @@ function displayingLink(item: Item): boolean {
           </v-btn>
         </li>
         <li v-if="settings.displayingItemTime.value">
-          time: {{ item.readableTime }}
+          <label>time:</label> {{ item.readableTime }}
         </li>
       </div>
     </ul>
@@ -105,5 +105,9 @@ a {
   &:hover {
     text-decoration: underline;
   }
+}
+
+label {
+  min-width: fit-content;
 }
 </style>

@@ -28,8 +28,9 @@ function reset() {
             <label>{{ property.description }}:</label>
             <v-slider
               v-model="property.value"
-              hide-details
+              
               thumb-label
+              hide-details 
               track-color="indigo"
               color="indigo"
               min="1"
@@ -53,10 +54,9 @@ function reset() {
       </template>
     </menu>
     <v-btn
-      height="42"
-      min-width="164"
       variant="outlined"
       class="text-none"
+      density="comfortable"
       @click="reset"
     >
       Reset
