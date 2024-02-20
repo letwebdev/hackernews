@@ -26,7 +26,7 @@ const isLargeScreen = computed(() => window.matchMedia("(min-width: 2560px)").ma
 
   <div class="wrapper">
     <main>
-      <section class="settings">
+      <section class="p-x-5% p-y-1%">
         <h1>
           <button @click="fold">
             Settings <span>{{ foldSign }}</span>
@@ -59,20 +59,6 @@ const isLargeScreen = computed(() => window.matchMedia("(min-width: 2560px)").ma
   <NavigatingButtons />
 </template>
 <style lang="scss" scoped>
-.settings {
-  margin: auto 5% 1% 4%;
-
-  h1 button {
-    span {
-      cursor: pointer;
-    }
-
-    border: none;
-    background-color: transparent;
-    color: hsl(160 92% 27% / 1);
-  }
-}
-
 @media (width >= 1024px) {
   .controlPanel {
     position: fixed;
