@@ -41,9 +41,12 @@ const confirmLiveDataSetFetched = useFetchingDataStore().confirmLiveDataSetFetch
       <RouterLink to="/">
         Hacker News
       </RouterLink>
+      <!--
+        Lack practicality
       <RouterLink to="/settings">
         Settings
       </RouterLink>
+      -->
       <RouterLink to="/charts">
         Charts
       </RouterLink>
