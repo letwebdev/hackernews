@@ -124,6 +124,15 @@ window.addEventListener("scroll", () => {
     >
       Fetch more
     </v-btn>
+
+    <v-btn
+      color="indigo"
+      class="text-none buttonFixedMobile !lg:hidden"
+      size="small"
+      @click="fetchMore"
+    >
+      Fetch more
+    </v-btn>
   </section>
 </template>
 <style scoped>
@@ -138,6 +147,13 @@ section {
 
 select {
   max-width: 55%;
+}
+
+.buttonFixedMobile {
+  position: fixed;
+  top: 30%;
+  right: 0%;
+  width: min-content;
 }
 
 @media (width >= 1024px) {
