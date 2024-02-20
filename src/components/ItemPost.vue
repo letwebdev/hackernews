@@ -34,7 +34,10 @@ function displayingLink(item: Item): boolean {
       v-html="item.text"
     />
     <ul class="list-none">
-      <li v-if="displayingLink(item)">
+      <li
+        v-if="displayingLink(item)"
+        class="!items-start"
+      >
         <label class="mr-10px min-w-fit"> link: </label>
         <a
           class="text-none whitespace-normal break-all"
