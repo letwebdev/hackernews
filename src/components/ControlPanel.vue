@@ -101,32 +101,24 @@ window.addEventListener("scroll", () => {
       Clear
     </v-btn>
 
-    <section class="promptForSmallScreen">
-      <h2>Selected:</h2>
-      <ul>
-        <li
-          v-for="description in descriptions"
-          :key="description"
-        >
-          {{ description }}
-        </li>
-      </ul>
-    </section>
-
-    <select
+    <v-btn-toggle
       v-model="selected"
+      color="deep-purple-accent-3"
+      class="flex-column h-auto"
       multiple
-      class="selectedLists"
+      mandatory
       @change="fetchListsAfterSelection"
     >
-      <option
+      <v-btn
         v-for="list in lists"
         :key="list.name"
         :value="list.name"
+        class="text-none !h-35px"
       >
         {{ list.description }}
-      </option>
-    </select>
+      </v-btn>
+    </v-btn-toggle>
+
     <v-btn
       color="indigo"
       class="text-none"
@@ -155,26 +147,10 @@ section {
   row-gap: 10px;
 }
 
-select {
-  max-width: 55%;
-}
-
 .buttonFixedMobile {
   position: fixed;
   top: 30%;
   right: 0%;
   width: min-content;
-}
-
-@media (width >= 1024px) {
-  select {
-    min-width: 175px;
-    min-height: 240px;
-    margin: 5% 0;
-  }
-
-  .promptForSmallScreen {
-    display: none;
-  }
 }
 </style>
