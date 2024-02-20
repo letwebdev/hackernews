@@ -14,18 +14,19 @@ function reset() {
         v-for="(property, _index) in settings"
         :key="_index"
       >
-        <li class="list-none">
-          <div class="flex items-center justify-between">
+        <li class="flex list-none items-center justify-between">
+          <v-btn
+            v-if="typeof property.value === 'boolean'"
+            class="text-none my-5px"
+            :text="property.description"
+            :color="property.value ? 'indigo' : 'null'"
+            variant="tonal"
+            @click="property.value = !property.value"
+          />
+
+          <template v-else>
             <label>{{ property.description }}:</label>
-            <v-switch
-              v-if="typeof property.value === 'boolean'"
-              v-model="property.value"
-              :label="String(property.value)"
-              color="primary"
-              hide-details
-            />
             <v-slider
-              v-else
               v-model="property.value"
               hide-details
               thumb-label
@@ -47,7 +48,7 @@ function reset() {
                 />
               </template>
             </v-slider>
-          </div>
+          </template>
         </li>
       </template>
     </menu>
