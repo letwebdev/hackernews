@@ -1,14 +1,19 @@
 <script setup lang="ts">
 import { useSettingsStore } from "@/stores/settings"
 import type { Item } from "@/types/hackerNews"
+import { convertUnixTimeStampToReadableTime } from "@/libs/formatter"
 
 const settings = useSettingsStore().settings
 defineProps<{
   item: Item
 }>()
 function titleUrl(item: Item) {
-  return item.url ? item.url : item.discuss.href
+  return item.url ? item.url : discussUrl(item.id)
 }
+function discussUrl(itemId: number) {
+  return `https://news.ycombinator.com/item?id=${itemId}`
+}
+
 function displayingLink(item: Item): boolean {
   return (
     settings.displayingItemLink.value &&
@@ -56,7 +61,7 @@ function displayingLink(item: Item): boolean {
           <v-btn
             class="text-none whitespace-normal !items-center"
             variant="plain"
-            :href="item.discuss.href"
+            :href="discussUrl(item.id)"
           >
             {{ item.id }}
             <v-tooltip
@@ -68,7 +73,7 @@ function displayingLink(item: Item): boolean {
           </v-btn>
         </li>
         <li v-if="settings.displayingItemTime.value">
-          <label>time:</label> {{ item.readableTime }}
+          <label>time:</label> {{ convertUnixTimeStampToReadableTime(item.time) }}
         </li>
       </div>
     </ul>

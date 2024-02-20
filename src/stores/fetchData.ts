@@ -1,7 +1,6 @@
 import { useSettingsStore } from "@/stores/settings"
 import { useCoreDataStore } from "@/stores/coreData"
 import { generateRandomInteger, shuffleArray } from "@/libs/math"
-import { convertUnixTimeStampToReadableTime } from "@/libs/formatter"
 import type { Item, LiveData, ListName } from "@/types/hackerNews"
 
 export const useFetchingDataStore = defineStore("fetchData", () => {
@@ -112,12 +111,9 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
 
   function fetchItem(id: number) {
     const itemUrl: URL = new URL(`${baseUrl.href}/item/${id}.json?print=pretty`)
-    const discussUrl: URL = new URL(`https://news.ycombinator.com/item?id=${id}`)
     fetch(itemUrl)
       .then((response): Promise<Item> => response.json())
       .then((item) => {
-        item.readableTime = convertUnixTimeStampToReadableTime(item.time)
-        item.discuss = discussUrl
         items.value.push(item)
         updateCount(item)
       })
