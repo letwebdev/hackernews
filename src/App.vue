@@ -99,7 +99,6 @@ nav {
     height: 70vh;
     flex-direction: column;
     justify-content: center;
-    padding-right: calc(var(--section-gap) / 4);
 
     nav {
       position: fixed;
@@ -109,6 +108,7 @@ nav {
   .view {
     align-items: normal;
     justify-content: normal;
+    margin-left: 40px;
   }
 }
 

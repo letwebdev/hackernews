@@ -25,7 +25,7 @@ function displayingLink(item: Item): boolean {
         variant="plain"
         class="text-none"
       >
-        <div class="i-mdi-web mr-2px mt-4px" />
+        <div class="i-mdi-web mr-8px mt-4px" />
         {{ item.title }}
       </a>
     </h2>
@@ -33,7 +33,7 @@ function displayingLink(item: Item): boolean {
       v-if="settings.displayingItemText.value"
       v-html="item.text"
     />
-    <ul class="ml-30px list-none">
+    <ul class="list-none">
       <li v-if="displayingLink(item)">
         <label class="mr-10px min-w-fit"> link: </label>
         <a
