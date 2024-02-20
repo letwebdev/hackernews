@@ -2,38 +2,31 @@
 import { useSettingsStore } from "@/stores/settings"
 import { useCoreDataStore } from "@/stores/coreData"
 import { useFetchingDataStore } from "@/stores/fetchData"
+import type { ListName } from "@/types/hackerNews"
 
-const settings = useSettingsStore().settings
+const { settings } = useSettingsStore()
 const coreDataRef = storeToRefs(useCoreDataStore())
-const items = coreDataRef.items
-const lists = coreDataRef.lists
-const fetchLists = useFetchingDataStore().fetchLists
-const fetchList = useFetchingDataStore().fetchList
-const changePrompt = useFetchingDataStore().changePrompt
-const changeItemsInQueue = useFetchingDataStore().changeItemsInQueue
+const { items, lists } = coreDataRef
+const fetchingData = useFetchingDataStore()
+const { fetchLists, fetchList, changePrompt, changeItemsInQueue } = fetchingData
 const liveDataSetInitialied = useFetchingDataStore().getLiveDataSetInitializationState
 
-const selected = ref(["topstories"])
-function fetchSelectedLists() {
-  const listNames: string[] = []
-  selected.value.forEach((listName) => {
-    listNames.push(listName)
-  })
-  fetchLists(listNames)
-}
+const selected = ref<ListName[]>(["topstories"])
 
 function fetchMore() {
   // Clear count
   changeItemsInQueue(0)
   fetchSelectedLists()
 }
+function fetchSelectedLists() {
+  fetchLists(selected.value)
+}
 
 function refresh() {
-  clear()
+  clearDisplayedItems()
   fetchMore()
 }
-function clear() {
-  // Clear displayed items
+function clearDisplayedItems() {
   items.value = []
 }
 
@@ -84,7 +77,7 @@ window.addEventListener("scroll", () => {
       variant="tonal"
       color="indigo"
       class="text-none"
-      @click="clear"
+      @click="clearDisplayedItems"
     >
       Clear
     </v-btn>

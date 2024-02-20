@@ -14,7 +14,7 @@ export const useCoreDataStore = defineStore("coreData", () => {
     // Current largest item id
     { name: "maxitem", description: "any" },
     { name: "updates", description: "Changed items" },
-  ] as const) satisfies Ref<Lists>
+  ] as const satisfies Lists)
 
   const liveDataSet: LiveDataSet = []
   return { baseUrl, items, lists, liveDataSet }

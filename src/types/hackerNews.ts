@@ -14,8 +14,19 @@ export interface Item {
 }
 export type Items = Item[]
 
+export type ListName =
+  | "topstories"
+  | "newstories"
+  | "beststories"
+  | "askstories"
+  | "showstories"
+  | "jobstories"
+  | "maxitem"
+  | "updates"
+
 export interface List {
-  readonly name: string
+  readonly name: ListName
+
   readonly description: string
 }
 export type Lists = readonly List[]
@@ -27,7 +38,7 @@ interface LiveDataOfChangedItems {
 type maximumItemId = number
 export type LiveData = number[] | maximumItemId | LiveDataOfChangedItems | undefined
 export interface ElementOfLiveDataSet {
-  listName: string
+  listName: ListName
   liveData: LiveData
 }
 export type LiveDataSet = ElementOfLiveDataSet[]

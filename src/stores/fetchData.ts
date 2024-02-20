@@ -2,7 +2,7 @@ import { useSettingsStore } from "@/stores/settings"
 import { useCoreDataStore } from "@/stores/coreData"
 import { generateRandomInteger, shuffleArray } from "@/libs/math"
 import { convertUnixTimeStampToReadableTime } from "@/libs/formatter"
-import type { Item, LiveData } from "@/types/hackerNews"
+import type { Item, LiveData, ListName } from "@/types/hackerNews"
 
 export const useFetchingDataStore = defineStore("fetchData", () => {
   const settings = useSettingsStore().settings
@@ -23,12 +23,12 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     { type: "pollopt", count: 0 },
   ])
 
-  function fetchLists(listNames: string[]) {
+  function fetchLists(listNames: ListName[]) {
     listNames.forEach((listName) => {
       fetchList(listName)
     })
   }
-  async function fetchList(listName: string = "topstories") {
+  async function fetchList(listName: ListName = "topstories") {
     let liveDataToFetch: LiveData
     for (const element of liveDataSet) {
       if (element.listName === listName) {
