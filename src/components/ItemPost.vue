@@ -35,7 +35,7 @@ function displayingLink(item: Item): boolean {
       <li v-if="displayingLink(item)">
         link: <a :href="item.url">{{ item.url }}</a>
       </li>
-      <div class="grid grid-cols-3">
+      <div class="grid grid-cols-3 max-w-700px">
         <li v-if="settings.displayingItemType.value">
           type: {{ item.type }}
         </li>
