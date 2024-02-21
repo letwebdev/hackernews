@@ -7,14 +7,13 @@ import type { ListName } from "@/types/hackerNews"
 const { settings } = useSettingsStore()
 const coreData = useCoreDataStore()
 const fetchingData = useFetchingDataStore()
-const { fetchLists, fetchList, changeItemsInQueue } = fetchingData
+const { fetchLists, fetchList, resetItemsInQueue } = fetchingData
 const liveDataCacheInitialized = useFetchingDataStore().getLiveDataCacheInitializationState
 
 const selected = ref<ListName[]>(["topstories"])
 
 function fetchMore() {
-  // Clear count
-  changeItemsInQueue(0)
+  resetItemsInQueue()
   fetchSelectedLists()
 }
 function fetchSelectedLists() {

@@ -156,8 +156,8 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
 
   const promptOfFetching = ref<string>("")
 
-  function changeItemsInQueue(number: number) {
-    itemsInQueue.value = number
+  function resetItemsInQueue() {
+    itemsInQueue.value = 0
   }
 
   return {
@@ -167,7 +167,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     fetchLiveData,
     itemsInQueue,
     promptOfFetching,
-    changeItemsInQueue,
+    resetItemsInQueue,
     liveDataCacheInitialized,
     getLiveDataCacheInitializationState,
     confirmLiveDataCacheInitialized,
