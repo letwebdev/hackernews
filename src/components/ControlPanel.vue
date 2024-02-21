@@ -28,12 +28,6 @@ function clearDisplayedItems() {
   coreData.items = []
 }
 
-function fetchListsAfterSelection() {
-  if (settings.fetchingListsAfterSelection.value) {
-    fetchMore()
-  }
-}
-
 // Init: Fetch stories
 fetchingData.promptOfFetching = "Fetching selected lists..."
 
@@ -87,7 +81,6 @@ window.addEventListener("scroll", () => {
       class="flex-column h-auto"
       multiple
       mandatory
-      @change="fetchListsAfterSelection"
     >
       <v-btn
         v-for="list in coreData.lists"

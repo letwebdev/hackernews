@@ -8,10 +8,6 @@ export const useSettingsStore = defineStore("settings", () => {
       description: "Maximum link length to display" as const,
       value: 200,
     }
-    fetchingListsAfterSelection = {
-      description: "Fetching lists immediately after selection" as const,
-      value: false,
-    }
 
     displayingItemTitle = {
       description: "Displaying item title" as const,
