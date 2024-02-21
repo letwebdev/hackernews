@@ -20,7 +20,7 @@
     "setVersionNumber": "./scripts/setVersionNumber.sh",
     "build:apk": "npm run sync && npm run build:apk-only",
     "sync": "npm run build && npm run sync-only",
-    "build:apk-only": "source './.env' && cd ${CAPACITOR_ANDROID_PATH} && chmod +x ./gradlew && ./gradlew assembleDebug",
+    "build:apk-only": "bash -c 'source './.env' && cd ${CAPACITOR_ANDROID_PATH} && chmod +x ./gradlew && ./gradlew assembleDebug'",
     "sync-only": "cap sync",
     "setUp:electron": "npm install --save-dev electron electron-builder",
     "setUp:electron-noSave": "npm install --no-save electron electron-builder",
