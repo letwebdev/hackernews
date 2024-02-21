@@ -75,7 +75,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
       itemIds = generatedRandomItemIds(liveData)
     } else if (typeof liveData === "object") {
       itemIds = extractItemIdsFromLiveData(liveData)
-      removeAlreadyFetchedItemIds(liveData)
+      removeAlreadyFetchedItemIds(liveData, settings.numberOfItemsFetchedEachTime.value)
     } else if (typeof liveData === "undefined") {
       console.error("live data is undefined")
       itemIds = [1]
@@ -111,21 +111,16 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
       return itemIds
     }
   }
-  function removeAlreadyFetchedItemIds(liveData: Extract<LiveData, number[] | object>) {
-    let deleteCount = settings.numberOfItemsFetchedEachTime.value
-    let itemIds: number[]
-
+  function removeAlreadyFetchedItemIds(liveData: Extract<LiveData, number[] | object>, quantity: number) {
     for (const livedataCacheItem of liveDataCache) {
       if (livedataCacheItem.liveData === liveData) {
+        let itemIds: number[]
         if (Array.isArray(livedataCacheItem.liveData)) {
           itemIds = livedataCacheItem.liveData
         } else {
           itemIds = livedataCacheItem.liveData.items
         }
-        if (deleteCount > itemIds.length) {
-          deleteCount = itemIds.length
-        }
-        itemIds = itemIds.splice(0, deleteCount)
+        itemIds.splice(0, quantity)
         break
       }
     }
