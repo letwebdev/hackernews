@@ -28,12 +28,13 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     const liveDataToFetch = extractLiveDataFromCache(listName, liveDataCache)
     /* console.log(liveDataToFetch) */
     const itemIdsToFetch = getItemIds(liveDataToFetch)
-    for (const itemId of itemIdsToFetch) {
-      if (itemsInQueue.value >= settings.numberOfItemsFetchedEachTime.value) {
-        break
-      } else {
+    for (let count = 1; count <= settings.numberOfItemsFetchedEachTime.value; count++) {
+      const itemId = itemIdsToFetch.shift()
+      if (itemId) {
         fetchItem(itemId)
-        itemsInQueue.value += 1
+      } else {
+        console.log("Current list is empty")
+        break
       }
     }
   }
