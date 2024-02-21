@@ -1,30 +1,30 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router"
 // Init
-import { storeToRefs } from "pinia"
 import { useCoreDataStore } from "@/stores/coreData"
 import { useFetchingDataStore } from "@/stores/fetchData"
 import { useLiveDataStore } from "@/stores/liveData"
 
 import type { LiveData } from "@/types/hackerNews"
 
-const coreDataRef = storeToRefs(useCoreDataStore())
-const lists = coreDataRef.lists
+const coreData = useCoreDataStore()
+const lists = coreData.lists
 const liveDataStore = useLiveDataStore()
 const liveDataCache = liveDataStore.liveDataCache
 const fetchLiveData = useFetchingDataStore().fetchLiveData
-const confirmLiveDataCacheFetched = useFetchingDataStore().confirmLiveDataCacheFetched
-;(async () => {
+const confirmLiveDataCacheInitialized = useFetchingDataStore().confirmLiveDataCacheInitialized
+// TODO Also cache items
+;(async function initialize() {
   // Prefetch live data
   // TODO refresh live data when refresh()
   const liveDataPromises = []
-  for (const list of lists.value) {
+  for (const list of lists) {
     const liveDataPromise: Promise<LiveData> = fetchLiveData(list.name)
     liveDataPromises.push(liveDataPromise)
   }
   const liveDataGroup = await Promise.all(liveDataPromises)
   for (const liveData of liveDataGroup) {
-    for (const list of lists.value) {
+    for (const list of lists) {
       const liveDataCacheItem = {
         listName: list.name,
         liveData,
@@ -33,7 +33,8 @@ const confirmLiveDataCacheFetched = useFetchingDataStore().confirmLiveDataCacheF
     }
   }
 })().then(() => {
-  confirmLiveDataCacheFetched()
+  confirmLiveDataCacheInitialized()
+  console.log("live data cached")
 })
 </script>
 <template>
@@ -58,7 +59,11 @@ const confirmLiveDataCacheFetched = useFetchingDataStore().confirmLiveDataCacheF
   </header>
 
   <div class="view">
-    <RouterView />
+    <RouterView v-slot="{ Component }">
+      <KeepAlive include="HackerNewsView">
+        <component :is="Component" />
+      </KeepAlive>
+    </RouterView>
   </div>
 </template>
 

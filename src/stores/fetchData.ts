@@ -152,7 +152,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
 
   const liveDataCacheInitialied = ref(false)
   const getLiveDataCacheInitializationState = computed(() => liveDataCacheInitialied)
-  function confirmLiveDataCacheFetched() {
+  function confirmLiveDataCacheInitialized() {
     liveDataCacheInitialied.value = true
   }
 
@@ -167,7 +167,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     changeItemsInQueue,
     liveDataCacheInitialied,
     getLiveDataCacheInitializationState,
-    confirmLiveDataCacheFetched,
+    confirmLiveDataCacheInitialized,
     itemTypesAndCounts,
   }
 })
