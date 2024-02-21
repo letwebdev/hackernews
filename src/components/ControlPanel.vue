@@ -5,8 +5,10 @@ import { useFetchingDataStore } from "@/stores/fetchData"
 import type { ListName } from "@/types/hackerNews"
 
 const { settings } = useSettingsStore()
+const coreData = useCoreDataStore()
 const coreDataRef = storeToRefs(useCoreDataStore())
-const { items, lists } = coreDataRef
+const { lists } = coreData
+const { items } = coreDataRef
 const fetchingData = useFetchingDataStore()
 const { fetchLists, fetchList, changePrompt, changeItemsInQueue } = fetchingData
 const liveDataCacheInitialied = useFetchingDataStore().getLiveDataCacheInitializationState
