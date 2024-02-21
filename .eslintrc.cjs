@@ -44,6 +44,11 @@ module.exports = {
     "no-param-reassign": ["error", { props: false }],
     "no-restricted-syntax": 0,
     "consistent-return": 0,
+    /**
+     * @deprecated
+     * @see `https://eslint.org/docs/latest/rules/no-return-await`
+     */
+    "no-return-await": 0,
   },
   ignorePatterns: ["auto-imports.d.ts"],
 }
