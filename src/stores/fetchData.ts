@@ -25,10 +25,15 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     })
   }
   async function fetchList(listName: ListName = "topstories") {
-    const liveDataToFetch = extractLiveDataFromCache(listName, liveDataCache)
+    const liveDataToFetch = getLiveData(listName)
     /* console.log(liveDataToFetch) */
     const itemIdsToFetch = getItemIds(liveDataToFetch)
     for (let count = 1; count <= settings.numberOfItemsFetchedEachTime.value; count++) {
+      // TODO
+      // if (itemIdsToFetch.length > 0) {
+      // const itemId = itemIdsToFetch.shift()
+
+      // }
       const itemId = itemIdsToFetch.shift()
       if (itemId) {
         fetchItem(itemId)
@@ -38,7 +43,9 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
       }
     }
   }
-
+  function getLiveData(listName: ListName) {
+    return extractLiveDataFromCache(listName, liveDataCache)
+  }
   function extractLiveDataFromCache(nameOfListToExtractBy: ListName, cacheOfLiveData: LiveDataCache) {
     for (const itemInCacheOfLiveData of cacheOfLiveData) {
       if (itemInCacheOfLiveData.listName === nameOfListToExtractBy) {
