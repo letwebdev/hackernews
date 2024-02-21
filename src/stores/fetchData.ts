@@ -11,6 +11,12 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
   const coreDataStore = useCoreDataStore()
   const itemsInQueue = ref<number>(0)
 
+  const liveDataCacheInitialized = ref(false)
+  const getLiveDataCacheInitializationState = computed(() => liveDataCacheInitialized)
+  function confirmLiveDataCacheInitialized() {
+    liveDataCacheInitialized.value = true
+  }
+
   const itemTypesAndCounts = ref([
     { type: "story", count: 0 },
     { type: "job", count: 0 },
@@ -48,7 +54,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     }
   }
   function getLiveData(listName: ListName) {
-    if (!liveDataCacheInitialied.value) {
+    if (!liveDataCacheInitialized.value) {
       console.error("live data cache hasn't Initialized yet")
     }
     return extractLiveDataFromCache(listName, liveDataCache)
@@ -163,12 +169,6 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     itemsInQueue.value = number
   }
 
-  const liveDataCacheInitialied = ref(false)
-  const getLiveDataCacheInitializationState = computed(() => liveDataCacheInitialied)
-  function confirmLiveDataCacheInitialized() {
-    liveDataCacheInitialied.value = true
-  }
-
   return {
     fetchList,
     fetchLists,
@@ -178,7 +178,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     getPromptOfFetching,
     changePrompt,
     changeItemsInQueue,
-    liveDataCacheInitialied,
+    liveDataCacheInitialized,
     getLiveDataCacheInitializationState,
     confirmLiveDataCacheInitialized,
     itemTypesAndCounts,
