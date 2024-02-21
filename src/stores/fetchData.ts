@@ -105,11 +105,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
       itemIds = liveData.items
     }
 
-    if (settings.fetchingRandomly.value) {
-      return shuffleArray(itemIds)
-    } else {
-      return itemIds
-    }
+    return itemIds
   }
   function removeAlreadyFetchedItemIds(liveData: Extract<LiveData, number[] | object>, quantity: number) {
     for (const livedataCacheItem of liveDataCache) {
