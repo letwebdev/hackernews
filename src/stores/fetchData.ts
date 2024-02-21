@@ -67,7 +67,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     }
   }
   function getItemIds(liveData: LiveData): number[] {
-    console.log("liveData:", liveData)
+    // console.log("liveData:", liveData)
     let itemIds: number[]
 
     if (typeof liveData === "number") {
@@ -130,7 +130,9 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
         coreDataStore.items.push(item)
         updateCount(item)
       })
-      .catch((error) => console.error(`Error fetching data: ${error.message}`))
+      .catch((error) => {
+        console.error(`Error fetching data: ${error.message}`)
+      })
   }
   function updateCount(item: Item) {
     for (const statisticsItem of statisticsOfFetchedLiveData.value)
