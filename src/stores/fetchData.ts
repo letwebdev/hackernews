@@ -26,6 +26,10 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
   }
   async function fetchList(listName: ListName = "topstories") {
     const liveDataToFetch = getLiveData(listName)
+    if (liveDataToFetch === undefined) {
+      console.error("live data to fetch is undefined")
+      return
+    }
     /* console.log(liveDataToFetch) */
     const itemIdsToFetch = getItemIds(liveDataToFetch)
     for (let count = 1; count <= settings.numberOfItemsFetchedEachTime.value; count++) {
@@ -44,6 +48,9 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     }
   }
   function getLiveData(listName: ListName) {
+    if (!liveDataCacheInitialied.value) {
+      console.error("live data cache hasn't Initialized yet")
+    }
     return extractLiveDataFromCache(listName, liveDataCache)
   }
   function extractLiveDataFromCache(nameOfListToExtractBy: ListName, cacheOfLiveData: LiveDataCache) {
@@ -64,7 +71,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
       itemIds = extractItemIdsFromLiveData(liveData)
       removeAlreadyFetchedItemIds(liveData)
     } else if (typeof liveData === "undefined") {
-      console.error("live data cache hasn't Initialized yet:")
+      console.error("live data is undefined")
       itemIds = [1]
     } else {
       console.error("Unknown live data type:", liveData)

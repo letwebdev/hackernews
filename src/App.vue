@@ -10,7 +10,6 @@ import type { LiveData, LiveDataCache } from "@/types/hackerNews"
 const coreData = useCoreDataStore()
 const lists = coreData.lists
 const liveDataStore = useLiveDataStore()
-const liveDataCache = liveDataStore.liveDataCache
 const fetchLiveData = useFetchingDataStore().fetchLiveData
 const confirmLiveDataCacheInitialized = useFetchingDataStore().confirmLiveDataCacheInitialized
 // TODO Also cache items
@@ -41,7 +40,7 @@ const confirmLiveDataCacheInitialized = useFetchingDataStore().confirmLiveDataCa
   await (async function storeLiveDataCache() {
     const liveDataGroup = await fetchLiveDataGroup()
     const tempLiveDataCache = generateLiveDataCache(liveDataGroup)
-    liveDataCache.push(...tempLiveDataCache)
+    liveDataStore.liveDataCache.push(...tempLiveDataCache)
   })()
 
   confirmLiveDataCacheInitialized()
