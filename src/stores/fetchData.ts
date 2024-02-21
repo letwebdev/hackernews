@@ -31,9 +31,10 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     for (const itemId of itemIdsToFetch) {
       if (itemsInQueue.value >= settings.numberOfItemsFetchedEachTime.value) {
         break
+      } else {
+        fetchItem(itemId)
+        itemsInQueue.value += 1
       }
-      fetchItem(itemId)
-      itemsInQueue.value += 1
     }
   }
 
@@ -53,7 +54,10 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
       itemIds = generatedRandomItemIds(liveData)
     } else if (typeof liveData === "object") {
       itemIds = extractItemIdsFromLiveData(liveData)
-      removedAlreadyFetchedItemIds(liveData)
+      removeAlreadyFetchedItemIds(liveData)
+    } else if (typeof liveData === "undefined") {
+      console.error("live data cache hasn't Initialized yet:")
+      itemIds = [1]
     } else {
       console.error("Unknown live data type:", liveData)
       itemIds = [1]
@@ -81,14 +85,14 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     }
 
     if (settings.fetchingRandomly.value) {
-      itemIds = shuffleArray(itemIds)
+      return shuffleArray(itemIds)
+    } else {
+      return itemIds
     }
-
-    return itemIds
   }
-  function removedAlreadyFetchedItemIds(liveData: Extract<LiveData, number[] | object>) {
+  function removeAlreadyFetchedItemIds(liveData: Extract<LiveData, number[] | object>) {
     let deleteCount = settings.numberOfItemsFetchedEachTime.value
-    let itemIds: number[] = []
+    let itemIds: number[]
 
     for (const livedataCacheItem of liveDataCache) {
       if (livedataCacheItem.liveData === liveData) {
