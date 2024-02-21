@@ -1,14 +1,14 @@
 import { useSettingsStore } from "@/stores/settings"
 import { useCoreDataStore } from "@/stores/coreData"
 import { generateRandomInteger, shuffleArray } from "@/libs/math"
-import type { Item, LiveData, ListName } from "@/types/hackerNews"
+import type { Item, LiveData, ListName, LiveDataCache } from "@/types/hackerNews"
 import { useLiveDataStore } from "@/stores/liveData"
 
-const baseUrl: URL = new URL("https://hacker-news.firebaseio.com/v0")
 export const useFetchingDataStore = defineStore("fetchData", () => {
+  const baseUrl: URL = new URL("https://hacker-news.firebaseio.com/v0")
   const { settings } = useSettingsStore()
   const { liveDataCache } = useLiveDataStore()
-  const coreData = useCoreDataStore()
+  const coreDataStore = useCoreDataStore()
   const itemsInQueue = ref<number>(0)
 
   const itemTypesAndCounts = ref([
@@ -25,25 +25,25 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     })
   }
   async function fetchList(listName: ListName = "topstories") {
-    let liveDataToFetch: LiveData
-    for (const element of liveDataCache) {
-      if (element.listName === listName) {
-        liveDataToFetch = element.liveData
-        break
-      }
-    }
+    const liveDataToFetch = extractLiveDataFromCache(listName, liveDataCache)
     /* console.log(liveDataToFetch) */
-    const itemIds = getItemIds(liveDataToFetch)
-    for (const itemId of itemIds) {
-      fetchItem(itemId)
-
-      itemsInQueue.value += 1
-      if (itemsInQueue.value > settings.numberOfItemsFetchedEachTime.value) {
+    const itemIdsToFetch = getItemIds(liveDataToFetch)
+    for (const itemId of itemIdsToFetch) {
+      if (itemsInQueue.value >= settings.numberOfItemsFetchedEachTime.value) {
         break
       }
+      fetchItem(itemId)
+      itemsInQueue.value += 1
     }
   }
 
+  function extractLiveDataFromCache(nameOfListToExtractBy: ListName, cacheOfLiveData: LiveDataCache) {
+    for (const itemInCacheOfLiveData of cacheOfLiveData) {
+      if (itemInCacheOfLiveData.listName === nameOfListToExtractBy) {
+        return itemInCacheOfLiveData.liveData
+      }
+    }
+  }
   function getItemIds(liveData: LiveData): number[] {
     console.log("liveData:", liveData)
     let itemIds: number[]
@@ -90,12 +90,12 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     let deleteCount = settings.numberOfItemsFetchedEachTime.value
     let itemIds: number[] = []
 
-    for (const element of liveDataCache) {
-      if (element.liveData === liveData) {
-        if (Array.isArray(element.liveData)) {
-          itemIds = element.liveData
+    for (const livedataCacheItem of liveDataCache) {
+      if (livedataCacheItem.liveData === liveData) {
+        if (Array.isArray(livedataCacheItem.liveData)) {
+          itemIds = livedataCacheItem.liveData
         } else {
-          itemIds = element.liveData.items
+          itemIds = livedataCacheItem.liveData.items
         }
         if (deleteCount > itemIds.length) {
           deleteCount = itemIds.length
@@ -111,7 +111,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     fetch(itemUrl)
       .then((response): Promise<Item> => response.json())
       .then((item) => {
-        coreData.items.push(item)
+        coreDataStore.items.push(item)
         updateCount(item)
       })
       .catch((error) => console.error(`Error fetching data: ${error.message}`))
