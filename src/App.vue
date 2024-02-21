@@ -15,27 +15,27 @@ const fetchLiveData = useFetchingDataStore().fetchLiveData
 const confirmLiveDataCacheInitialized = useFetchingDataStore().confirmLiveDataCacheInitialized
 // TODO Also cache items
 ;(async function initialize() {
-  // Prefetch live data
   // TODO refresh live data when refresh()
-  const liveDataPromises = []
+  // Prefetch live data
+  const liveDataPromises: Promise<LiveData>[] = []
   for (const list of lists) {
     const liveDataPromise: Promise<LiveData> = fetchLiveData(list.name)
     liveDataPromises.push(liveDataPromise)
   }
   const liveDataGroup = await Promise.all(liveDataPromises)
-  for (const liveData of liveDataGroup) {
-    for (const list of lists) {
-      const liveDataCacheItem = {
-        listName: list.name,
-        liveData,
-      }
-      liveDataCache.push(liveDataCacheItem)
+
+  for (const [index, list] of lists.entries()) {
+    const liveDataCacheItem = {
+      listName: list.name,
+      liveData: liveDataGroup[index],
     }
+    liveDataCache.push(liveDataCacheItem)
+    console.log(liveDataCacheItem)
   }
-})().then(() => {
+
   confirmLiveDataCacheInitialized()
   console.log("live data cached")
-})
+})()
 </script>
 <template>
   <header>
