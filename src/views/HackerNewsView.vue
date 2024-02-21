@@ -8,7 +8,7 @@ import DataCharts from "@/components/DataCharts.vue"
 import { useCoreDataStore } from "@/stores/coreData"
 import { useFetchingDataStore } from "@/stores/fetchData"
 
-const promptOfFetching = useFetchingDataStore().getPromptOfFetching
+const promptOfFetching = storeToRefs(useFetchingDataStore()).promptOfFetching
 const items = storeToRefs(useCoreDataStore()).items
 /* console.log(items) */
 

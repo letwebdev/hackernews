@@ -93,7 +93,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
       const randomItemId = generateRandomInteger(maximumItemId)
       itemIds.push(randomItemId)
     }
-    console.log(`Generated random ids: ${itemIds}`)
+    console.log("Generated random ids: ", itemIds)
     return itemIds
   }
 
@@ -155,10 +155,6 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
   }
 
   const promptOfFetching = ref<string>("")
-  const getPromptOfFetching = computed(() => promptOfFetching)
-  function changePrompt(string: string) {
-    promptOfFetching.value = string
-  }
 
   function changeItemsInQueue(number: number) {
     itemsInQueue.value = number
@@ -170,8 +166,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     fetchItem,
     fetchLiveData,
     itemsInQueue,
-    getPromptOfFetching,
-    changePrompt,
+    promptOfFetching,
     changeItemsInQueue,
     liveDataCacheInitialized,
     getLiveDataCacheInitializationState,

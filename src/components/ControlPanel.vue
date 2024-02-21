@@ -7,7 +7,7 @@ import type { ListName } from "@/types/hackerNews"
 const { settings } = useSettingsStore()
 const coreData = useCoreDataStore()
 const fetchingData = useFetchingDataStore()
-const { fetchLists, fetchList, changePrompt, changeItemsInQueue } = fetchingData
+const { fetchLists, fetchList, changeItemsInQueue } = fetchingData
 const liveDataCacheInitialized = useFetchingDataStore().getLiveDataCacheInitializationState
 
 const selected = ref<ListName[]>(["topstories"])
@@ -36,14 +36,15 @@ function fetchListsAfterSelection() {
 }
 
 // Init: Fetch stories
-changePrompt("Fetching selected lists...")
+fetchingData.promptOfFetching = "Fetching selected lists..."
+
 // TODO refresh live data when refresh()
 let interValId: number | null = window.setInterval(() => {
   if (liveDataCacheInitialized.value) {
     fetchList(selected.value[0]).then(() => {
-      changePrompt("")
+      fetchingData.promptOfFetching = ""
     })
-    fetchList("maxitem")
+    /* fetchList("maxitem") */
     if (interValId) {
       clearInterval(interValId)
       interValId = null
