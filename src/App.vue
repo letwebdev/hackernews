@@ -5,7 +5,7 @@ import { useCoreDataStore } from "@/stores/coreData"
 import { useFetchingDataStore } from "@/stores/fetchData"
 import { useLiveDataStore } from "@/stores/liveData"
 
-import type { LiveData } from "@/types/hackerNews"
+import type { LiveData, LiveDataCache } from "@/types/hackerNews"
 
 const coreData = useCoreDataStore()
 const lists = coreData.lists
@@ -16,22 +16,33 @@ const confirmLiveDataCacheInitialized = useFetchingDataStore().confirmLiveDataCa
 // TODO Also cache items
 ;(async function initialize() {
   // TODO refresh live data when refresh()
-  // Prefetch live data
-  const liveDataPromises: Promise<LiveData>[] = []
-  for (const list of lists) {
-    const liveDataPromise: Promise<LiveData> = fetchLiveData(list.name)
-    liveDataPromises.push(liveDataPromise)
-  }
-  const liveDataGroup = await Promise.all(liveDataPromises)
-
-  for (const [index, list] of lists.entries()) {
-    const liveDataCacheItem = {
-      listName: list.name,
-      liveData: liveDataGroup[index],
+  async function fetchLiveDataGroup() {
+    const liveDataPromises: Promise<LiveData>[] = []
+    for (const list of lists) {
+      const liveDataPromise: Promise<LiveData> = fetchLiveData(list.name)
+      liveDataPromises.push(liveDataPromise)
     }
-    liveDataCache.push(liveDataCacheItem)
-    console.log(liveDataCacheItem)
+    return await Promise.all(liveDataPromises)
   }
+
+  function generateLiveDataCache(liveDataGroup: LiveData[]) {
+    const cache: LiveDataCache = []
+    for (const [index, list] of lists.entries()) {
+      const liveDataCacheItem = {
+        listName: list.name,
+        liveData: liveDataGroup[index],
+      }
+      cache.push(liveDataCacheItem)
+      console.log(liveDataCacheItem)
+    }
+    return cache
+  }
+
+  await (async function storeLiveDataCache() {
+    const liveDataGroup = await fetchLiveDataGroup()
+    const tempLiveDataCache = generateLiveDataCache(liveDataGroup)
+    liveDataCache.push(...tempLiveDataCache)
+  })()
 
   confirmLiveDataCacheInitialized()
   console.log("live data cached")
