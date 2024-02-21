@@ -107,7 +107,7 @@ window.addEventListener("scroll", () => {
       size="small"
       @click="fetchMore"
     >
-      Fetch more
+      Fetch
     </v-btn>
   </section>
 </template>
