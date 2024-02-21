@@ -17,7 +17,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     liveDataCacheInitialized.value = true
   }
 
-  const itemTypesAndCounts = ref([
+  const statisticsOfFetchedLiveData = ref([
     { type: "story", count: 0 },
     { type: "job", count: 0 },
     { type: "comment", count: 0 },
@@ -133,9 +133,9 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
       .catch((error) => console.error(`Error fetching data: ${error.message}`))
   }
   function updateCount(item: Item) {
-    for (const itemTypeAndCount of itemTypesAndCounts.value)
-      if (item.type === itemTypeAndCount.type) {
-        itemTypeAndCount.count++
+    for (const statisticsItem of statisticsOfFetchedLiveData.value)
+      if (item.type === statisticsItem.type) {
+        statisticsItem.count++
       }
   }
 
@@ -167,6 +167,6 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     liveDataCacheInitialized,
     getLiveDataCacheInitializationState,
     confirmLiveDataCacheInitialized,
-    itemTypesAndCounts,
+    statisticsOfFetchedLiveData,
   }
 })

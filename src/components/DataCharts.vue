@@ -12,14 +12,14 @@ import { ref, provide, computed } from "vue"
 import type { Ref } from "vue"
 import { useFetchingDataStore } from "@/stores/fetchData"
 
-const itemTypesAndCounts = storeToRefs(useFetchingDataStore()).itemTypesAndCounts
+const statisticsOfFetchedLiveData = storeToRefs(useFetchingDataStore()).statisticsOfFetchedLiveData
 
 const legendData: string[] = []
 const seriesData: object[] = []
-for (const [index, itemTypeAndCount] of itemTypesAndCounts.value.entries()) {
+for (const [index, itemTypeAndCount] of statisticsOfFetchedLiveData.value.entries()) {
   const type = itemTypeAndCount.type
   legendData.push(type)
-  const count = computed(() => itemTypesAndCounts.value[index].count)
+  const count = computed(() => statisticsOfFetchedLiveData.value[index].count)
   seriesData.push({ value: count, name: type })
 }
 
