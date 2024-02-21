@@ -1,17 +1,16 @@
 <script setup lang="ts">
 import { useSettingsStore } from "@/stores/settings"
 
-const settings = storeToRefs(useSettingsStore()).settings
-const settingOperations = useSettingsStore().settingOperations
+const settingsStore = useSettingsStore()
 function reset() {
-  settingOperations.reset()
+  settingsStore.settingOperations.reset()
 }
 </script>
 <template>
   <div class="settingItems">
     <menu>
       <template
-        v-for="(property, _index) in settings"
+        v-for="(property, _index) in settingsStore.settings"
         :key="_index"
       >
         <li class="flex list-none items-center justify-between <lg:block">

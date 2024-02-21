@@ -8,8 +8,7 @@ const baseUrl: URL = new URL("https://hacker-news.firebaseio.com/v0")
 export const useFetchingDataStore = defineStore("fetchData", () => {
   const { settings } = useSettingsStore()
   const { liveDataCache } = useLiveDataStore()
-  const coreDataRef = storeToRefs(useCoreDataStore())
-  const items = coreDataRef.items
+  const coreData = useCoreDataStore()
   const itemsInQueue = ref<number>(0)
 
   const itemTypesAndCounts = ref([
@@ -112,7 +111,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     fetch(itemUrl)
       .then((response): Promise<Item> => response.json())
       .then((item) => {
-        items.value.push(item)
+        coreData.items.push(item)
         updateCount(item)
       })
       .catch((error) => console.error(`Error fetching data: ${error.message}`))
