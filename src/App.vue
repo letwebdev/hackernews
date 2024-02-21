@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router"
-// Init
+
 import { useCoreDataStore } from "@/stores/coreData"
 import { useFetchingDataStore } from "@/stores/fetchData"
 import { useLiveDataStore } from "@/stores/liveData"
 
 import type { LiveData, LiveDataCache } from "@/types/hackerNews"
+
+import SettingItems from "@/components/SettingItems.vue"
 
 const coreData = useCoreDataStore()
 const lists = coreData.lists
@@ -46,10 +48,38 @@ const confirmLiveDataCacheInitialized = useFetchingDataStore().confirmLiveDataCa
   confirmLiveDataCacheInitialized()
   console.log("live data cached")
 })()
+
+const menuDisplayed = ref(false)
 </script>
 <template>
   <header>
     <nav>
+      <v-menu
+        v-model="menuDisplayed"
+        open-on-hover
+        open-on-click
+        open-delay="50"
+        close-delay="50"
+        :close-on-content-click="false"
+        content-class="bg-light-100 p-30px"
+      >
+        <template #activator="{ props }">
+          <v-btn
+            color="primary"
+            class="i-mdi-cog-outline top-10% !fixed <sm:(left-0% top-2%)"
+            v-bind="props"
+          />
+        </template>
+        <v-btn
+          variant="outlined"
+          class="m-x-auto w-fit -mt-30px !h-40px"
+          density="comfortable"
+          @click="menuDisplayed = false"
+        >
+          close
+        </v-btn>
+        <SettingItems class="<sm:(overflow-x-hidden overflow-y-scroll)" />
+      </v-menu>
       <RouterLink to="/">
         Hacker News
       </RouterLink>
@@ -133,11 +163,11 @@ nav {
 
 @media (width >= 2560px) {
   nav {
-    margin-left: 200px;
+    margin-left: 120px;
   }
 
   div.view {
-    margin-left: 10%;
+    margin-left: 5%;
   }
 }
 </style>

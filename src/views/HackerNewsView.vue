@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import ControlPanel from "@/components/ControlPanel.vue"
-import SettingItems from "@/components/SettingItems.vue"
 import NavigatingButtons from "@/components/NavigatingButtons.vue"
 import ItemPost from "@/components/ItemPost.vue"
 import DataCharts from "@/components/DataCharts.vue"
@@ -12,32 +11,14 @@ const promptOfFetching = storeToRefs(useFetchingDataStore()).promptOfFetching
 const items = storeToRefs(useCoreDataStore()).items
 /* console.log(items) */
 
-const folded = useLocalStorage("folded", false)
-const foldSign = computed(() => (folded.value ? "  ∨  " : "  ∧  "))
-function fold() {
-  folded.value = !folded.value
-}
-
 const isLargeScreen = computed(() => window.matchMedia("(min-width: 2560px)").matches)
 // TODO Be able to drag controlPanel
 </script>
 <template>
   <ControlPanel class="controlPanel" />
 
-  <div class="wrapper">
+  <div class="hackerNewsView mt-1%">
     <main>
-      <section class="p-x-5% p-y-1%">
-        <h1>
-          <button @click="fold">
-            Settings <span>{{ foldSign }}</span>
-          </button>
-        </h1>
-        <SettingItems
-          v-show="!folded"
-          class="settingItems"
-        />
-      </section>
-
       <ItemPost
         v-for="item in items"
         :key="item.id"
@@ -50,7 +31,7 @@ const isLargeScreen = computed(() => window.matchMedia("(min-width: 2560px)").ma
     </main>
     <div
       v-if="isLargeScreen"
-      class="wrapper"
+      class="placeholder"
     >
       <DataCharts class="chart" />
     </div>
@@ -66,14 +47,19 @@ const isLargeScreen = computed(() => window.matchMedia("(min-width: 2560px)").ma
   }
 
   main {
-    max-width: 900px;
+    width: 900px;
   }
 }
 
 @media (width >= 2560px) {
+  .hackerNewsView {
+    display: flex;
+    column-gap: 100px;
+  }
+
   .controlPanel {
-    top: 12%;
-    right: 12%;
+    top: 15%;
+    right: 8%;
   }
 
   main {
@@ -81,13 +67,9 @@ const isLargeScreen = computed(() => window.matchMedia("(min-width: 2560px)").ma
     margin-left: 2%;
   }
 
-  div.wrapper {
-    display: flex;
-  }
-
   .chart {
     position: fixed;
-    top: 12%;
+    top: 20%;
   }
 }
 </style>
