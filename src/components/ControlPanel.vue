@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { RemovableRef } from "@vueuse/core"
 import { useSettingsStore } from "@/stores/settings"
 import { useCoreDataStore } from "@/stores/coreData"
 import { useFetchingDataStore } from "@/stores/fetchData"
@@ -10,7 +11,7 @@ const fetchingData = useFetchingDataStore()
 const { fetchLists, fetchList, resetItemsInQueue } = fetchingData
 const liveDataCacheInitialized = useFetchingDataStore().getLiveDataCacheInitializationState
 
-const selected = ref<ListName[]>(["topstories"])
+const selected: RemovableRef<ListName[]> = useLocalStorage("selectedLists", ["topstories"])
 
 function fetchMore() {
   resetItemsInQueue()
