@@ -6,9 +6,6 @@ import type { ListName } from "@/types/hackerNews"
 
 const { settings } = useSettingsStore()
 const coreData = useCoreDataStore()
-const coreDataRef = storeToRefs(useCoreDataStore())
-const { lists } = coreData
-const { items } = coreDataRef
 const fetchingData = useFetchingDataStore()
 const { fetchLists, fetchList, changePrompt, changeItemsInQueue } = fetchingData
 const liveDataCacheInitialied = useFetchingDataStore().getLiveDataCacheInitializationState
@@ -29,7 +26,7 @@ function refresh() {
   fetchMore()
 }
 function clearDisplayedItems() {
-  items.value = []
+  coreData.items = []
 }
 
 function fetchListsAfterSelection() {
@@ -93,7 +90,7 @@ window.addEventListener("scroll", () => {
       @change="fetchListsAfterSelection"
     >
       <v-btn
-        v-for="list in lists"
+        v-for="list in coreData.lists"
         :key="list.name"
         :value="list.name"
         class="text-none !h-35px"

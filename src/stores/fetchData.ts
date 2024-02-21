@@ -4,18 +4,13 @@ import { generateRandomInteger, shuffleArray } from "@/libs/math"
 import type { Item, LiveData, ListName } from "@/types/hackerNews"
 import { useLiveDataStore } from "@/stores/liveData"
 
+const baseUrl: URL = new URL("https://hacker-news.firebaseio.com/v0")
 export const useFetchingDataStore = defineStore("fetchData", () => {
-  const settings = useSettingsStore().settings
-
-  const coreData = useCoreDataStore()
+  const { settings } = useSettingsStore()
+  const { liveDataCache } = useLiveDataStore()
   const coreDataRef = storeToRefs(useCoreDataStore())
   const items = coreDataRef.items
-  const baseUrl: URL = coreData.baseUrl
   const itemsInQueue = ref<number>(0)
-
-  const liveDatastore = useLiveDataStore()
-
-  const liveDataCache = liveDatastore.liveDataCache
 
   const itemTypesAndCounts = ref([
     { type: "story", count: 0 },

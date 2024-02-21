@@ -1,8 +1,6 @@
 import type { Items, Lists } from "@/types/hackerNews"
 
 export const useCoreDataStore = defineStore("coreData", () => {
-  const baseUrl: URL = new URL("https://hacker-news.firebaseio.com/v0")
-
   const items = ref<Items>([])
   const lists = [
     { name: "topstories", description: "Top stories" },
@@ -15,5 +13,5 @@ export const useCoreDataStore = defineStore("coreData", () => {
     { name: "updates", description: "Changed items" },
   ] as const satisfies Lists
 
-  return { baseUrl, items, lists }
+  return { items, lists }
 })
