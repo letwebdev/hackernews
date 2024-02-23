@@ -1,6 +1,6 @@
 import { useSettingsStore } from "@/stores/settings"
 import { useCoreDataStore } from "@/stores/coreData"
-import { generateRandomInteger, shuffleArray } from "@/libs/math"
+import { generateRandomInteger } from "@/libs/math"
 import type { Item, LiveData, ListName, LiveDataCache } from "@/types/hackerNews"
 import { useLiveDataStore } from "@/stores/liveData"
 
