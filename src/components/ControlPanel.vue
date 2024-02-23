@@ -8,17 +8,19 @@ import type { ListName } from "@/types/hackerNews"
 const { settings } = useSettingsStore()
 const coreData = useCoreDataStore()
 const fetchingData = useFetchingDataStore()
-const { fetchLists, fetchList, resetItemsInQueue } = fetchingData
+const { fetchLists, resetItemsInQueue } = fetchingData
 const liveDataCacheInitialized = useFetchingDataStore().getLiveDataCacheInitializationState
 
 const selected: RemovableRef<ListName[]> = useLocalStorage("selectedLists", ["topstories"])
 
 function fetchMore() {
+  fetchingData.promptOfFetching = "Fetching selected lists..."
   resetItemsInQueue()
   fetchSelectedLists()
 }
-function fetchSelectedLists() {
-  fetchLists(selected.value)
+async function fetchSelectedLists() {
+  await fetchLists(selected.value)
+  fetchingData.promptOfFetching = ""
 }
 
 function refresh() {
@@ -29,22 +31,12 @@ function clearDisplayedItems() {
   coreData.items = []
 }
 
-// Init: Fetch stories
-fetchingData.promptOfFetching = "Fetching selected lists..."
-
 // TODO refresh live data when refresh()
-let interValId: number | null = window.setInterval(() => {
+watchEffect(() => {
   if (liveDataCacheInitialized.value) {
-    fetchList(selected.value[0]).then(() => {
-      fetchingData.promptOfFetching = ""
-    })
-    /* fetchList("maxitem") */
-    if (interValId) {
-      clearInterval(interValId)
-      interValId = null
-    }
+    fetchMore()
   }
-}, 200)
+})
 
 function scrolledToBottom(): boolean {
   return window.innerHeight + Math.round(window.scrollY) + 1 >= document.body.offsetHeight
