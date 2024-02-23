@@ -41,12 +41,16 @@ watchEffect(() => {
 function scrolledToBottom(): boolean {
   return window.innerHeight + Math.round(window.scrollY) + 1 >= document.body.offsetHeight
 }
-window.addEventListener("scroll", () => {
-  if (settings.automaticallyFetchingMoreWhenScrollingToTheBottom.value) {
-    if (scrolledToBottom()) {
-      fetchMore()
-    }
+function automaticallyFetchingMoreWhenScrollingToTheBottom() {
+  if (settings.automaticallyFetchingMoreWhenScrollingToTheBottom.value && scrolledToBottom()) {
+    fetchMore()
   }
+}
+onMounted(() => {
+  window.addEventListener("scroll", automaticallyFetchingMoreWhenScrollingToTheBottom)
+})
+onUnmounted(() => {
+  window.removeEventListener("scroll", automaticallyFetchingMoreWhenScrollingToTheBottom)
 })
 </script>
 <template>
