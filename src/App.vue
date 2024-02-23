@@ -49,36 +49,33 @@ const confirmLiveDataCacheInitialized = useFetchingDataStore().confirmLiveDataCa
   console.log("live data cached")
 })()
 
-const menuDisplayed = ref(false)
+const menuShowing = ref(false)
 </script>
 <template>
   <header>
     <nav>
       <v-menu
-        v-model="menuDisplayed"
-        open-on-hover
-        open-on-click
-        open-delay="50"
-        close-delay="50"
+        v-model="menuShowing"
         :close-on-content-click="false"
         content-class="bg-light-100 p-30px"
       >
         <template #activator="{ props }">
           <v-btn
             color="primary"
-            class="i-mdi-cog-outline top-10% !fixed <sm:(left-0% top-2%)"
+            class="i-mdi-cog-outline top-10% !fixed <sm:(left-0% top-5%)"
             v-bind="props"
           />
         </template>
+
+        <SettingItems class="<sm:(overflow-x-hidden overflow-y-scroll)" />
         <v-btn
           variant="outlined"
-          class="m-x-auto w-fit -mt-30px !h-40px"
+          class="ml-auto mr-10px w-fit !h-40px"
           density="comfortable"
-          @click="menuDisplayed = false"
+          @click="menuShowing = false"
         >
-          close
+          Close
         </v-btn>
-        <SettingItems class="<sm:(overflow-x-hidden overflow-y-scroll)" />
       </v-menu>
       <RouterLink to="/">
         Hacker News

@@ -36,7 +36,7 @@ export const useSettingsStore = defineStore("settings", () => {
     }
 
     automaticallyFetchingMoreWhenScrollingToTheBottom = {
-      description: "Automatically fetching more when scrolling to the bottom" as const,
+      description: "Auto fetching when reached the bottom" as const,
       value: true,
     }
     /* TODO history
