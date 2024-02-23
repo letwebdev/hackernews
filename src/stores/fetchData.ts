@@ -25,10 +25,10 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     { type: "pollopt", count: 0 },
   ])
 
-  function fetchLists(listNames: ListName[]) {
-    listNames.forEach((listName) => {
+  async function fetchLists(listNames: ListName[]) {
+    for (const listName of listNames) {
       fetchList(listName)
-    })
+    }
   }
   async function fetchList(listName: ListName = "topstories") {
     const liveDataToFetch = getLiveData(listName)
@@ -36,14 +36,9 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
       console.error("live data to fetch is undefined")
       return
     }
-    /* console.log(liveDataToFetch) */
+    // console.log(liveDataToFetch)
     const itemIdsToFetch = getItemIds(liveDataToFetch)
     for (let count = 1; count <= settings.numberOfItemsFetchedEachTime.value; count++) {
-      // TODO
-      // if (itemIdsToFetch.length > 0) {
-      // const itemId = itemIdsToFetch.shift()
-
-      // }
       const itemId = itemIdsToFetch.shift()
       if (itemId) {
         fetchItem(itemId)
@@ -55,9 +50,11 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
   }
   function getLiveData(listName: ListName) {
     if (!liveDataCacheInitialized.value) {
-      console.error("live data cache hasn't Initialized yet")
+      console.log("live data cache hasn't Initialized yet")
+      return undefined
+    } else {
+      return extractLiveDataFromCache(listName, liveDataCache)
     }
-    return extractLiveDataFromCache(listName, liveDataCache)
   }
   function extractLiveDataFromCache(nameOfListToExtractBy: ListName, cacheOfLiveData: LiveDataCache) {
     for (const itemInCacheOfLiveData of cacheOfLiveData) {
@@ -122,7 +119,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     }
   }
 
-  function fetchItem(id: number) {
+  async function fetchItem(id: number) {
     const itemUrl: URL = new URL(`${baseUrl.href}/item/${id}.json?print=pretty`)
     fetch(itemUrl)
       .then((response): Promise<Item> => response.json())
@@ -152,7 +149,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     }
   }
 
-  const promptOfFetching = ref<string>("")
+  const promptOfFetching = ref<string>("Caching live data")
 
   function resetItemsInQueue() {
     itemsInQueue.value = 0
