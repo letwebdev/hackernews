@@ -41,13 +41,9 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
       console.log("Current list is empty")
     }
 
-    for (let count = 1; count <= settings.numberOfItemsFetchedEachTime.value; count++) {
-      const itemId = itemIdsToFetch.shift()
-      if (itemId) {
-        fetchItem(itemId)
-      }
-    }
+    fetchItems(itemIdsToFetch)
   }
+
   function getItemIds(listName: ListName, quantity: number) {
     return getItemIdsFromLiveData(listName, quantity)
   }
@@ -75,10 +71,13 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
       console.log("live data cache hasn't Initialized yet")
       
     } else {
-      for (const liveDataCacheItem of liveDataCache) {
-        if (liveDataCacheItem.listName === listName) {
-          return liveDataCacheItem.liveData
-        }
+      return getLiveDataFromCacheByListName(listName)
+    }
+  }
+  function getLiveDataFromCacheByListName(listName: ListName) {
+    for (const liveDataCacheItem of liveDataCache) {
+      if (liveDataCacheItem.listName === listName) {
+        return liveDataCacheItem.liveData
       }
     }
   }
@@ -112,6 +111,14 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     return itemIds
   }
 
+  async function fetchItems(itemIds: number[]) {
+    for (let count = 1; count <= settings.numberOfItemsFetchedEachTime.value; count++) {
+      const itemId = itemIds.shift()
+      if (itemId) {
+        fetchItem(itemId)
+      }
+    }
+  }
   async function fetchItem(id: number) {
     const itemUrl: URL = new URL(`${baseUrl.href}/item/${id}.json?print=pretty`)
     fetch(itemUrl)
@@ -124,6 +131,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
         console.error(`Error fetching data: ${error.message}`)
       })
   }
+
   function updateCount(item: Item) {
     for (const statisticsItem of statisticsOfFetchedLiveData.value)
       if (item.type === statisticsItem.type) {
