@@ -7,7 +7,7 @@ function reset() {
 }
 </script>
 <template>
-  <div class="settingItems">
+  <div class="settingItems lg:min-w-700px">
     <menu>
       <template
         v-for="(property, _index) in settingsStore.settings"
@@ -63,8 +63,6 @@ function reset() {
 </template>
 <style lang="scss">
 .settingItems {
-  max-width: 850px;
-
   .v-btn {
     letter-spacing: 0.03em;
   }
