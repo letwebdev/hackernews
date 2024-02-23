@@ -11,10 +11,13 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
   const coreDataStore = useCoreDataStore()
   const itemsInQueue = ref<number>(0)
 
+  const promptOfFetching = ref<string>("Caching live data...")
+
   const liveDataCacheInitialized = ref(false)
   const getLiveDataCacheInitializationState = computed(() => liveDataCacheInitialized)
   function confirmLiveDataCacheInitialized() {
     liveDataCacheInitialized.value = true
+    promptOfFetching.value = "Live data cached."
   }
 
   const statisticsOfFetchedLiveData = ref([
@@ -69,7 +72,6 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
   function getLiveDataFromCache(listName: ListName) {
     if (!liveDataCacheInitialized.value) {
       console.log("live data cache hasn't Initialized yet")
-      
     } else {
       return getLiveDataFromCacheByListName(listName)
     }
@@ -149,8 +151,6 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
       console.error(`Error: ${error.message}`)
     }
   }
-
-  const promptOfFetching = ref<string>("Caching live data")
 
   function resetItemsInQueue() {
     itemsInQueue.value = 0

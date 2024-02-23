@@ -57,6 +57,7 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener("scroll", automaticallyFetchingMoreWhenScrollingToTheBottom)
 })
+const buttonForFetchingDisabled = computed(() => !liveDataCacheInitialized.value)
 </script>
 <template>
   <section>
@@ -64,6 +65,7 @@ onUnmounted(() => {
     <v-btn
       class="text-none"
       color="indigo"
+      :disabled="buttonForFetchingDisabled"
       @click="refresh"
     >
       Refresh
@@ -97,6 +99,7 @@ onUnmounted(() => {
     <v-btn
       color="indigo"
       class="text-none"
+      :disabled="buttonForFetchingDisabled"
       @click="fetchMore"
     >
       Fetch more
@@ -106,6 +109,7 @@ onUnmounted(() => {
       color="indigo"
       class="text-none buttonFixedMobile !lg:hidden"
       size="small"
+      :disabled="buttonForFetchingDisabled"
       @click="fetchMore"
     >
       Fetch
