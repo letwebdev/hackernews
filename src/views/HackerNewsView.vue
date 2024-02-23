@@ -18,28 +18,37 @@ const isLargeScreen = computed(() => window.matchMedia("(min-width: 2560px)").ma
   <ControlPanel class="controlPanel" />
 
   <div class="hackerNewsView mt-1%">
-    <main>
+    <main class="min-h-101vh">
       <ItemPost
         v-for="item in items"
         :key="item.id"
         :item="item"
       />
-
       <div>
+        <!--
+          TODO when current list is empty
+        -->
         {{ promptOfFetching }}
       </div>
+      <footer class="pb-30%" />
     </main>
-    <div
+    <!--
+      TODO use windi variant
+    -->
+    <section
       v-if="isLargeScreen"
       class="placeholder"
     >
       <DataCharts class="chart" />
-    </div>
+    </section>
   </div>
-  <footer class="pb-30%" />
   <NavigatingButtons />
 </template>
 <style lang="scss" scoped>
+main {
+  width: 100%;
+}
+
 @media (width >= 1024px) {
   .controlPanel {
     position: fixed;
@@ -47,7 +56,7 @@ const isLargeScreen = computed(() => window.matchMedia("(min-width: 2560px)").ma
   }
 
   main {
-    width: 900px;
+    max-width: 900px;
   }
 }
 
@@ -63,7 +72,7 @@ const isLargeScreen = computed(() => window.matchMedia("(min-width: 2560px)").ma
   }
 
   main {
-    width: 1000px;
+    max-width: 1000px;
     margin-left: 2%;
   }
 
