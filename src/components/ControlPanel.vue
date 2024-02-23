@@ -13,10 +13,14 @@ const liveDataCacheInitialized = useFetchingDataStore().getLiveDataCacheInitiali
 
 const selected: RemovableRef<ListName[]> = useLocalStorage("selectedLists", ["topstories"])
 
+const initialized = computed(() => liveDataCacheInitialized.value)
 function fetchMore() {
-  fetchingData.promptOfFetching = "Fetching selected lists..."
-  resetItemsInQueue()
-  fetchSelectedLists()
+  console.log("fetchMore() triggered")
+  if (initialized.value) {
+    fetchingData.promptOfFetching = "Fetching selected lists..."
+    resetItemsInQueue()
+    fetchSelectedLists()
+  }
 }
 async function fetchSelectedLists() {
   await fetchLists(selected.value)
@@ -32,11 +36,12 @@ function clearDisplayedItems() {
 }
 
 // TODO refresh live data when refresh()
-watchEffect(() => {
-  if (liveDataCacheInitialized.value) {
-    fetchMore()
-  }
-})
+// FIXME Cause `fetchMore` triggered twice when click `fetch more` button for the first time
+// watchEffect(() => {
+//   if (liveDataCacheInitialized.value) {
+//     fetchMore()
+//   }
+// })
 
 function scrolledToBottom(): boolean {
   return window.innerHeight + Math.round(window.scrollY) + 1 >= document.body.offsetHeight

@@ -27,24 +27,26 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
 
   async function fetchLists(listNames: ListName[]) {
     for (const listName of listNames) {
+      // console.log(listName, liveDataCache)
       fetchList(listName)
     }
   }
   async function fetchList(listName: ListName = "topstories") {
     const liveDataToFetch = getLiveData(listName)
+    // console.log(listName, liveDataCache)
     if (liveDataToFetch === undefined) {
       console.error("live data to fetch is undefined")
       return
     }
-    // console.log(liveDataToFetch)
+    console.log(liveDataToFetch)
     const itemIdsToFetch = getItemIds(liveDataToFetch)
+    if (itemIdsToFetch.length === 0) {
+      console.log("Current list is empty")
+    }
     for (let count = 1; count <= settings.numberOfItemsFetchedEachTime.value; count++) {
       const itemId = itemIdsToFetch.shift()
       if (itemId) {
         fetchItem(itemId)
-      } else {
-        console.log("Current list is empty")
-        break
       }
     }
   }
@@ -53,6 +55,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
       console.log("live data cache hasn't Initialized yet")
       return undefined
     } else {
+      // console.log(listName, liveDataCache)
       return extractLiveDataFromCache(listName, liveDataCache)
     }
   }
@@ -72,7 +75,6 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
       itemIds = generatedRandomItemIds(liveData)
     } else if (typeof liveData === "object") {
       itemIds = extractItemIdsFromLiveData(liveData)
-      removeAlreadyFetchedItemIds(liveData, settings.numberOfItemsFetchedEachTime.value)
     } else if (typeof liveData === "undefined") {
       console.error("live data is undefined")
       itemIds = [1]
@@ -97,23 +99,22 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
   function extractItemIdsFromLiveData(liveData: Extract<LiveData, number[] | object>): number[] {
     let itemIds: number[]
     if (Array.isArray(liveData)) {
-      itemIds = liveData
+      itemIds = [...liveData]
     } else {
-      itemIds = liveData.items
+      itemIds = [...liveData.items]
     }
-
+    removeAlreadyFetchedItemIds(liveData, settings.numberOfItemsFetchedEachTime.value)
+    console.log("length of item ids when extracting", itemIds.length)
     return itemIds
   }
   function removeAlreadyFetchedItemIds(liveData: Extract<LiveData, number[] | object>, quantity: number) {
     for (const livedataCacheItem of liveDataCache) {
       if (livedataCacheItem.liveData === liveData) {
-        let itemIds: number[]
         if (Array.isArray(livedataCacheItem.liveData)) {
-          itemIds = livedataCacheItem.liveData
+          livedataCacheItem.liveData.splice(0, quantity)
         } else {
-          itemIds = livedataCacheItem.liveData.items
+          livedataCacheItem.liveData.items.splice(0, quantity)
         }
-        itemIds.splice(0, quantity)
         break
       }
     }

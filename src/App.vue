@@ -34,8 +34,13 @@ const confirmLiveDataCacheInitialized = useFetchingDataStore().confirmLiveDataCa
         liveData: liveDataGroup[index],
       }
       cache.push(liveDataCacheItem)
-      console.log(liveDataCacheItem)
+      // FIXME if the list name is selected, its length will be reduced by 40
+      if (list.name === "jobstories") {
+        console.log(liveDataCacheItem)
+        console.log((cache[5].liveData as number[]).length)
+      }
     }
+    // console.log("cache: ", cache)
     return cache
   }
 
