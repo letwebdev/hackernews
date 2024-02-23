@@ -1,32 +1,34 @@
 <script setup lang="ts">
 import { useSettingsStore } from "@/stores/settings"
 import type { Item } from "@/types/hackerNews"
+// TODO use dayjs
 import { convertUnixTimeStampToReadableTime } from "@/libs/formatter"
 
 const settings = useSettingsStore().settings
-defineProps<{
+const props = defineProps<{
   item: Item
 }>()
-function titleUrl(item: Item) {
-  return item.url ? item.url : discussUrl(item.id)
-}
-function discussUrl(itemId: number) {
-  return `https://news.ycombinator.com/item?id=${itemId}`
-}
+const item = props.item
+const discussUrl = computed(() => {
+  return `https://news.ycombinator.com/item?id=${item.id}`
+})
+const titleUrl = computed(() => {
+  return item.url ? item.url : discussUrl.value
+})
 
-function displayingLink(item: Item): boolean {
+const displayingLink = computed(() => {
   return (
     settings.displayingItemLink.value &&
     item.url !== undefined &&
     settings.maximumLinkLengthToDisplay.value > item.url.length
   )
-}
+})
 </script>
 <template>
   <article>
     <h2 v-show="settings.displayingItemTitle.value">
       <a
-        :href="titleUrl(item)"
+        :href="titleUrl"
         variant="plain"
         class="text-none"
       >
@@ -40,7 +42,7 @@ function displayingLink(item: Item): boolean {
     />
     <ul class="list-none">
       <li
-        v-if="displayingLink(item)"
+        v-if="displayingLink"
         class="!items-start"
       >
         <label class="mr-10px min-w-fit"> link: </label>
@@ -61,7 +63,7 @@ function displayingLink(item: Item): boolean {
           <v-btn
             class="text-none whitespace-normal !items-center"
             variant="plain"
-            :href="discussUrl(item.id)"
+            :href="discussUrl"
           >
             {{ item.id }}
             <v-tooltip
