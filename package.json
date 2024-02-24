@@ -38,6 +38,7 @@
     "@capacitor/android": "^5.7.0",
     "@capacitor/core": "^5.7.0",
     "@vueuse/core": "^10.7.2",
+    "dayjs": "^1.11.10",
     "dotenv": "^16.4.4",
     "dotenv-expand": "^11.0.4",
     "echarts": "^5.4.3",
