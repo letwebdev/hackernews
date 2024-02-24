@@ -1,11 +1,8 @@
+import dayjs from "dayjs"
+
 /**
- * @returns readableTime like this: `2024-2-17 3:29`
+ * @returns readableTime like this: `2024-02-17 01:01`
  */
 export function convertUnixTimeStampToReadableTime(unixTimeStampInSecond: number) {
-  const readableTime = new Date(unixTimeStampInSecond * 1000)
-  const readableTimeFormatted = `
-           ${readableTime.getFullYear()}-${readableTime.getMonth() + 1}-${readableTime.getDate()}
-           ${readableTime.getHours()}:${readableTime.getMinutes()}
-           `
-  return readableTimeFormatted
+  return dayjs.unix(unixTimeStampInSecond).format("YYYY-MM-DD HH:mm")
 }
