@@ -13,9 +13,7 @@ const promptOfFetching = storeToRefs(useFetchingDataStore()).promptOfFetching
 const items = storeToRefs(useCoreDataStore()).items
 /* console.log(items) */
 
-const isLargeScreen = computed(() => window.matchMedia("(min-width: 2560px)").matches)
 // TODO Be able to drag controlPanel
-const mounted = ref(false)
 </script>
 <template>
   <ControlPanel class="controlPanel" />
@@ -28,20 +26,11 @@ const mounted = ref(false)
         :item="item"
       />
       <div>
-        <!--
-          TODO when current list is empty
-        -->
         {{ promptOfFetching }}
       </div>
       <footer class="pb-30%" />
     </main>
-    <!--
-      TODO use windi variant
-    -->
-    <section
-      v-if="isLargeScreen"
-      class="placeholder"
-    >
+    <section class="placeholder <huge:hidden">
       <DataCharts class="chart" />
     </section>
   </div>

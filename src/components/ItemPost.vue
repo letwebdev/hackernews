@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useSettingsStore } from "@/stores/settings"
 import type { Item } from "@/types/hackerNews"
-// TODO use dayjs
 import { convertUnixTimeStampToReadableTime } from "@/libs/formatter"
 
 const settings = useSettingsStore().settings
