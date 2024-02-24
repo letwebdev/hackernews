@@ -36,12 +36,11 @@ function clearDisplayedItems() {
 }
 
 // TODO refresh live data when refresh()
-// FIXME Cause `fetchMore` triggered twice when click `fetch more` button for the first time
-// watchEffect(() => {
-//   if (liveDataCacheInitialized.value) {
-//     fetchMore()
-//   }
-// })
+watchEffect(() => {
+  if (liveDataCacheInitialized.value) {
+    fetchMore()
+  }
+})
 
 function scrolledToBottom(): boolean {
   return window.innerHeight + Math.round(window.scrollY) + 1 >= document.body.offsetHeight

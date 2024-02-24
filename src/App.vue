@@ -34,10 +34,6 @@ const confirmLiveDataCacheInitialized = useFetchingDataStore().confirmLiveDataCa
         liveData: liveDataGroup[index],
       }
       cache.push(liveDataCacheItem)
-      if (list.name === "jobstories") {
-        console.log(liveDataCacheItem)
-        console.log((cache[5].liveData as number[]).length)
-      }
     }
     return cache
   }

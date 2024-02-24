@@ -113,6 +113,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     return itemIds
   }
 
+  // TODO Switch to await version
   async function fetchItems(itemIds: number[]) {
     for (let count = 1; count <= settings.numberOfItemsFetchedEachTime.value; count++) {
       const itemId = itemIds.shift()
