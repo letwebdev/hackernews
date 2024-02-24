@@ -60,7 +60,7 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     // console.log("liveData:", liveData)
 
     if (typeof liveData === "number") {
-      console.log(`Live data is currently largest item id: ${liveData}, will fetch item ids generated randomly`)
+      // console.log(`Live data is currently largest item id: ${liveData}, will fetch item ids generated randomly`)
       return generateRandomItemIds(liveData, quantity)
     } else if (typeof liveData === "object") {
       return [...extractItemIdsFromLiveDataInCache(liveData, quantity)]

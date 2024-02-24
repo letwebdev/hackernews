@@ -32,7 +32,7 @@ const displayingLink = computed(() => {
         variant="plain"
         class="text-none"
       >
-        <div class="i-mdi-web mr-8px mt-4px" />
+        <div class="i-mdi-web mr-8px mt-4px min-w-17.6px w-17.6px" />
         {{ item.title }}
       </a>
     </h2>

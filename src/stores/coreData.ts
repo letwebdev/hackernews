@@ -9,7 +9,7 @@ export const useCoreDataStore = defineStore("coreData", () => {
     { name: "askstories", description: "Ask stories" },
     { name: "showstories", description: "Show stories" },
     { name: "jobstories", description: "Job stories" },
-    { name: "maxitem", description: "any" }, // Currently largest item id
+    { name: "maxitem", description: "Random" }, // Currently largest item id
     { name: "updates", description: "Changed items" },
   ] as const satisfies Lists
 
