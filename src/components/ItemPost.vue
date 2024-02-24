@@ -98,11 +98,13 @@ h2 {
 
 a,
 li {
-  /* Wrap "_", etc. in long link */
-  /* break-all so that link won't in new line */
   display: flex;
   text-decoration: none;
   word-break: break-all;
+
+  code {
+    white-space: normal;
+  }
 }
 
 li {
