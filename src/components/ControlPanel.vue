@@ -14,17 +14,24 @@ const liveDataCacheInitialized = useFetchingDataStore().getLiveDataCacheInitiali
 const selected: RemovableRef<ListName[]> = useLocalStorage("selectedLists", ["topstories"])
 
 const initialized = computed(() => liveDataCacheInitialized.value)
-function fetchMore() {
-  console.log("fetchMore() triggered")
+async function fetchMore() {
   if (initialized.value) {
     fetchingData.promptOfFetching = "Fetching selected lists..."
     resetItemsInQueue()
-    fetchSelectedLists()
+    await fetchSelectedLists()
   }
 }
+
+const selectedListsEmpty = ref(false)
 async function fetchSelectedLists() {
-  await fetchLists(selected.value)
-  fetchingData.promptOfFetching = ""
+  const results = await fetchLists(selected.value)
+  if (results.every((result) => result === "empty")) {
+    fetchingData.promptOfFetching = "Selected lists are empty."
+    selectedListsEmpty.value = true
+  } else {
+    fetchingData.promptOfFetching = ""
+    selectedListsEmpty.value = false
+  }
 }
 
 function refresh() {
@@ -56,7 +63,7 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener("scroll", automaticallyFetchingMoreWhenScrollingToTheBottom)
 })
-const buttonForFetchingDisabled = computed(() => !liveDataCacheInitialized.value)
+const buttonForFetchingDisabled = computed(() => !liveDataCacheInitialized.value || selectedListsEmpty.value)
 </script>
 <template>
   <section>

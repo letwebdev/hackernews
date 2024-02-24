@@ -29,10 +29,10 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
   ])
 
   async function fetchLists(listNames: ListName[]) {
-    for (const listName of listNames) {
-      // console.log(listName, liveDataCache)
-      fetchList(listName)
-    }
+    const promises = listNames.map(async (listName) => {
+      return fetchList(listName)
+    })
+    return await Promise.all(promises)
   }
   async function fetchList(listName: ListName = "topstories") {
     const itemIdsToFetch = getItemIds(listName, settings.numberOfItemsFetchedEachTime.value)
@@ -42,9 +42,10 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
       return
     } else if (itemIdsToFetch.length === 0) {
       console.log("Current list is empty")
+      return "empty"
     }
 
-    fetchItems(itemIdsToFetch)
+    await fetchItems(itemIdsToFetch)
   }
 
   function getItemIds(listName: ListName, quantity: number) {
@@ -113,24 +114,21 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
     return itemIds
   }
 
-  // TODO Switch to await version
   async function fetchItems(itemIds: number[]) {
-    for (let count = 1; count <= settings.numberOfItemsFetchedEachTime.value; count++) {
-      const itemId = itemIds.shift()
-      if (itemId) {
-        fetchItem(itemId)
-      }
-    }
+    const promises = itemIds.map(async (itemId) => {
+      return fetchItem(itemId)
+    })
+    await Promise.all(promises)
   }
   async function fetchItem(id: number) {
     const itemUrl: URL = new URL(`${baseUrl.href}/item/${id}.json?print=pretty`)
-    fetch(itemUrl)
+    await fetch(itemUrl)
       .then((response): Promise<Item> => response.json())
       .then((item) => {
         coreDataStore.items.push(item)
         updateCount(item)
       })
-      .catch((error) => {
+      .catch((error: Error) => {
         console.error(`Error fetching data: ${error.message}`)
       })
   }

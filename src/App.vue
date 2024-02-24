@@ -18,12 +18,10 @@ const confirmLiveDataCacheInitialized = useFetchingDataStore().confirmLiveDataCa
 ;(async function initialize() {
   // TODO refresh live data when refresh()
   async function fetchLiveDataGroup() {
-    const liveDataPromises: Promise<LiveData>[] = []
-    for (const list of lists) {
-      const liveDataPromise: Promise<LiveData> = fetchLiveData(list.name)
-      liveDataPromises.push(liveDataPromise)
-    }
-    return await Promise.all(liveDataPromises)
+    const promises = lists.map(async (list) => {
+      return fetchLiveData(list.name)
+    })
+    return await Promise.all(promises)
   }
 
   function generateLiveDataCache(liveDataGroup: LiveData[]) {
