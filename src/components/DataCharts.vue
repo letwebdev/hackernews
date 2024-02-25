@@ -55,7 +55,7 @@ const option: Ref<EChartsOption> = ref({
 </script>
 <template>
   <v-chart
-    class="h-375px w-375px huge:(h-600px w-600px)"
+    class="h-375px w-375px lg:(h-500px w-600px)"
     :option="option"
   />
 </template>
