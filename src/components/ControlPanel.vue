@@ -113,7 +113,9 @@ const buttonForFetchingDisabled = computed(() => !liveDataCacheInitialized.value
 
     <v-btn
       color="indigo"
-      class="text-none buttonFixedMobile !lg:hidden"
+      class="text-none buttonFixedMobile !p-8px !lg:hidden"
+      min-height="34"
+      min-width="40"
       size="small"
       :disabled="buttonForFetchingDisabled"
       @click="fetchMore"
