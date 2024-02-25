@@ -5,7 +5,7 @@ export default defineConfig({
   presets: [presetUno(), presetIcons()],
   transformers: [transformerVariantGroup()],
   theme: {
-    screens: {
+    breakpoints: {
       huge: "2560px",
     },
   },
