@@ -53,7 +53,7 @@ const displayingLink = computed(() => {
           {{ item.url }}
         </a>
       </li>
-      <div class="lg:grid-cols-3 grid grid-cols-2 max-w-700px">
+      <div class="grid grid-cols-2 max-w-700px lg:grid-cols-3">
         <li v-if="settings.displayingItemType.value">
           <label>type:&nbsp;</label> {{ item.type }}
         </li>
@@ -95,15 +95,16 @@ h2 {
   transition: 0.4s;
 }
 
+code {
+  line-break: anywhere;
+  white-space: normal;
+}
+
 a,
 li {
   display: flex;
   text-decoration: none;
   word-break: break-all;
-
-  code {
-    white-space: normal;
-  }
 }
 
 li {
