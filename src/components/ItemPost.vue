@@ -37,6 +37,7 @@ const displayingLink = computed(() => {
     </h2>
     <p
       v-if="settings.displayingItemText.value"
+      class="overflow-x-auto"
       v-html="item.text"
     />
     <ul class="list-none">
@@ -93,11 +94,6 @@ h2 {
   font-size: 110%;
   text-decoration: none;
   transition: 0.4s;
-}
-
-code {
-  line-break: anywhere;
-  white-space: normal;
 }
 
 a,
