@@ -18,7 +18,7 @@ const items = storeToRefs(useCoreDataStore()).items
 <template>
   <ControlPanel class="controlPanel" />
 
-  <div class="hackerNewsView mt-1%">
+  <div class="hackerNewsView mt-1% max-w-100%">
     <main :class="{ 'min-h-101vh': liveDataCacheInitialized }">
       <ItemPost
         v-for="item in items"

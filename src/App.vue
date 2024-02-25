@@ -91,7 +91,7 @@ const menuShowing = ref(false)
     </nav>
   </header>
 
-  <div class="view">
+  <div class="view max-w-100%">
     <RouterView v-slot="{ Component }">
       <KeepAlive include="HackerNewsView">
         <component :is="Component" />

@@ -86,10 +86,6 @@ const displayingLink = computed(() => {
   />
 </template>
 <style scoped lang="scss">
-* {
-  overflow-wrap: break-word;
-}
-
 h2 {
   font-size: 110%;
   text-decoration: none;
