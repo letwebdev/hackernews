@@ -1,35 +1,29 @@
 <script setup lang="ts">
-import { storeToRefs } from "pinia"
-
 import { use } from "echarts/core"
 import { CanvasRenderer } from "echarts/renderers"
 import { PieChart } from "echarts/charts"
 import { TitleComponent, TooltipComponent, LegendComponent } from "echarts/components"
 import type { EChartsOption } from "echarts"
-import VChart, { THEME_KEY } from "vue-echarts"
+import VChart from "vue-echarts"
 
-import { ref, provide, computed } from "vue"
-import type { Ref } from "vue"
 import { useFetchingDataStore } from "@/stores/fetchData"
 
 const statisticsOfFetchedLiveData = storeToRefs(useFetchingDataStore()).statisticsOfFetchedLiveData
 
 const legendData: string[] = []
 const seriesData: object[] = []
-for (const [index, itemTypeAndCount] of statisticsOfFetchedLiveData.value.entries()) {
-  const type = itemTypeAndCount.type
+for (const [index, data] of statisticsOfFetchedLiveData.value.entries()) {
+  const type = data.type
   legendData.push(type)
   const count = computed(() => statisticsOfFetchedLiveData.value[index].count)
   seriesData.push({ value: count, name: type })
 }
 
-provide(THEME_KEY, "light")
-
 use([CanvasRenderer, PieChart, TitleComponent, TooltipComponent, LegendComponent])
 
 const option: Ref<EChartsOption> = ref({
   title: {
-    text: "fetched item types",
+    text: "types of fetched item",
     left: "center",
   },
   tooltip: {
@@ -61,13 +55,7 @@ const option: Ref<EChartsOption> = ref({
 </script>
 <template>
   <v-chart
-    class="chart"
+    class="h-375px w-375px huge:(h-600px w-600px)"
     :option="option"
   />
 </template>
-<style scoped>
-.chart {
-  max-width: 600px;
-  height: 400px;
-}
-</style>

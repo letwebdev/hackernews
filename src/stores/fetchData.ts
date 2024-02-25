@@ -41,7 +41,6 @@ export const useFetchingDataStore = defineStore("fetchData", () => {
       console.error("live data is undefined")
       return
     } else if (itemIdsToFetch.length === 0) {
-      console.log("Current list is empty")
       return "empty"
     }
 

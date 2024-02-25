@@ -53,7 +53,7 @@ const displayingLink = computed(() => {
           {{ item.url }}
         </a>
       </li>
-      <div class="grid grid-cols-3 max-w-700px">
+      <div class="lg:grid-cols-3 grid grid-cols-2 max-w-700px">
         <li v-if="settings.displayingItemType.value">
           <label>type:&nbsp;</label> {{ item.type }}
         </li>
