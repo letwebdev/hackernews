@@ -57,10 +57,10 @@ function automaticallyFetchingMoreWhenScrollingToTheBottom() {
     fetchMore()
   }
 }
-onMounted(() => {
+onActivated(() => {
   window.addEventListener("scroll", automaticallyFetchingMoreWhenScrollingToTheBottom)
 })
-onUnmounted(() => {
+onDeactivated(() => {
   window.removeEventListener("scroll", automaticallyFetchingMoreWhenScrollingToTheBottom)
 })
 const buttonForFetchingDisabled = computed(() => !liveDataCacheInitialized.value || selectedListsEmpty.value)
