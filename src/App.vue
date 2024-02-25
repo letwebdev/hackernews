@@ -110,7 +110,7 @@ nav {
   width: fit-content;
   flex-direction: column;
   justify-content: center;
-  font-size: 12px;
+  font-size: 16px;
 
   a {
     display: inline-block;
