@@ -26,7 +26,14 @@ if [[ "$1" == "--bump" ]]; then
 			awk --field-separator=. '/[0-9]+./{$NF++;print}' OFS=.
 	)"
 	versionNumberToSet="${versionNumberBumped}"
-	git tag -a "${versionNumberBumped}" -m "Bump version"
+	# Substitute version numbers in package.json and commit
+	sed --in-place --regexp-extended \
+		"s/\"version\": \".*\"/\"version\": \"${versionNumberToSet/v/}\"/" \
+		"./package.json"
+	git add "./package.json"
+	git commit -m "chore: bump to ${versionNumberToSet}"
+
+	git tag -a "${versionNumberToSet}" -m "Bump version"
 	quantitiesOfExistingVersionNumbers+=1
 else
 	versionNumberToSet="${existingLatestVersionNumber}"
@@ -39,10 +46,6 @@ else
 	versionCode="${quantitiesOfExistingVersionNumbers}"
 fi
 
-# Substitute version numbers in package.json
-sed --in-place --regexp-extended \
-	"s/\"version\": \".*\"/\"version\": \"${versionNumberToSet/v/}\"/" \
-	"./package.json"
 # Substitute version numbers in gradle build script
 ANDROID_PROJECT_DIR="${CAPACITOR_ANDROID_PATH:=./release/android}"
 ANDROID_BUILD_SCRIPT="${ANDROID_PROJECT_DIR}/app/build.gradle"
