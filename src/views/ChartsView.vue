@@ -3,7 +3,9 @@ import DataCharts from "@/components/DataCharts.vue"
 </script>
 <template>
   <div class="charts">
-    <h1>Charts</h1>
+    <h1 class="ml-10px">
+      Charts
+    </h1>
     <br>
     <DataCharts />
     <br>
