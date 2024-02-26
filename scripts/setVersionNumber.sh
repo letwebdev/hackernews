@@ -1,7 +1,7 @@
 #!/bin/bash
 # Set version number in gradle build script to the latest git version tag
 # Should Run before building apk
-set -euo pipefail
+set -eo pipefail
 
 # GitHub action doesn't accept `git tag`
 getTags() {
