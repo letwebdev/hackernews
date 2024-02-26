@@ -43,7 +43,7 @@ function reset() {
                   single-line
                   density="compact"
                   type="number"
-                  class="min-w-80px"
+                  class="w-80px"
                 />
               </template>
             </v-slider>
