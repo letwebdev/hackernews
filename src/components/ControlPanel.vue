@@ -43,11 +43,15 @@ function clearDisplayedItems() {
 }
 
 // TODO refresh live data when refresh()
-watchEffect(() => {
-  if (liveDataCacheInitialized.value) {
-    fetchMore()
-  }
-})
+watch(
+  liveDataCacheInitialized,
+  () => {
+    if (liveDataCacheInitialized.value) {
+      fetchMore()
+    }
+  },
+  { once: true }
+)
 
 function scrolledToBottom(): boolean {
   return window.innerHeight + Math.round(window.scrollY) + 1 >= document.body.offsetHeight
