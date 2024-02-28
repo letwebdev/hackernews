@@ -3,6 +3,7 @@
   "author": "let webDeveloper",
   "description": "A Hacker News client written in Vue3",
   "version": "0.0.7",
+  "type": "module",
   "private": true,
   "main": "dist-electron/main.js",
   "scripts": {
