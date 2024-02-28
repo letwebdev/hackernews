@@ -1,14 +1,15 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue","auto-imports.d.ts"],
-  "exclude": ["src/**/__tests__/*"],
+  "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "auto-imports.d.ts"],
+  "exclude": ["src/**/__tests__/*", "test/**/*"],
   "compilerOptions": {
+    "types": ["vitest/globals"],
     "composite": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
-	"target": "ESNext",
+    "target": "ESNext",
     "module": "ESNext",
     "strict": true,
     "jsx": "preserve",
@@ -17,6 +18,5 @@
     "esModuleInterop": true,
     "lib": ["ESNext", "dom"],
     "skipLibCheck": true
-
   }
 }
