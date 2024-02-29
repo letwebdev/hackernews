@@ -329,6 +329,7 @@
     "ToolboxComponent": true,
     "TooltipComponent": true,
     "graphic": true,
-    "use": true
+    "use": true,
+    "mount": true
   }
 }

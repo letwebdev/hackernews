@@ -25,6 +25,9 @@ export default defineConfig({
         "pinia",
         "vitest",
         {
+          "@vue/test-utils": ["mount"],
+        },
+        {
           "echarts/core": ["use", "graphic"],
           "echarts/renderers": ["CanvasRenderer"],
           "echarts/charts": ["BarChart", "PieChart", "LineChart", "RadarChart", "GaugeChart"],
