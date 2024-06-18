@@ -81,15 +81,18 @@ const displayingLink = computed(() => {
     </ul>
   </article>
   <v-divider
-    thickness="2px"
+    thickness="1px"
     class="mb-3px mt-2px"
   />
 </template>
 <style scoped lang="scss">
 h2 {
-  font-size: 110%;
+  font-size: 120%;
   text-decoration: none;
   transition: 0.4s;
+  @media (width >=2048px) {
+    font-size: 130%;
+  }
 }
 
 a,

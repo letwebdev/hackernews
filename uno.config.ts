@@ -1,8 +1,8 @@
-import { defineConfig, presetUno, presetIcons } from "unocss"
+import { defineConfig, presetUno, presetIcons, presetWind } from "unocss"
 import transformerVariantGroup from "@unocss/transformer-variant-group"
 
 export default defineConfig({
-  presets: [presetUno(), presetIcons()],
+  presets: [presetUno(), presetWind({ important: ":not(.fakeClass)" }), presetIcons()],
   transformers: [transformerVariantGroup()],
   theme: {
     breakpoints: {

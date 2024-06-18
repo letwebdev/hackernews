@@ -48,7 +48,7 @@ main {
   }
 }
 
-@media (width >= 2560px) {
+@media (width >= 2048px) {
   .hackerNewsView {
     display: flex;
     column-gap: 100px;
@@ -61,7 +61,7 @@ main {
 
   main {
     max-width: 1000px;
-    margin-left: 2%;
+    margin-left: 12%;
   }
 
   .chart {
