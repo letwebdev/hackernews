@@ -2,7 +2,6 @@
 import ControlPanel from "@/components/ControlPanel.vue"
 import NavigatingButtons from "@/components/NavigatingButtons.vue"
 import ItemPost from "@/components/ItemPost.vue"
-import DataCharts from "@/components/DataCharts.vue"
 
 import { useCoreDataStore } from "@/stores/coreData"
 import { useFetchingDataStore } from "@/stores/fetchData"
@@ -30,9 +29,6 @@ const items = storeToRefs(useCoreDataStore()).items
       </div>
       <footer class="pb-30%" />
     </main>
-    <section class="placeholder <huge:hidden">
-      <DataCharts class="chart" />
-    </section>
   </div>
   <NavigatingButtons />
 </template>

@@ -82,9 +82,6 @@ const menuShowing = ref(false)
         Settings
       </RouterLink>
       -->
-      <RouterLink to="/charts">
-        Charts
-      </RouterLink>
       <RouterLink to="/about">
         About
       </RouterLink>
@@ -135,7 +132,7 @@ nav {
   justify-content: center;
 }
 
-@media (width >= 1024px) {
+@media (width >=1024px) {
   header {
     display: flex;
     height: 70vh;
@@ -154,7 +151,7 @@ nav {
   }
 }
 
-@media (width >= 2560px) {
+@media (width >=2560px) {
   nav {
     margin-left: 120px;
   }
