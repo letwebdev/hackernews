@@ -16,11 +16,11 @@ function goToBottom() {
 <template>
   <section class="navigatingButtons">
     <button
-      class="top-15% i-mdi-arrow-collapse-up"
+      class="i-mdi-arrow-collapse-up top-15%"
       @click="goToTop"
     />
     <button
-      class="bottom-25% i-mdi-arrow-collapse-down"
+      class="i-mdi-arrow-collapse-down bottom-25%"
       @click="goToBottom"
     />
   </section>
